@@ -90,7 +90,6 @@ fun ColoredIcon(icon: ImageVector, color: Color) {
     )
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun PlayerButtonsPreview(){
