@@ -65,6 +65,7 @@ fun GroovyTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
+        shapes = GroovyShapes,
         content = content
     )
 }
