@@ -62,6 +62,25 @@ private fun TopAppBar(){
     }
 }
 
+@Composable
+private fun MusicInformation(
+    title: String,
+    artist: String,
+    album: String
+){
+    Column(modifier = Modifier
+        .padding(horizontal = 8.dp)
+        .fillMaxWidth()) {
+        Text(text = title)
+
+        Row {
+            Text(text = artist)
+            Text(text = " | ")
+            Text(text = album)
+        }
+    }
+}
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun PlayerSlider(duration: Duration?){
@@ -99,7 +118,7 @@ private fun PlayerButtons(
         ) {
             ColoredIcon(
                 icon = Icons.Rounded.SkipPrevious,
-                color = Color.Blue
+                color = Color.DarkGray
             )
         }
 
@@ -114,7 +133,7 @@ private fun PlayerButtons(
         ) {
             ColoredIcon(
                 icon = Icons.Rounded.Pause,
-                color = Color.Blue
+                color = Color.DarkGray
             )
         }
 
@@ -127,7 +146,7 @@ private fun PlayerButtons(
         ) {
             ColoredIcon(
                 icon = Icons.Rounded.SkipNext,
-                color = Color.Blue,
+                color = Color.DarkGray,
             )
         }
     }
@@ -150,6 +169,18 @@ fun ColoredIcon(icon: ImageVector, color: Color) {
 fun TopAppBarPreview(){
     GroovyTheme {
         TopAppBar()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MusicInformationPreview(){
+    GroovyTheme {
+        MusicInformation(
+            title = "Agar Tu Hota",
+            artist = "Ankit Tiwari",
+            album = "Baaghi"
+        )
     }
 }
 
