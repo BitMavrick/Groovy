@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ExpandMore
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlaylistPlay
@@ -80,14 +81,25 @@ private fun MusicInformation(
     artist: String,
     album: String
 ){
-    Column(modifier = Modifier
-        .fillMaxWidth()) {
-        Text(text = title)
+    Row(modifier = Modifier.fillMaxWidth()){
+        Column {
+            Text(text = title)
 
-        Row {
-            Text(text = artist)
-            Text(text = " | ")
-            Text(text = album)
+            Row {
+                Text(text = artist)
+                Text(text = " | ")
+                Text(text = album)
+            }
+        }
+
+        Spacer(Modifier.weight(1f))
+
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                imageVector = Icons.Rounded.Favorite,
+                contentDescription = null,
+                modifier = Modifier.size(30.dp)
+            )
         }
     }
 }
