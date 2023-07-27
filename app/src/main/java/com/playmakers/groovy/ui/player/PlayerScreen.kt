@@ -2,6 +2,7 @@ package com.playmakers.groovy.ui.player
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,22 +28,46 @@ import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material.icons.rounded.VolumeUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.playmakers.groovy.ui.theme.GroovyTheme
+import com.playmakers.groovy.R
 import java.time.Duration
+
+
+@Preview
+@Composable
+fun ShowImage(){
+    Box(
+        Modifier
+            .padding(top = 12.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .height(250.dp)
+    ) {
+        Image(
+            painter = painterResource(R.drawable.sample_album_art),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
+
 
 @Composable
 private fun TopAppBar(){
@@ -211,6 +236,22 @@ fun ColoredIcon(icon: ImageVector, color: Color) {
     )
 }
 
+@Preview
+@Composable
+fun PlayerScreen() {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Row(modifier = Modifier.padding(top = 30.dp, start = 16.dp, end = 16.dp)) {
+            TopAppBar()
+
+            ShowImage()
+        }
+    }
+}
+
+/*
 @Preview(showBackground = true)
 @Composable
 fun TopAppBarPreview(){
@@ -255,3 +296,15 @@ private fun BottomBarPreview(){
         BottomBar()
     }
 }
+
+
+@Preview()
+@Composable
+private fun PlayerScreenPreview(){
+    GroovyTheme {
+        PlayerScreen()
+    }
+}
+
+ */
+
