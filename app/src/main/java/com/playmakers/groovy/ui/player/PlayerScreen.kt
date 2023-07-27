@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -47,27 +48,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.playmakers.groovy.R
+import com.playmakers.groovy.ui.theme.GroovyTheme
 import java.time.Duration
-
-
-@Preview
-@Composable
-fun ShowImage(){
-    Box(
-        Modifier
-            .padding(top = 12.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .height(250.dp)
-    ) {
-        Image(
-            painter = painterResource(R.drawable.sample_album_art),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
-    }
-}
-
 
 @Composable
 private fun TopAppBar(){
@@ -99,7 +81,6 @@ private fun MusicInformation(
     album: String
 ){
     Column(modifier = Modifier
-        .padding(horizontal = 8.dp)
         .fillMaxWidth()) {
         Text(text = title)
 
@@ -236,17 +217,52 @@ fun ColoredIcon(icon: ImageVector, color: Color) {
     )
 }
 
-@Preview
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PlayerScreen() {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Row(modifier = Modifier.padding(top = 30.dp, start = 16.dp, end = 16.dp)) {
+
+        Column(modifier = Modifier.padding(top = 40.dp, start = 20.dp, end = 20.dp, bottom = 20.dp)) {
             TopAppBar()
 
-            ShowImage()
+            Spacer(modifier = Modifier.height(60.dp))
+
+            Box(
+                Modifier
+                    .clip(RoundedCornerShape(30.dp))
+                    .aspectRatio(1f)
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.sample_album_art),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
+            Spacer(modifier = Modifier.height(25.dp))
+
+            MusicInformation(
+                title = "Agar Tu Hota",
+                artist = "Ankit Tiwari",
+                album = "Baaghi"
+            )
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            PlayerSlider(duration = Duration.ofSeconds(100))
+
+            Spacer(modifier = Modifier.height(25.dp))
+
+            PlayerButtons()
+
+            Spacer(Modifier.weight(1f))
+
+            BottomBar()
+
         }
     }
 }
@@ -296,8 +312,9 @@ private fun BottomBarPreview(){
         BottomBar()
     }
 }
+ */
 
-
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview()
 @Composable
 private fun PlayerScreenPreview(){
@@ -305,6 +322,4 @@ private fun PlayerScreenPreview(){
         PlayerScreen()
     }
 }
-
- */
 
