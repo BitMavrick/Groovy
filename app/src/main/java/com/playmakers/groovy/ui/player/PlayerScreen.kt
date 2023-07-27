@@ -3,23 +3,28 @@ package com.playmakers.groovy.ui.player
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Pause
+import androidx.compose.material.icons.rounded.PlaylistPlay
 import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
+import androidx.compose.material.icons.rounded.VolumeUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
@@ -153,6 +158,48 @@ private fun PlayerButtons(
 }
 
 @Composable
+private fun BottomBar(){
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .height(48.dp)){
+
+        IconButton(onClick = { /*TODO*/ }) {
+            Surface(
+                modifier = Modifier
+                    .size(40.dp)
+                    .semantics { role = Role.Button },
+                shape = RoundedCornerShape(CornerSize(50.dp)),
+                color = Color.LightGray,
+            ) {
+                ColoredIcon(
+                    icon = Icons.Rounded.VolumeUp,
+                    color = Color.DarkGray,
+                )
+            }
+        }
+
+        Box(modifier = Modifier
+            .fillMaxHeight()
+            .wrapContentHeight(Alignment.CenterVertically)
+            .padding(start = 5.dp)
+        ){
+            Text(text = "Galaxy A51")
+        }
+
+        Spacer(Modifier.weight(1f))
+
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                imageVector = Icons.Rounded.PlaylistPlay,
+                contentDescription = null,
+                modifier = Modifier.size(48.dp)
+            )
+        }
+    }
+}
+
+@Composable
 fun ColoredIcon(icon: ImageVector, color: Color) {
     Icon(
         imageVector = icon,
@@ -198,5 +245,13 @@ fun PlayerSliderPreview(){
 fun PlayerButtonsPreview(){
     GroovyTheme {
         PlayerButtons()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun BottomBarPreview(){
+    GroovyTheme() {
+        BottomBar()
     }
 }
