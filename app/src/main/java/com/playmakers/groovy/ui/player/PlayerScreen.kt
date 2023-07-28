@@ -1,5 +1,6 @@
 package com.playmakers.groovy.ui.player
 
+import android.content.res.Configuration
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -72,6 +72,21 @@ private fun TopAppBar(){
                 modifier = Modifier.size(48.dp)
             )
         }
+    }
+}
+
+@Composable
+private fun AlbumArt(){
+    Box(
+        Modifier
+            .clip(RoundedCornerShape(30.dp))
+    ) {
+        Image(
+            painter = painterResource(R.drawable.sample_album_art),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }
 
@@ -165,54 +180,56 @@ private fun PlayerButtons(
                 .size(sideButtonSize)
                 .semantics { role = Role.Button },
             shape = RoundedCornerShape(CornerSize(50.dp)),
-            color = Color.LightGray,
+            color = MaterialTheme.colorScheme.primary,
         ) {
             ColoredIcon(
                 icon = Icons.Rounded.SkipNext,
-                color = Color.DarkGray,
+                color = Color.Green,
             )
         }
     }
 }
 
 @Composable
-private fun BottomBar(){
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .height(48.dp)){
+private fun BottomBar(modifier: Modifier = Modifier){
+    Surface(modifier = modifier) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .height(48.dp)){
 
-        IconButton(onClick = { /*TODO*/ }) {
-            Surface(
-                modifier = Modifier
-                    .size(40.dp)
-                    .semantics { role = Role.Button },
-                shape = RoundedCornerShape(CornerSize(50.dp)),
-                color = Color.LightGray,
-            ) {
-                ColoredIcon(
-                    icon = Icons.Rounded.VolumeUp,
-                    color = Color.DarkGray,
+            IconButton(onClick = { /*TODO*/ }) {
+                Surface(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .semantics { role = Role.Button },
+                    shape = RoundedCornerShape(CornerSize(50.dp)),
+                    color = Color.LightGray,
+                ) {
+                    ColoredIcon(
+                        icon = Icons.Rounded.VolumeUp,
+                        color = Color.DarkGray,
+                    )
+                }
+            }
+
+            Box(modifier = Modifier
+                .fillMaxHeight()
+                .wrapContentHeight(Alignment.CenterVertically)
+                .padding(start = 5.dp)
+            ){
+                Text(text = "Galaxy A51")
+            }
+
+            Spacer(Modifier.weight(1f))
+
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    imageVector = Icons.Rounded.PlaylistPlay,
+                    contentDescription = null,
+                    modifier = Modifier.size(48.dp)
                 )
             }
-        }
-
-        Box(modifier = Modifier
-            .fillMaxHeight()
-            .wrapContentHeight(Alignment.CenterVertically)
-            .padding(start = 5.dp)
-        ){
-            Text(text = "Galaxy A51")
-        }
-
-        Spacer(Modifier.weight(1f))
-
-        IconButton(onClick = { /*TODO*/ }) {
-            Icon(
-                imageVector = Icons.Rounded.PlaylistPlay,
-                contentDescription = null,
-                modifier = Modifier.size(48.dp)
-            )
         }
     }
 }
@@ -232,49 +249,70 @@ fun ColoredIcon(icon: ImageVector, color: Color) {
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PlayerScreen() {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 20.dp, start = 20.dp, end = 20.dp, bottom = 20.dp)
     ) {
 
-        Column(modifier = Modifier.padding(top = 40.dp, start = 20.dp, end = 20.dp, bottom = 20.dp)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(.8f)
+
+        ) {
             TopAppBar()
+        }
 
-            Spacer(modifier = Modifier.height(60.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(4f)
 
-            Box(
-                Modifier
-                    .clip(RoundedCornerShape(30.dp))
-                    .aspectRatio(1f)
+        ) {
+            AlbumArt()
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(3f)
+
+        ) {
+            Surface(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .fillMaxWidth()
             ) {
-                Image(
-                    painter = painterResource(R.drawable.sample_album_art),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
+
+                Column(modifier = Modifier.padding(top = 15.dp)) {
+                    MusicInformation(
+                        title = "Agar Tu Hota",
+                        artist = "Ankit Tiwari",
+                        album = "Baaghi"
+                    )
+
+                    PlayerSlider(duration = Duration.ofSeconds(100))
+
+                    Box(modifier = Modifier.padding(top = 10.dp)){
+                        PlayerButtons()
+                    }
+                }
+
             }
+        }
 
-            Spacer(modifier = Modifier.height(25.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
 
-            MusicInformation(
-                title = "Agar Tu Hota",
-                artist = "Ankit Tiwari",
-                album = "Baaghi"
+        ) {
+            BottomBar(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
             )
-
-            Spacer(modifier = Modifier.height(5.dp))
-
-            PlayerSlider(duration = Duration.ofSeconds(100))
-
-            Spacer(modifier = Modifier.height(25.dp))
-
-            PlayerButtons()
-
-            Spacer(Modifier.weight(1f))
-
-            BottomBar()
-
         }
     }
 }
@@ -285,6 +323,14 @@ fun PlayerScreen() {
 fun TopAppBarPreview(){
     GroovyTheme {
         TopAppBar()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AlbumArtPreview(){
+    GroovyTheme {
+        AlbumArt()
     }
 }
 
@@ -324,14 +370,21 @@ private fun BottomBarPreview(){
         BottomBar()
     }
 }
+
  */
 
 @RequiresApi(Build.VERSION_CODES.O)
-@Preview()
+@Preview("Light Theme")
+@Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PlayerScreenPreview(){
     GroovyTheme {
-        PlayerScreen()
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            PlayerScreen()
+        }
     }
 }
 
