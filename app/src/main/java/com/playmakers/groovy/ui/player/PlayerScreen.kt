@@ -59,7 +59,7 @@ private fun TopAppBar(){
             Icon(
                 imageVector = Icons.Rounded.ExpandMore,
                 contentDescription = null,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(24.dp)
             )
         }
 
@@ -69,7 +69,7 @@ private fun TopAppBar(){
             Icon(
                 imageVector = Icons.Rounded.MoreVert,
                 contentDescription = null,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(32.dp)
             )
         }
     }
@@ -79,7 +79,7 @@ private fun TopAppBar(){
 private fun AlbumArt(){
     Box(
         Modifier
-            .clip(RoundedCornerShape(30.dp))
+            .clip(RoundedCornerShape(32.dp))
     ) {
         Image(
             painter = painterResource(R.drawable.sample_album_art),
@@ -98,7 +98,11 @@ private fun MusicInformation(
 ){
     Row(modifier = Modifier.fillMaxWidth()){
         Column {
-            Text(text = title)
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(bottom = 3.dp)
+            )
 
             Row {
                 Text(text = artist)
@@ -113,7 +117,7 @@ private fun MusicInformation(
             Icon(
                 imageVector = Icons.Rounded.Favorite,
                 contentDescription = null,
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier.size(32.dp)
             )
         }
     }
@@ -171,7 +175,7 @@ private fun PlayerButtons(
         ) {
             ColoredIcon(
                 icon = Icons.Rounded.Pause,
-                color = Color.DarkGray
+                color = Color.DarkGray,
             )
         }
 
@@ -184,7 +188,7 @@ private fun PlayerButtons(
         ) {
             ColoredIcon(
                 icon = Icons.Rounded.SkipNext,
-                color = Color.Green,
+                color = Color.Green
             )
         }
     }
@@ -227,7 +231,7 @@ private fun BottomBar(modifier: Modifier = Modifier){
                 Icon(
                     imageVector = Icons.Rounded.PlaylistPlay,
                     contentDescription = null,
-                    modifier = Modifier.size(48.dp)
+                    modifier = Modifier.size(40.dp)
                 )
             }
         }
@@ -268,7 +272,6 @@ fun PlayerScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(4f)
-
         ) {
             AlbumArt()
         }
@@ -284,7 +287,6 @@ fun PlayerScreen() {
                     .align(Alignment.Center)
                     .fillMaxWidth()
             ) {
-
                 Column(modifier = Modifier.padding(top = 15.dp)) {
                     MusicInformation(
                         title = "Agar Tu Hota",
@@ -298,7 +300,6 @@ fun PlayerScreen() {
                         PlayerButtons()
                     }
                 }
-
             }
         }
 
@@ -316,62 +317,6 @@ fun PlayerScreen() {
         }
     }
 }
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun TopAppBarPreview(){
-    GroovyTheme {
-        TopAppBar()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AlbumArtPreview(){
-    GroovyTheme {
-        AlbumArt()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MusicInformationPreview(){
-    GroovyTheme {
-        MusicInformation(
-            title = "Agar Tu Hota",
-            artist = "Ankit Tiwari",
-            album = "Baaghi"
-        )
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showBackground = true)
-@Composable
-fun PlayerSliderPreview(){
-    GroovyTheme {
-        PlayerSlider(duration = Duration.ofSeconds(100))
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PlayerButtonsPreview(){
-    GroovyTheme {
-        PlayerButtons()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun BottomBarPreview(){
-    GroovyTheme() {
-        BottomBar()
-    }
-}
-
- */
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview("Light Theme")
