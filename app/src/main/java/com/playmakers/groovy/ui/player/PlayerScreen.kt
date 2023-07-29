@@ -1,6 +1,5 @@
 package com.playmakers.groovy.ui.player
 
-import android.content.res.Configuration
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -48,6 +47,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.playmakers.groovy.R
 import com.playmakers.groovy.ui.theme.GroovyTheme
 import java.time.Duration
@@ -105,9 +105,9 @@ private fun MusicInformation(
             )
 
             Row {
-                Text(text = artist)
-                Text(text = " | ")
-                Text(text = album)
+                Text(text = artist, fontSize = 14.sp)
+                Text(text = " | ", fontSize = 14.sp)
+                Text(text = album, fontSize = 14.sp)
             }
         }
 
@@ -131,9 +131,9 @@ private fun PlayerSlider(duration: Duration?){
             Slider(value = 0f, onValueChange = {})
             Row(Modifier.fillMaxWidth()) {
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "0s")
-                Text(text = " / ")
-                Text("${duration.seconds}s")
+                Text(text = "0s", fontSize = 12.sp)
+                Text(text = " / " , fontSize = 12.sp)
+                Text("${duration.seconds}s", fontSize = 12.sp)
             }
         }
     }
@@ -222,7 +222,10 @@ private fun BottomBar(modifier: Modifier = Modifier){
                 .wrapContentHeight(Alignment.CenterVertically)
                 .padding(start = 5.dp)
             ){
-                Text(text = "Galaxy A51")
+                Text(
+                    text = "Galaxy A51",
+                    fontSize = 14.sp
+                )
             }
 
             Spacer(Modifier.weight(1f))
@@ -320,7 +323,7 @@ fun PlayerScreen() {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview("Light Theme")
-@Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
+// @Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PlayerScreenPreview(){
     GroovyTheme {

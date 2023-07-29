@@ -31,11 +31,11 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
-fun MainScreen(){
+fun HomeScreen(){
     val tabs = listOf(
-        TabItem.Home,
-        TabItem.Profile,
-        TabItem.Settings,
+        TabItem.Tracks,
+        TabItem.Albums,
+        TabItem.Favorites,
     )
 
     val pagerState = rememberPagerState(pageCount = tabs.size)
@@ -78,7 +78,7 @@ fun Tabs(tabs: List<TabItem>, pagerState: PagerState){
         tabs.forEachIndexed{ index, tab ->
 
             Tab(
-                text = { Text(text = tab.title) },
+                text = { Text(text = tab.title, fontSize = 14.sp) },
                 selected = pagerState.currentPage == index,
                 onClick = {
                     scope.launch {
@@ -99,7 +99,7 @@ fun TabsContent(tabs: List<TabItem>, pagerState: PagerState){
 }
 
 @Composable
-fun HomeScreen(){
+fun TracksScreen(){
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -107,17 +107,16 @@ fun HomeScreen(){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Home Screen",
-            fontWeight = FontWeight.Bold,
+            text = "Tracks Screen",
+            fontWeight = FontWeight.Normal,
             color = Color.Black,
-            fontSize = 30.sp
+            fontSize = 14.sp
         )
     }
-
 }
 
 @Composable
-fun ProfileScreen(){
+fun AlbumsScreen(){
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -125,17 +124,16 @@ fun ProfileScreen(){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Profile Screen",
-            fontWeight = FontWeight.Bold,
+            text = "Albums Screen",
+            fontWeight = FontWeight.Normal,
             color = Color.Black,
-            fontSize = 30.sp
+            fontSize = 14.sp
         )
     }
-
 }
 
 @Composable
-fun SettingsScreen(){
+fun FavoritesScreen(){
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -143,10 +141,10 @@ fun SettingsScreen(){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Settings Screen",
-            fontWeight = FontWeight.Bold,
+            text = "Favorites Screen",
+            fontWeight = FontWeight.Normal,
             color = Color.Black,
-            fontSize = 30.sp
+            fontSize = 14.sp
         )
     }
 }
