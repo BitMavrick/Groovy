@@ -57,7 +57,11 @@ fun HomeScreen(){
 @Composable
 fun TopBar(){
     TopAppBar(
-        title = { Text(text = "Tabs", fontSize = 18.sp) },
+        title = {
+            Text(
+                text = "Groovy Music",
+                fontSize = 18.sp
+            )},
         backgroundColor = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onBackground
     )
@@ -160,7 +164,7 @@ fun FavoritesScreen(){
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class)
 @Preview
 @Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
