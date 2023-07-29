@@ -1,5 +1,6 @@
 package com.playmakers.groovy.ui.player
 
+import android.content.res.Configuration
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -323,7 +324,7 @@ fun PlayerScreen() {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview("Light Theme")
-// @Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PlayerScreenPreview(){
     GroovyTheme {
