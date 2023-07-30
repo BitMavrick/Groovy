@@ -122,8 +122,6 @@ fun TracksScreen(){
             )
         }
     }
-
-
 }
 
 @Composable

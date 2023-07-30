@@ -73,4 +73,7 @@ dependencies {
     // For Tab Layouts
     implementation("com.google.accompanist:accompanist-pager:0.17.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.17.0")
+
+    // View Model
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
 }
