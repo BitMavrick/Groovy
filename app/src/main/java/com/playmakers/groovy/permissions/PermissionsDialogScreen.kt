@@ -1,4 +1,4 @@
-package com.playmakers.groovy.ui.permissions
+package com.playmakers.groovy.permissions
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -13,14 +13,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PermissionsScreen(
+fun PermissionDialogScreen(
     permissionTextProvider: PermissionTextProvider,
     isPermanentlyDeclined: Boolean,
     onDismiss: () -> Unit,
     onOkClick: () -> Unit,
     onGoToAppSettingsClick: () -> Unit,
     modifier: Modifier = Modifier
-) {
+){
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
@@ -69,11 +69,11 @@ interface PermissionTextProvider {
 class AudioPermissionTextProvider: PermissionTextProvider {
     override fun getDescription(isPermanentlyDeclined: Boolean): String {
         return if(isPermanentlyDeclined) {
-            "It seems you permanently declined audio record permission. " +
+            "It seems you permanently declined audio file access permission. " +
                     "You can go to the app settings to grant it."
         } else {
-            "This app needs access to record audio so that your friends " +
-                    "can see you in a call."
+            "This app needs access to audio so that this app " +
+                    "can play your music."
         }
     }
 }
