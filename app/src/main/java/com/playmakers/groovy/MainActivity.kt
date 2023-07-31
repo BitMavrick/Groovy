@@ -5,10 +5,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.material.Surface
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.Modifier
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.playmakers.groovy.ui.permissions.PermissionsViewModel
+import com.playmakers.groovy.ui.home.HomeScreen
 import com.playmakers.groovy.ui.theme.GroovyTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,21 +28,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             GroovyTheme {
-
-                val viewModel = viewModel<PermissionsViewModel>()
-
                 // A surface container using the 'background' color from the theme
 
-                /*
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     HomeScreen()
                 }
-                */
-
-
             }
         }
     }
