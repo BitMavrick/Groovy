@@ -23,6 +23,7 @@ fun PermissionDialogScreen(
 ){
     AlertDialog(
         onDismissRequest = onDismiss,
+
         confirmButton = {
             Column(
                 modifier = Modifier.fillMaxWidth()
@@ -49,7 +50,7 @@ fun PermissionDialogScreen(
             }
         },
         title = {
-            Text(text = "Permission required")
+            Text(text = "Permission not required")
         },
         text = {
             Text(

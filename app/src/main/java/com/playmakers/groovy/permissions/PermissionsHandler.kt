@@ -2,15 +2,18 @@ package com.playmakers.groovy.permissions
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
 
+@OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class)
 @Composable
 fun PermissionHandler(
     activity: Activity
@@ -66,13 +71,15 @@ fun PermissionHandler(
             onDismiss = viewModel::dismissDialog,
             onOkClick =  {
                 viewModel.dismissDialog()
-                audioPermissionResultLauncher.launch(
-                    AUDIO_PERMISSION()
-                )
+                audioPermissionResultLauncher.launch(AUDIO_PERMISSION())
             },
             onGoToAppSettingsClick = { openAppSettings(activity) }
         )
     }
+}
+
+fun showToast(context : Context, message: String) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 
 fun AUDIO_PERMISSION(): String {
