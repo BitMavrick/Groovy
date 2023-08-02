@@ -1,9 +1,9 @@
 package com.playmakers.groovy
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -12,11 +12,8 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Surface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
-import androidx.core.content.ContextCompat
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.playmakers.groovy.permissions.AUDIO_PERMISSION
 import com.playmakers.groovy.permissions.PermissionHandler
-import com.playmakers.groovy.ui.home.HomeScreen
 import com.playmakers.groovy.ui.theme.GroovyTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,20 +28,20 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    if(isPermissionGranted(this, AUDIO_PERMISSION())){
-                        HomeScreen()
-                    }else{
-                        PermissionHandler(this)
-                    }
+                    PermissionHandler(this, onAudioPermissionGranted ={
+                        onAudioPermissionGranted(this)
+                    })
                 }
             }
         }
     }
 }
 
-fun isPermissionGranted(context: Context, permission: String): Boolean {
-    return ContextCompat.checkSelfPermission(
-        context,
-        permission
-    ) == PackageManager.PERMISSION_GRANTED
+// Function to handle the logic when audio permission is granted
+private fun onAudioPermissionGranted(context : Context) {
+    showToast(context, "Permission Granted")
+}
+
+fun showToast(context : Context, message: String) {
+    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 }

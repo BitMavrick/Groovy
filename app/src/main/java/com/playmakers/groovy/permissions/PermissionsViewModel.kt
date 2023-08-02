@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 
 class PermissionsViewModel : ViewModel(){
     val visiblePermissionDialogQueue = mutableStateListOf<String>()
+    val isPermissionGranted = mutableSetOf<String>()
 
     fun dismissDialog() {
         visiblePermissionDialogQueue.removeFirst()
@@ -16,6 +17,8 @@ class PermissionsViewModel : ViewModel(){
     ) {
         if(!isGranted && !visiblePermissionDialogQueue.contains(permission)) {
             visiblePermissionDialogQueue.add(permission)
+        }else if (isGranted){
+            isPermissionGranted.add(permission)
         }
     }
 }

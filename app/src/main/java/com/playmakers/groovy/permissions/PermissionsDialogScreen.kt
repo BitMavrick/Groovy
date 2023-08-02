@@ -50,7 +50,7 @@ fun PermissionDialogScreen(
             }
         },
         title = {
-            Text(text = "Permission not required")
+            Text(text = "Permission required!")
         },
         text = {
             Text(
