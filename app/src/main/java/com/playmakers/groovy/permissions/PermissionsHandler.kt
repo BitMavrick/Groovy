@@ -2,9 +2,7 @@ package com.playmakers.groovy.permissions
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -23,7 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
@@ -42,6 +39,7 @@ fun PermissionHandler(
 
             if(isGranted){
                 isPermissionGranted = true
+                onAudioPermissionGranted()
             }
 
             viewModel.onPermissionResult(
@@ -61,13 +59,12 @@ fun PermissionHandler(
                 audioPermissionResultLauncher.launch(
                     AUDIO_PERMISSION()
                 )
-
             }
         ) {
             if (isPermissionGranted){
-                Text(text = "Permission Granted $isPermissionGranted")
+                Text(text = "Permission Granted")
             }else{
-                Text(text = "Request for audio access $isPermissionGranted")
+                Text(text = "Request for audio access")
             }
         }
     }
@@ -88,29 +85,12 @@ fun PermissionHandler(
             onDismiss = viewModel::dismissDialog,
             onOkClick = {
                 viewModel.dismissDialog()
-                //onAudioPermissionGranted()
-                //if (!isPermissionGranted(activity, AUDIO_PERMISSION())) {
-                    // onAudioPermissionGranted() // Invoke the callback when permission is granted
                 audioPermissionResultLauncher.launch(AUDIO_PERMISSION())
-                //}
-
-                if(dialogQueue.isEmpty()){
-                    onAudioPermissionGranted()
-                }
-
             },
             onGoToAppSettingsClick = { openAppSettings(activity) }
         )
 
     }
-
-}
-
-fun isPermissionGranted(context: Context, permission: String): Boolean {
-    return ContextCompat.checkSelfPermission(
-        context,
-        permission
-    ) == PackageManager.PERMISSION_GRANTED
 }
 
 fun AUDIO_PERMISSION(): String {
