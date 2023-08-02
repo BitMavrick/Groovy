@@ -33,8 +33,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-// Function to handle the logic when audio permission is granted
 private fun onAudioPermissionGranted(context : Context) {
     showToast(context, "Permission Granted")
 }

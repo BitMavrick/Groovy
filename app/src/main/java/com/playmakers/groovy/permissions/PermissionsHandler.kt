@@ -37,9 +37,12 @@ fun PermissionHandler(
 ) {
     val viewModel = viewModel<PermissionsViewModel>()
     val dialogQueue = viewModel.visiblePermissionDialogQueue
-    val initialPermissionState = isPermissionGranted(activity, AUDIO_PERMISSION())
 
-    var isPermissionGranted by remember { mutableStateOf(initialPermissionState) }
+    var isPermissionGranted by remember {
+        mutableStateOf(
+            isPermissionGranted(activity, musicPermission())
+        )
+    }
 
     val audioPermissionResultLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
@@ -51,7 +54,7 @@ fun PermissionHandler(
             }
 
             viewModel.onPermissionResult(
-                permission = AUDIO_PERMISSION(),
+                permission = musicPermission(),
                 isGranted = isGranted
             )
         }
@@ -68,7 +71,7 @@ fun PermissionHandler(
             Button(
                 onClick = {
                     audioPermissionResultLauncher.launch(
-                        AUDIO_PERMISSION()
+                        musicPermission()
                     )
                 }
             ) {
@@ -80,24 +83,24 @@ fun PermissionHandler(
     dialogQueue.reversed().forEach { permission ->
         PermissionDialogScreen(
             permissionTextProvider = when (permission) {
-                AUDIO_PERMISSION() -> {
+                musicPermission() -> {
                     AudioPermissionTextProvider()
                 }
-
                 else -> return@forEach
             },
             isPermanentlyDeclined = !ActivityCompat.shouldShowRequestPermissionRationale(
-                activity,
-                AUDIO_PERMISSION()
-            ),
+                    activity,
+                    musicPermission()
+                ),
             onDismiss = viewModel::dismissDialog,
             onOkClick = {
                 viewModel.dismissDialog()
-                audioPermissionResultLauncher.launch(AUDIO_PERMISSION())
+                audioPermissionResultLauncher.launch(musicPermission())
             },
-            onGoToAppSettingsClick = { openAppSettings(activity) }
+            onGoToAppSettingsClick = {
+                openAppSettings(activity)
+            }
         )
-
     }
 }
 
@@ -108,7 +111,7 @@ fun isPermissionGranted(context: Context, permission: String): Boolean {
     ) == PackageManager.PERMISSION_GRANTED
 }
 
-fun AUDIO_PERMISSION(): String {
+fun musicPermission(): String {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         Manifest.permission.READ_MEDIA_AUDIO
     }else{
