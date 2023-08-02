@@ -8,16 +8,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Surface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
-import com.google.accompanist.pager.ExperimentalPagerApi
 import com.playmakers.groovy.permissions.PermissionHandler
 import com.playmakers.groovy.ui.theme.GroovyTheme
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class)
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

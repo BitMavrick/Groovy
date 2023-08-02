@@ -2,7 +2,9 @@ package com.playmakers.groovy.permissions
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -11,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,8 +24,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.playmakers.groovy.ui.home.HomeScreen
 
+@OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class)
 @Composable
 fun PermissionHandler(
     activity: Activity,
@@ -30,8 +37,9 @@ fun PermissionHandler(
 ) {
     val viewModel = viewModel<PermissionsViewModel>()
     val dialogQueue = viewModel.visiblePermissionDialogQueue
+    val initialPermissionState = isPermissionGranted(activity, AUDIO_PERMISSION())
 
-    var isPermissionGranted by remember { mutableStateOf(false) }
+    var isPermissionGranted by remember { mutableStateOf(initialPermissionState) }
 
     val audioPermissionResultLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
@@ -49,22 +57,22 @@ fun PermissionHandler(
         }
     )
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Button(
-            onClick = {
-                audioPermissionResultLauncher.launch(
-                    AUDIO_PERMISSION()
-                )
-            }
+    if (isPermissionGranted){
+        HomeScreen()
+    }else{
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (isPermissionGranted){
-                Text(text = "Permission Granted")
-            }else{
-                Text(text = "Request for audio access")
+            Button(
+                onClick = {
+                    audioPermissionResultLauncher.launch(
+                        AUDIO_PERMISSION()
+                    )
+                }
+            ) {
+                Text(text = "Please allow the audio permission")
             }
         }
     }
@@ -91,6 +99,13 @@ fun PermissionHandler(
         )
 
     }
+}
+
+fun isPermissionGranted(context: Context, permission: String): Boolean {
+    return ContextCompat.checkSelfPermission(
+        context,
+        permission
+    ) == PackageManager.PERMISSION_GRANTED
 }
 
 fun AUDIO_PERMISSION(): String {
