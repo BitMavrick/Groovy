@@ -116,10 +116,26 @@ fun TracksScreen(){
     val musicFiles = remember { getMusic(context) }
 
     Surface(color = MaterialTheme.colorScheme.background) {
-        LazyColumn(modifier = Modifier.fillMaxSize()){
-            items(musicFiles.size){
+
+        if(musicFiles.isNotEmpty()){
+            LazyColumn(modifier = Modifier.fillMaxSize()){
+                items(musicFiles.size){
+                    Text(
+                        text = musicFiles[it].title,
+                        fontWeight = FontWeight.Normal,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontSize = 14.sp
+                    )
+                }
+            }
+        }else{
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
                 Text(
-                    text = musicFiles[it].title,
+                    text = "Oops, No Music Found!",
                     fontWeight = FontWeight.Normal,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 14.sp
