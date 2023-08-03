@@ -14,7 +14,8 @@ import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -58,16 +59,16 @@ fun HomeScreen(){
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(){
-    TopAppBar(
-        title = {
-            Text(
-                text = "Groovy Music",
-                fontSize = 18.sp
-            )},
-        backgroundColor = MaterialTheme.colorScheme.background,
-        contentColor = MaterialTheme.colorScheme.onBackground
+
+    CenterAlignedTopAppBar(
+        title = { Text(
+            text = "Groovy Music",
+            fontSize = 18.sp,
+            color = MaterialTheme.colorScheme.onBackground
+        )},
     )
 }
 
@@ -135,7 +136,7 @@ fun TracksScreen(){
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = "Oops, No Music Found!",
+                    text = "Oops, no music found!",
                     fontWeight = FontWeight.Normal,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 14.sp
