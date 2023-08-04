@@ -105,6 +105,7 @@ fun Tabs(tabs: List<TabItem>, pagerState: PagerState){
                 Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
             )
         }
+
     ) {
         tabs.forEachIndexed{ index, tab ->
             Tab(
