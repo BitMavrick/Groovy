@@ -233,6 +233,7 @@ fun FavoritesScreen(){
     }
 }
 
+
 @OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class)
 @Preview
 @Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
