@@ -76,4 +76,8 @@ dependencies {
 
     // View Model
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+
+    // Coil for loading and fetching the album art of the music
+    //implementation "com.google.accompanist:accompanist-coil:0.20.0"
+    //implementation "io.coil-kt:coil:2.2.0"
 }

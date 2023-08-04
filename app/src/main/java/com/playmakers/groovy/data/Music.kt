@@ -1,5 +1,7 @@
 package com.playmakers.groovy.data
 
+import android.net.Uri
+
 data class Music(
     val id: Long,
     val title: String,
@@ -7,4 +9,5 @@ data class Music(
     val album: String,
     val duration: Long,
     val path: String,
+    val contentUri: Uri?
 )

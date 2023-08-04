@@ -3,7 +3,12 @@
 package com.playmakers.groovy.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,8 +35,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -133,7 +138,9 @@ fun TracksScreen(){
 
         if(musicFiles.isNotEmpty()){
             LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(8.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp)
             ){
                 items(musicFiles.size){
                     Track(music = musicFiles[it])
@@ -165,10 +172,13 @@ private fun Track(music : Music){
             .padding(8.dp),
     ){
         Box{
-            Image(
-                painter = painterResource(R.drawable.sample_album_art),
-                contentDescription = null
-            )
+            val bitmap = music.contentUri?.let { getAlbumArt(LocalContext.current, it) }
+
+            if (bitmap != null) {
+                Image(
+                    bitmap = bitmap.asImageBitmap(), contentDescription = null
+                )
+            }
         }
 
         Column(
@@ -192,6 +202,18 @@ private fun Track(music : Music){
             )
         }
 
+    }
+}
+
+fun getAlbumArt(context: Context, uri: Uri): Bitmap {
+    val mmr = MediaMetadataRetriever()
+    mmr.setDataSource(context, uri)
+    val data = mmr.embeddedPicture
+    return if(data != null){
+        BitmapFactory.decodeByteArray(data, 0, data.size)
+
+    }else{
+        BitmapFactory.decodeResource(context.resources, R.drawable.sample_album_art)
     }
 }
 

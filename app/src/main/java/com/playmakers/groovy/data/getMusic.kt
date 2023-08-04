@@ -4,6 +4,7 @@ package com.playmakers.groovy.data
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import android.provider.MediaStore
 
 @SuppressLint("Recycle")
@@ -46,6 +47,10 @@ fun getMusic(context: Context): List<Music>{
             val album = cursor.getString(albumColumn)
             val duration = cursor.getLong(durationColumn)
             val path = cursor.getString(pathColumn)
+            val contentUri: Uri? = Uri.withAppendedPath(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                id.toString()
+            )
 
             val music = Music(
                 id = id,
@@ -53,7 +58,8 @@ fun getMusic(context: Context): List<Music>{
                 artist = artist,
                 album = album,
                 duration = duration,
-                path = path
+                path = path,
+                contentUri = contentUri
             )
 
             musicList.add(music)
@@ -62,3 +68,4 @@ fun getMusic(context: Context): List<Music>{
 
     return musicList
 }
+
