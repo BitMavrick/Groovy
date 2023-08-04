@@ -4,9 +4,16 @@ package com.playmakers.groovy.ui.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
@@ -24,14 +31,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import com.playmakers.groovy.R
+import com.playmakers.groovy.data.Music
 import com.playmakers.groovy.data.getMusic
 import com.playmakers.groovy.ui.theme.GroovyTheme
 import kotlinx.coroutines.launch
@@ -116,17 +127,16 @@ fun TracksScreen(){
     val context = LocalContext.current
     val musicFiles = remember { getMusic(context) }
 
-    Surface(color = MaterialTheme.colorScheme.background) {
+    Surface(
+        color = MaterialTheme.colorScheme.background
+    ) {
 
         if(musicFiles.isNotEmpty()){
-            LazyColumn(modifier = Modifier.fillMaxSize()){
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().padding(8.dp)
+            ){
                 items(musicFiles.size){
-                    Text(
-                        text = musicFiles[it].title,
-                        fontWeight = FontWeight.Normal,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        fontSize = 14.sp
-                    )
+                    Track(music = musicFiles[it])
                 }
             }
         }else{
@@ -143,6 +153,45 @@ fun TracksScreen(){
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun Track(music : Music){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(64.dp)
+            .padding(8.dp),
+    ){
+        Box{
+            Image(
+                painter = painterResource(R.drawable.sample_album_art),
+                contentDescription = null
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 8.dp),
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                text = music.title,
+                fontWeight = FontWeight.Normal,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 14.sp
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "${music.artist} • ${music.album}",
+                fontWeight = FontWeight.Normal,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 12.sp
+            )
+        }
+
     }
 }
 
