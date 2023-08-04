@@ -66,7 +66,6 @@ fun HomeScreen(){
     )
 
     val pagerState = rememberPagerState(pageCount = tabs.size)
-
     Scaffold(
         topBar = { TopBar() }
     ) {
