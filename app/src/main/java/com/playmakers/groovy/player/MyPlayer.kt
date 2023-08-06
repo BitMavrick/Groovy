@@ -41,6 +41,7 @@ class MyPlayer @Inject constructor(private val player: ExoPlayer) : Player.Liste
         player.prepare()
     }
 
+
     /**
      * Sets up the player to start playback of the track at the specified index.
      *
