@@ -17,5 +17,4 @@ public enum PlayerStates {
     STATE_PAUSE,
 
     STATE_NEXT_TRACK,
-
 }
