@@ -1,4 +1,11 @@
 package com.playmakers.groovy.ui.composable
 
-class BottomPlayerTab {
+import com.playmakers.groovy.models.Track
+import com.playmakers.groovy.player.PlayerEvents
+
+class BottomPlayerTab(
+    selectedTrack: Track,
+    playerEvents: PlayerEvents,
+    onBottomTabClick: () -> Unit
+) {
 }
