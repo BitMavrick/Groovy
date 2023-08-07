@@ -1,4 +1,8 @@
 package com.playmakers.groovy.ui.composable
 
-class HomeScreenParent {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun HomeScreenParent(){
+
 }
