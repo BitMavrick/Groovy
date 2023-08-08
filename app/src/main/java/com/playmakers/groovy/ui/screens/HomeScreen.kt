@@ -23,8 +23,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.playmakers.groovy.ui.composables.HomeContent
 
-@Preview
+    @Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen() {
@@ -58,29 +59,8 @@ fun HomeScreen() {
         },
         scaffoldState = scaffoldState,
         sheetPeekHeight = 0.dp, // Default is 128.dp (0 dp means it hidden)
-
-        topBar = {
-            TopAppBar(
-                title = { Text("Bottom sheet scaffold") },
-                navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(Icons.Default.Menu, contentDescription = "Localized description")
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
-        },
-    ) { innerPadding ->
-        LazyColumn(contentPadding = innerPadding) {
-            items(100) {
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .background(colors[it % colors.size])
-                )
-            }
-        }
+    ) {
+        HomeContent()
     }
 }
 
