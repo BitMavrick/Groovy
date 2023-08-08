@@ -48,6 +48,7 @@ fun TrackListItem(track: Track, onTrackClick: () -> Unit) {
     }
 }
 
+
 /**
  * A composable function that displays a Lottie animation of an audio wave.
  * The animation loops indefinitely.
