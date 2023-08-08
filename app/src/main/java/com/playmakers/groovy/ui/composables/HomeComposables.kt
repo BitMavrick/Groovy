@@ -46,8 +46,6 @@ fun HomeContent() {
                 .fillMaxWidth()
                 .semantics { traversalIndex = -1f }
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-
-
             query = text,
             onQueryChange = { text = it },
             onSearch = { active = false },
