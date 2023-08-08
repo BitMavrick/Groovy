@@ -1,4 +1,4 @@
-package com.playmakers.groovy.ui.screens
+    package com.playmakers.groovy.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -57,7 +57,8 @@ fun HomeScreen() {
             }
         },
         scaffoldState = scaffoldState,
-        sheetPeekHeight = 128.dp,
+        sheetPeekHeight = 0.dp, // Default is 128.dp (0 dp means it hidden)
+
         topBar = {
             TopAppBar(
                 title = { Text("Bottom sheet scaffold") },
