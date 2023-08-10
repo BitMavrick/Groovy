@@ -130,7 +130,7 @@ fun MusicList(music : Music){
                 )
             }else{
                 Image(
-                    painter = painterResource(R.drawable.sample_album_art),
+                    painter = painterResource(R.drawable.album_art),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.aspectRatio(1f)
@@ -167,6 +167,6 @@ fun getAlbumArt(context: Context, uri: Uri): Bitmap {
         BitmapFactory.decodeByteArray(data, 0, data.size)
 
     }else{
-        BitmapFactory.decodeResource(context.resources, R.drawable.sample_album_art)
+        BitmapFactory.decodeResource(context.resources, R.drawable.album_art)
     }
 }
