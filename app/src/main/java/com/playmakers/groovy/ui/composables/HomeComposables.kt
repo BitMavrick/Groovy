@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import com.playmakers.groovy.R
 import com.playmakers.groovy.data.Music
 import com.playmakers.groovy.data.getMusic
+import com.playmakers.groovy.ui.screens.homeScreen.MusicPlayer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -95,6 +96,7 @@ fun HomeContent() {
 
         val context = LocalContext.current
         val musicFiles = remember { getMusic(context) }
+        val musicPlayer = MusicPlayer(context = LocalContext.current)
 
         LazyColumn(
             contentPadding = PaddingValues(start = 16.dp, top = 80.dp, end = 16.dp, bottom = 136.dp),
@@ -103,7 +105,7 @@ fun HomeContent() {
             val list = List(100) { "number $it" }
             items(count = list.size) {
                 MusicList(musicFiles[it]) { clickedMusic ->
-
+                    musicPlayer.playMusic(clickedMusic.contentUri!!)
                 }
             }
         }
