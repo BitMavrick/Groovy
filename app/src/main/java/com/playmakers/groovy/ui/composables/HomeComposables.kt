@@ -99,7 +99,7 @@ fun HomeContent() {
         val musicPlayer = MusicPlayer(context = LocalContext.current)
 
         LazyColumn(
-            contentPadding = PaddingValues(start = 16.dp, top = 80.dp, end = 16.dp, bottom = 136.dp),
+            contentPadding = PaddingValues(top = 80.dp, bottom = 136.dp),
             // verticalArrangement = Arrangement.spacedBy(0.dp)
         ) {
             val list = List(100) { "number $it" }
@@ -119,7 +119,7 @@ fun MusicList(music : Music, onItemClick: (Music) -> Unit){
             .clickable { onItemClick(music) }
             .fillMaxWidth()
             .height(72.dp)
-            .padding(vertical = 8.dp),
+            .padding(vertical = 8.dp, horizontal = 16.dp),
     ){
         Box(
             Modifier.clip(RoundedCornerShape(5.dp))
