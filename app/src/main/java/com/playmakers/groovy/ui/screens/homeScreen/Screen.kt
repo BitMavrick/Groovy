@@ -43,7 +43,7 @@ fun HomeScreen() {
             }
         },
         scaffoldState = scaffoldState,
-        sheetPeekHeight = 128.dp, // Default is 128.dp (0 dp means it hidden)
+        sheetPeekHeight = 0.dp, // Default is 128.dp (0 dp means it hidden)
     ) {
         HomeContent()
     }
