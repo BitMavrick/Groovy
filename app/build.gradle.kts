@@ -68,4 +68,7 @@ dependencies {
 
     // Newly added
     implementation("androidx.compose.material3:material3:1.2.0-alpha04")
+
+    // View Model
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
 }
