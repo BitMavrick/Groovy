@@ -71,4 +71,11 @@ dependencies {
 
     // View Model
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+
+    // Compose Material Icons Extended
+    implementation ("androidx.compose.material:material-icons-extended:1.4.3")
+
+    // For Tab Layouts
+    implementation("com.google.accompanist:accompanist-pager:0.17.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.17.0")
 }
