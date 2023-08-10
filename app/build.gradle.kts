@@ -78,4 +78,7 @@ dependencies {
     // For Tab Layouts
     implementation("com.google.accompanist:accompanist-pager:0.17.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.17.0")
+
+    // Exo-player
+    implementation("com.google.android.exoplayer:exoplayer:2.19.0")
 }

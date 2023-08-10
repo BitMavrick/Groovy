@@ -102,16 +102,19 @@ fun HomeContent() {
         ) {
             val list = List(100) { "number $it" }
             items(count = list.size) {
-                MusicList(musicFiles[it])
+                MusicList(musicFiles[it]) { clickedMusic ->
+
+                }
             }
         }
     }
 }
 
 @Composable
-fun MusicList(music : Music){
+fun MusicList(music : Music, onItemClick: (Music) -> Unit){
     Row(
         Modifier
+            .clickable { onItemClick(music) }
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 8.dp),
