@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,14 +18,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.rounded.Pause
+import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
@@ -38,13 +44,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.playmakers.groovy.R
 import com.playmakers.groovy.data.Music
@@ -175,3 +184,85 @@ fun getAlbumArt(context: Context, uri: Uri): Bitmap {
         BitmapFactory.decodeResource(context.resources, R.drawable.album_art)
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun BottomPlayerTab(){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp))
+            .background(color = Color.Blue)
+            .padding(all = 15.dp)
+    ){
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .height(72.dp)
+                .padding(vertical = 8.dp),
+        ){
+            Box(
+                Modifier.clip(RoundedCornerShape(5.dp))
+            ){
+
+                    Image(
+                        painter = painterResource(R.drawable.album_art),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.aspectRatio(1f)
+                    )
+
+            }
+
+            Column(
+                Modifier
+                    .padding(start = 16.dp)
+                    .align(Alignment.CenterVertically)
+            ) {
+                Text(
+                    text = "Music Title",
+                    style = MaterialTheme.typography.bodyLarge,
+                    maxLines = 1
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "Music Artists",
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 1
+                )
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Box(modifier = Modifier.align(Alignment.CenterVertically)
+            ){
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Rounded.Pause,
+                        contentDescription = null,
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
