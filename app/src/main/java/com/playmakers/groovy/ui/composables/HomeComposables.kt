@@ -50,7 +50,7 @@ fun TopSearchBar() {
             .semantics { isTraversalGroup = true }) {
         SearchBar(
             modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 16.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 4.dp)
                 .fillMaxWidth(),
             query = text,
             onQueryChange = { text = it },
@@ -122,5 +122,29 @@ fun MusicList(){
                 maxLines = 1
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MiniHeading(){
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = 16.dp,
+                vertical = 4.dp
+            )
+    ){
+        Text(
+            text = "Name",
+            style = MaterialTheme.typography.labelMedium,
+        )
+        Spacer(modifier = Modifier.weight(1f))
+
+        Text(
+            text = "278 Songs",
+            style = MaterialTheme.typography.labelMedium,
+        )
     }
 }

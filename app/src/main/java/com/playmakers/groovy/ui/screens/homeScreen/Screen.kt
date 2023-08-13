@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
@@ -19,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.playmakers.groovy.ui.composables.MiniHeading
 import com.playmakers.groovy.ui.composables.TopSearchBar
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -47,7 +47,7 @@ fun HomeScreen() {
                 contentPadding = innerPadding
             ) {
                 item {
-                    Text("This is some text at the top of the list.")
+                    MiniHeading()
                 }
                 val list = List(100) { "Text $it" }
                 items(count = list.size) {
