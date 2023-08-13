@@ -102,5 +102,4 @@ val dummyMusicList = listOf(
         path = "/path/to/song2.mp3",
         contentUri = Uri.parse("content://media/external/audio/media/10")
     ),
-
 )
