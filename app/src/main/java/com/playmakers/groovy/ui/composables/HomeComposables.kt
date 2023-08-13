@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,6 +19,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -156,7 +159,7 @@ fun MiniHeading(){
     }
 }
 
-@Preview(showBackground = true)
+// @Preview(showBackground = true)
 @Composable
 fun BottomPlayback() {
 
@@ -184,12 +187,8 @@ fun BottomPlayback() {
             }
         ){
             if(isExpanded){
-                Column(
-                    Modifier.fillMaxSize()
-                ) {
-                    Text(text = "This is the expanded screen")
-                }
-
+                // The Playback screen will be here
+                PlaybackScreen()
             }else{
                 Box(
                     Modifier.clip(RoundedCornerShape(5.dp))
@@ -234,5 +233,52 @@ fun BottomPlayback() {
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PlaybackScreen(){
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        BrandBar()
+
+    }
+
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun BrandBar(){
+    Row(
+        Modifier.fillMaxWidth()
+    ){
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                imageVector = Icons.Rounded.KeyboardArrowDown,
+                contentDescription = null,
+            )
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Text(
+            text = "Groovy",
+            style = MaterialTheme.typography.labelLarge,
+            modifier = Modifier.fillMaxHeight().align(Alignment.CenterVertically)
+            )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                imageVector = Icons.Rounded.MoreVert,
+                contentDescription = null,
+            )
+        }
+
     }
 }
