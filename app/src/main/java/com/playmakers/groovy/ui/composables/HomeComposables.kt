@@ -144,6 +144,7 @@ fun MiniHeading(){
             text = "Name",
             style = MaterialTheme.typography.labelMedium,
         )
+
         Spacer(modifier = Modifier.weight(1f))
 
         Text(
