@@ -1,5 +1,6 @@
 package com.playmakers.groovy.ui.composables
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -87,7 +89,7 @@ fun TopSearchBar() {
 }
 
 
-@Preview(showBackground = true)
+// @Preview(showBackground = true)
 @Composable
 fun MusicList(){
     Row(
@@ -157,55 +159,78 @@ fun MiniHeading(){
 @Preview(showBackground = true)
 @Composable
 fun BottomPlayback() {
+
+    var isExpanded by rememberSaveable { mutableStateOf(true) }
+    val cardModifier = Modifier.fillMaxWidth()
+
     Card(
         Modifier.fillMaxWidth()
     ) {
         Row(
-            Modifier
-                .clickable { }
-                .fillMaxWidth()
-                .height(86. dp)
-                .padding(vertical = 16.dp, horizontal = 16.dp),
-        ){
-            Box(
-                Modifier.clip(RoundedCornerShape(5.dp))
-            ){
-                Image(
-                    painter = painterResource(R.drawable.album_art),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.aspectRatio(1f)
-                )
-            }
-
-            Column(
+            if(isExpanded){
                 Modifier
-                    .padding(start = 16.dp)
-                    .align(Alignment.CenterVertically)
-            ) {
-                Text(
-                    text = "Music Title",
-                    style = MaterialTheme.typography.bodyLarge,
-                    maxLines = 1
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "Music Artist",
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 1
-                )
+                    .clickable { isExpanded = !isExpanded }
+                    .animateContentSize()
+                    .fillMaxSize()
+                    .padding(vertical = 16.dp, horizontal = 16.dp)
+
+            }else{
+                Modifier
+                    .clickable { isExpanded = !isExpanded }
+                    .animateContentSize()
+                    .fillMaxWidth()
+                    .height(86.dp)
+                    .padding(vertical = 16.dp, horizontal = 16.dp)
             }
+        ){
+            if(isExpanded){
+                Column(
+                    Modifier.fillMaxSize()
+                ) {
+                    Text(text = "This is the expanded screen")
+                }
 
-            Spacer(modifier = Modifier.weight(1f))
-
-            Box(modifier = Modifier.align(Alignment.CenterVertically)
-            ){
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        imageVector = Icons.Rounded.Pause,
+            }else{
+                Box(
+                    Modifier.clip(RoundedCornerShape(5.dp))
+                ){
+                    Image(
+                        painter = painterResource(R.drawable.album_art),
                         contentDescription = null,
-                        modifier = Modifier.size(40.dp)
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.aspectRatio(1f)
                     )
+                }
+
+                Column(
+                    Modifier
+                        .padding(start = 16.dp)
+                        .align(Alignment.CenterVertically)
+                ) {
+                    Text(
+                        text = "Music Title",
+                        style = MaterialTheme.typography.bodyLarge,
+                        maxLines = 1
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Music Artist",
+                        style = MaterialTheme.typography.bodyMedium,
+                        maxLines = 1
+                    )
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Box(modifier = Modifier.align(Alignment.CenterVertically)
+                ){
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.Rounded.Pause,
+                            contentDescription = null,
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
                 }
             }
         }
