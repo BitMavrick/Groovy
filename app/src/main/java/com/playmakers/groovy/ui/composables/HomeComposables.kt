@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -107,16 +109,27 @@ fun HomeContent() {
         val musicFiles = remember { getMusic(context) }
         val musicPlayer = MusicPlayer(context = LocalContext.current)
 
-        LazyColumn(
-            contentPadding = PaddingValues(top = 80.dp, bottom = 136.dp),
-            // verticalArrangement = Arrangement.spacedBy(0.dp)
-        ) {
-            val list = List(100) { "number $it" }
-            items(count = list.size) {
-                MusicList(musicFiles[it]) { clickedMusic ->
-                    musicPlayer.playMusic(clickedMusic.contentUri!!)
+        Column{
+            LazyColumn(
+                contentPadding = PaddingValues(top = 80.dp, bottom = 136.dp),
+                // verticalArrangement = Arrangement.spacedBy(0.dp)
+            ) {
+                val list = List(100) { "number $it" }
+                items(count = list.size) {
+                    MusicList(musicFiles[it]) { clickedMusic ->
+                        musicPlayer.playMusic(clickedMusic.contentUri!!)
+                    }
                 }
             }
+
+            AnimatedVisibility(
+                visible = musicPlayer.isPlaying(),
+                enter = slideInVertically(initialOffsetY = { fullHeight -> fullHeight })
+            ) {
+                BottomPlayerTab()
+            }
+
+            BottomPlayerTab()
         }
     }
 }
@@ -204,14 +217,12 @@ fun BottomPlayerTab(){
             Box(
                 Modifier.clip(RoundedCornerShape(5.dp))
             ){
-
-                    Image(
-                        painter = painterResource(R.drawable.album_art),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.aspectRatio(1f)
-                    )
-
+                Image(
+                    painter = painterResource(R.drawable.album_art),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.aspectRatio(1f)
+                )
             }
 
             Column(

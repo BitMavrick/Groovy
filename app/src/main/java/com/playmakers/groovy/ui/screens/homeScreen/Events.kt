@@ -21,4 +21,8 @@ class MusicPlayer(private val context: Context) {
     fun release() {
         player.release()
     }
+
+    fun isPlaying(): Boolean {
+        return player.isPlaying
+    }
 }
