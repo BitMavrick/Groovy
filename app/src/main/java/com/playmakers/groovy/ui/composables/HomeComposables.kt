@@ -10,14 +10,17 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
@@ -176,7 +179,6 @@ fun BottomPlayback() {
 
             Column(
                 Modifier
-                    .fillMaxWidth()
                     .padding(start = 16.dp)
                     .align(Alignment.CenterVertically)
             ) {
@@ -191,6 +193,19 @@ fun BottomPlayback() {
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1
                 )
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Box(modifier = Modifier.align(Alignment.CenterVertically)
+            ){
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Rounded.Pause,
+                        contentDescription = null,
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
             }
         }
     }
