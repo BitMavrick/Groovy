@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
@@ -37,9 +38,14 @@ fun TopSearchBar() {
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
 
-    Box(Modifier.fillMaxWidth().semantics { isTraversalGroup = true }) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .semantics { isTraversalGroup = true }) {
         SearchBar(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 16.dp)
+                .fillMaxWidth(),
             query = text,
             onQueryChange = { text = it },
             onSearch = { active = false },
@@ -48,8 +54,8 @@ fun TopSearchBar() {
                 active = it
             },
             placeholder = { Text("Search your music") },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-            trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = null) },
+            leadingIcon = { Icon(Icons.Default.Menu, contentDescription = null) },
+            trailingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
         ) {
             repeat(4) { idx ->
                 val resultText = "Suggestion $idx"
