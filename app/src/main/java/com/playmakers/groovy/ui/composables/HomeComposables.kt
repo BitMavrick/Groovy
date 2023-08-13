@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -38,7 +39,7 @@ import androidx.compose.ui.unit.dp
 import com.playmakers.groovy.R
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
+// @Preview(showBackground = true)
 @Composable
 fun TopSearchBar() {
     var text by rememberSaveable { mutableStateOf("") }
@@ -125,7 +126,7 @@ fun MusicList(){
     }
 }
 
-@Preview(showBackground = true)
+// @Preview(showBackground = true)
 @Composable
 fun MiniHeading(){
     Row(
@@ -146,5 +147,51 @@ fun MiniHeading(){
             text = "278 Songs",
             style = MaterialTheme.typography.labelMedium,
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BottomPlayback() {
+    Card(
+        Modifier.fillMaxWidth()
+    ) {
+        Row(
+            Modifier
+                .clickable { }
+                .fillMaxWidth()
+                .height(86. dp)
+                .padding(vertical = 16.dp, horizontal = 16.dp),
+        ){
+            Box(
+                Modifier.clip(RoundedCornerShape(5.dp))
+            ){
+                Image(
+                    painter = painterResource(R.drawable.album_art),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.aspectRatio(1f)
+                )
+            }
+
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp)
+                    .align(Alignment.CenterVertically)
+            ) {
+                Text(
+                    text = "Music Title",
+                    style = MaterialTheme.typography.bodyLarge,
+                    maxLines = 1
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "Music Artist",
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 1
+                )
+            }
+        }
     }
 }

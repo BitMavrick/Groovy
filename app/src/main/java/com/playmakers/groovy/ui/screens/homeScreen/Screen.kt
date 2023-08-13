@@ -3,8 +3,6 @@ package com.playmakers.groovy.ui.screens.homeScreen
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -18,7 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.playmakers.groovy.ui.composables.BottomPlayback
 import com.playmakers.groovy.ui.composables.MiniHeading
+import com.playmakers.groovy.ui.composables.MusicList
 import com.playmakers.groovy.ui.composables.TopSearchBar
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -49,17 +49,19 @@ fun HomeScreen() {
                 item {
                     MiniHeading()
                 }
-                val list = List(100) { "Text $it" }
+                val list = List(50) { "Text $it" }
                 items(count = list.size) {
-                    Text(list[it],
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp))
+                    MusicList()
                 }
             }
+        },
+        bottomBar = {
+            BottomPlayback()
         }
     )
 }
+
+
 
 
 
