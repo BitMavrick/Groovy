@@ -1,5 +1,6 @@
 package com.playmakers.groovy.ui.composables
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -172,7 +173,7 @@ fun MiniHeading(){
 fun BottomPlayback(
     playbackViewModel: PlaybackViewModel = viewModel()
 ) {
-    var isExpanded = playbackViewModel.isExpandedState.value
+    val isExpanded = playbackViewModel.isExpandedState.value
     Modifier.fillMaxWidth()
 
     Card(
@@ -184,9 +185,6 @@ fun BottomPlayback(
         Row(
             if(isExpanded){
                 Modifier
-                    .clickable {
-                        playbackViewModel.toggleExpandState()
-                    }
                     .animateContentSize()
                     .fillMaxSize()
 
@@ -253,7 +251,13 @@ fun BottomPlayback(
 
 // @Preview(showBackground = true)
 @Composable
-private fun PlaybackScreen(){
+private fun PlaybackScreen(
+    playbackViewModel: PlaybackViewModel = viewModel()
+){
+    BackHandler {
+        playbackViewModel.toggleExpandState()
+    }
+
     Column(
         Modifier
             .fillMaxSize()
@@ -297,11 +301,15 @@ private fun PlaybackScreen(){
 
 // @Preview(showBackground = true)
 @Composable
-private fun BrandBar() {
+private fun BrandBar(
+    playbackViewModel: PlaybackViewModel = viewModel()
+) {
     Row(
         Modifier.fillMaxWidth()
     ){
-        IconButton(onClick = { }) {
+        IconButton(onClick = {
+            playbackViewModel.toggleExpandState()
+        }) {
             Icon(
                 imageVector = Icons.Rounded.KeyboardArrowDown,
                 contentDescription = null,
