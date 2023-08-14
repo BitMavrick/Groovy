@@ -10,10 +10,15 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 class MusicPlayer(private val context: Context) {
     private val player = SimpleExoPlayer.Builder(context).build()
     fun playMusic(uri: Uri) {
+        player.stop()
         val mediaItem = MediaItem.fromUri(uri)
         player.setMediaItem(mediaItem)
         player.prepare()
         player.play()
+    }
+
+    fun stopMusic() {
+        player.stop()
     }
     fun pauseMusic() {
         player.pause()

@@ -62,7 +62,7 @@ fun HomeScreen() {
                     MiniHeading()
                 }
                 items(musicViewModel.musicList) { music ->
-                    MusicList(music)
+                    MusicList(music, context)
                 }
             }
         },
