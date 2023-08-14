@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -175,7 +174,6 @@ fun BottomPlayback() {
                     .clickable { isExpanded = !isExpanded }
                     .animateContentSize()
                     .fillMaxSize()
-                    .padding(vertical = 16.dp, horizontal = 16.dp)
 
             }else{
                 Modifier
@@ -246,11 +244,32 @@ private fun PlaybackScreen(){
     ) {
         BrandBar()
 
-    }
+        Box(
+            Modifier.clip(RoundedCornerShape(32.dp)).aspectRatio(1f)
+        ) {
+            Image(
+                painter = painterResource(R.drawable.album_art),
+                contentDescription = "null",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
 
+        Text(
+            text = "Music Title",
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            maxLines = 1
+        )
+
+        Text(
+            text = "Music Artist • Music album",
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            maxLines = 1
+        )
+    }
 }
 
-@Preview(showBackground = true)
+// @Preview(showBackground = true)
 @Composable
 private fun BrandBar(){
     Row(
@@ -267,8 +286,8 @@ private fun BrandBar(){
 
         Text(
             text = "Groovy",
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.fillMaxHeight().align(Alignment.CenterVertically)
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.align(Alignment.CenterVertically)
             )
 
         Spacer(modifier = Modifier.weight(1f))
