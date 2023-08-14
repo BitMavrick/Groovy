@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -14,8 +15,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.playmakers.groovy.data.getMusic
 import com.playmakers.groovy.ui.composables.BottomPlayback
 import com.playmakers.groovy.ui.composables.MiniHeading
 import com.playmakers.groovy.ui.composables.MusicList
@@ -42,6 +46,14 @@ fun HomeScreen() {
             }
         },
         content = { innerPadding ->
+
+            val musicViewModel : MusicViewModel = viewModel()
+
+            val context = LocalContext.current
+            val musicList = getMusic(context)
+
+            musicViewModel.updateMusicList(musicList)
+
             LazyColumn(
                 modifier = Modifier.consumeWindowInsets(innerPadding),
                 contentPadding = innerPadding
@@ -49,9 +61,8 @@ fun HomeScreen() {
                 item {
                     MiniHeading()
                 }
-                val list = List(50) { "Text $it" }
-                items(count = list.size) {
-                    MusicList()
+                items(musicViewModel.musicList) { music ->
+                    MusicList(music)
                 }
             }
         },

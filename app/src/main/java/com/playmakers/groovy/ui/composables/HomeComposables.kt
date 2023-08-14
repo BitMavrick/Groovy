@@ -47,6 +47,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.isTraversalGroup
@@ -55,9 +56,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playmakers.groovy.R
+import com.playmakers.groovy.data.Music
+import com.playmakers.groovy.ui.screens.homeScreen.MusicPlayer
 
 @OptIn(ExperimentalMaterial3Api::class)
-// @Preview(showBackground = true)
 @Composable
 fun TopSearchBar() {
     var text by rememberSaveable { mutableStateOf("") }
@@ -104,10 +106,17 @@ fun TopSearchBar() {
 
 // @Preview(showBackground = true)
 @Composable
-fun MusicList(){
+fun MusicList(music : Music){
+
+    val context = LocalContext.current
+    val musicPlayer = MusicPlayer(context)
+
     Row(
         Modifier
-            .clickable { }
+            .clickable {
+                musicPlayer.pauseMusic()
+                musicPlayer.playMusic(music.contentUri!!)
+            }
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 8.dp, horizontal = 16.dp),
@@ -130,13 +139,13 @@ fun MusicList(){
                 .align(Alignment.CenterVertically)
         ) {
             Text(
-                text = "Music Title",
+                text = music.title,
                 style = MaterialTheme.typography.bodyLarge,
                 maxLines = 1
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Music Artist",
+                text = music.artist,
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1
             )
@@ -144,7 +153,6 @@ fun MusicList(){
     }
 }
 
-// @Preview(showBackground = true)
 @Composable
 fun MiniHeading(){
     Row(
@@ -268,7 +276,6 @@ fun BottomPlayback(
     }
 }
 
-// @Preview(showBackground = true)
 @Composable
 private fun PlaybackScreen(
     playbackViewModel: PlaybackViewModel = viewModel()
