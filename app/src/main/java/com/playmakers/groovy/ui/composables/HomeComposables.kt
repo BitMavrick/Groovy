@@ -51,6 +51,7 @@ import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playmakers.groovy.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -168,8 +169,10 @@ fun MiniHeading(){
 
 @Preview(showBackground = true)
 @Composable
-fun BottomPlayback() {
-    var isExpanded by rememberSaveable { mutableStateOf(true) }
+fun BottomPlayback(
+    playbackViewModel: PlaybackViewModel = viewModel()
+) {
+    var isExpanded = playbackViewModel.isExpandedState.value
     Modifier.fillMaxWidth()
 
     Card(
@@ -181,13 +184,17 @@ fun BottomPlayback() {
         Row(
             if(isExpanded){
                 Modifier
-                    .clickable { isExpanded = !isExpanded }
+                    .clickable {
+                        playbackViewModel.toggleExpandState()
+                    }
                     .animateContentSize()
                     .fillMaxSize()
 
             }else{
                 Modifier
-                    .clickable { isExpanded = !isExpanded }
+                    .clickable {
+                        playbackViewModel.toggleExpandState()
+                    }
                     .animateContentSize()
                     .fillMaxWidth()
                     .height(86.dp)
