@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playmakers.groovy.data.getMusic
 import com.playmakers.groovy.ui.composables.BottomPlayback
 import com.playmakers.groovy.ui.composables.MiniHeading
@@ -29,6 +28,9 @@ import com.playmakers.groovy.ui.composables.TopSearchBar
 @Preview
 @Composable
 fun HomeScreen() {
+
+    val context = LocalContext.current
+    val musicPlayer = MusicPlayer(context)
 
     Scaffold(
         topBar = { TopSearchBar() },
@@ -47,11 +49,7 @@ fun HomeScreen() {
         },
         content = { innerPadding ->
 
-            val musicViewModel : MusicViewModel = viewModel()
-
-            val context = LocalContext.current
             val musicFiles = remember { getMusic(context) }
-            val musicPlayer = MusicPlayer(context = LocalContext.current)
 
             LazyColumn(
                 modifier = Modifier.consumeWindowInsets(innerPadding),
@@ -60,6 +58,7 @@ fun HomeScreen() {
                 item {
                     MiniHeading()
                 }
+                
                 items(count = musicFiles.size) {
                     MusicList(musicFiles[it]) { clickedMusic ->
                         musicPlayer.playMusic(clickedMusic.contentUri!!)
@@ -67,8 +66,9 @@ fun HomeScreen() {
                 }
             }
         },
+
         bottomBar = {
-            BottomPlayback()
+            BottomPlayback(musicPlayer)
         }
     )
 }

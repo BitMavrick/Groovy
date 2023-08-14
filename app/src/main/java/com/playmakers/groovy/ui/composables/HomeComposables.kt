@@ -52,7 +52,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playmakers.groovy.R
@@ -176,16 +175,15 @@ fun MiniHeading(){
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 fun BottomPlayback(
-    playbackViewModel: PlaybackViewModel = viewModel()
+    musicPlayer: MusicPlayer
 ) {
+    val playbackViewModel: PlaybackViewModel = viewModel()
     val isExpanded = playbackViewModel.isExpandedState.value
     val isPlaying = playbackViewModel.isPlayingState.value
 
     val context = LocalContext.current
-    val musicPlayer = MusicPlayer(context)
 
     Modifier.fillMaxWidth()
 
@@ -252,6 +250,7 @@ fun BottomPlayback(
                     if(isPlaying){
                         IconButton(onClick = {
                             playbackViewModel.togglePlayState()
+                            musicPlayer.stopMusic()
                         }) {
                             Icon(
                                 imageVector = Icons.Rounded.Pause,
@@ -271,7 +270,6 @@ fun BottomPlayback(
                                 modifier = Modifier.size(40.dp)
                             )
                         }
-
                     }
                 }
             }
