@@ -27,6 +27,10 @@ class MusicPlayer(private val context: Context) {
         player.release()
     }
 
+    fun resumeMusic() {
+        player.play()
+    }
+
     fun isPlaying(): Boolean {
         return player.isPlaying
     }

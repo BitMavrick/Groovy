@@ -262,7 +262,7 @@ fun BottomPlayback(
                     }else{
                         IconButton(onClick = {
                             playbackViewModel.togglePlayState()
-                            musicPlayer.stopMusic()
+                            musicPlayer.resumeMusic()
                         }) {
                             Icon(
                                 imageVector = Icons.Rounded.PlayArrow,
