@@ -282,8 +282,9 @@ private fun PlaybackScreen(
         }
 
         Text(
-            text = "Music Title",
+            text = "Aaa Raat Bhar",
             modifier = Modifier.align(Alignment.CenterHorizontally),
+            style = MaterialTheme.typography.titleLarge,
             maxLines = 1
         )
 
