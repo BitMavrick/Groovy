@@ -1,7 +1,6 @@
 package com.playmakers.groovy.ui.composables
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -107,16 +106,15 @@ fun TopSearchBar() {
 
 // @Preview(showBackground = true)
 @Composable
-fun MusicList(music : Music, context: Context){
+fun MusicList(music : Music, onItemClick: (Music) -> Unit){
 
     val playbackViewModel: PlaybackViewModel = viewModel()
-    val musicPlayer = MusicPlayer(context)
 
     Row(
         Modifier
             .clickable {
                 playbackViewModel.StatePlay()
-                musicPlayer.playMusic(music.contentUri!!)
+                onItemClick(music)
             }
             .fillMaxWidth()
             .height(72.dp)

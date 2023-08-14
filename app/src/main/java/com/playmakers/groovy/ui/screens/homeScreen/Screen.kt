@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -14,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,9 +50,8 @@ fun HomeScreen() {
             val musicViewModel : MusicViewModel = viewModel()
 
             val context = LocalContext.current
-            val musicList = getMusic(context)
-
-            musicViewModel.updateMusicList(musicList)
+            val musicFiles = remember { getMusic(context) }
+            val musicPlayer = MusicPlayer(context = LocalContext.current)
 
             LazyColumn(
                 modifier = Modifier.consumeWindowInsets(innerPadding),
@@ -61,8 +60,10 @@ fun HomeScreen() {
                 item {
                     MiniHeading()
                 }
-                items(musicViewModel.musicList) { music ->
-                    MusicList(music, context)
+                items(count = musicFiles.size) {
+                    MusicList(musicFiles[it]) { clickedMusic ->
+                        musicPlayer.playMusic(clickedMusic.contentUri!!)
+                    }
                 }
             }
         },
