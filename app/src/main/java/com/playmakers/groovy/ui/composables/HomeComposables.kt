@@ -1,5 +1,6 @@
 package com.playmakers.groovy.ui.composables
 
+import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -174,6 +175,8 @@ fun BottomPlayback(
     playbackViewModel: PlaybackViewModel = viewModel()
 ) {
     val isExpanded = playbackViewModel.isExpandedState.value
+    val isPlaying = playbackViewModel.isPlayingState.value
+
     Modifier.fillMaxWidth()
 
     Card(
@@ -236,12 +239,28 @@ fun BottomPlayback(
 
                 Box(modifier = Modifier.align(Alignment.CenterVertically)
                 ){
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Rounded.Pause,
-                            contentDescription = null,
-                            modifier = Modifier.size(40.dp)
-                        )
+                    if(isPlaying){
+                        IconButton(onClick = {
+                            playbackViewModel.togglePlayState()
+                        }) {
+                            Icon(
+                                imageVector = Icons.Rounded.Pause,
+                                contentDescription = null,
+                                modifier = Modifier.size(40.dp)
+                            )
+                        }
+
+                    }else{
+                        IconButton(onClick = {
+                            playbackViewModel.togglePlayState()
+                        }) {
+                            Icon(
+                                imageVector = Icons.Rounded.PlayArrow,
+                                contentDescription = null,
+                                modifier = Modifier.size(40.dp)
+                            )
+                        }
+
                     }
                 }
             }
@@ -282,7 +301,7 @@ private fun PlaybackScreen(
         }
 
         Text(
-            text = "Aaa Raat Bhar",
+            text = "The Music Title",
             modifier = Modifier.align(Alignment.CenterHorizontally),
             style = MaterialTheme.typography.titleLarge,
             maxLines = 1
@@ -338,6 +357,7 @@ private fun BrandBar(
 }
 
 // @Preview(showBackground = true)
+@SuppressLint("AutoboxingStateCreation")
 @Composable
 private fun MusicSlider() {
     var sliderPosition by remember { mutableStateOf(0f) }
@@ -353,7 +373,11 @@ private fun MusicSlider() {
 
 // @Preview(showBackground = true)
 @Composable
-private fun PlaybackControl(){
+private fun PlaybackControl(
+    playbackViewModel: PlaybackViewModel = viewModel()
+){
+    val isPlaying = playbackViewModel.isPlayingState.value
+
     Row (
         Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -367,12 +391,26 @@ private fun PlaybackControl(){
             )
         }
 
-        IconButton(onClick = { /*TODO*/ }) {
-            Icon(
-                imageVector = Icons.Rounded.PlayArrow,
-                contentDescription = null,
-                Modifier.size(72.dp)
-            )
+        if(isPlaying){
+            IconButton(onClick = {
+                playbackViewModel.togglePlayState()
+            }) {
+                Icon(
+                    imageVector = Icons.Rounded.Pause,
+                    contentDescription = null,
+                    Modifier.size(72.dp)
+                )
+            }
+        }else{
+            IconButton(onClick = {
+                playbackViewModel.togglePlayState()
+            }) {
+                Icon(
+                    imageVector = Icons.Rounded.PlayArrow,
+                    contentDescription = null,
+                    Modifier.size(72.dp)
+                )
+            }
         }
 
         IconButton(onClick = { /*TODO*/ }) {
