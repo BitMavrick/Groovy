@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -27,7 +26,6 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.Pause
-import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,7 +44,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -111,8 +108,26 @@ fun HomeContent() {
             contentPadding = PaddingValues(top = 80.dp, bottom = 136.dp),
             // verticalArrangement = Arrangement.spacedBy(0.dp)
         ) {
-            val list = List(100) { "number $it" }
-            items(count = list.size) {
+
+            item {
+                Text(
+                    text = "Pause",
+                    modifier = Modifier.clickable {
+                        musicPlayer.pauseMusic()
+                    }
+                )
+            }
+
+            item {
+                Text(
+                    text = "Play",
+                    modifier = Modifier.clickable {
+                        musicPlayer.resumeMusic()
+                    }
+                )
+            }
+
+            items(count = musicFiles.size) {
                 MusicList(musicFiles[it]) { clickedMusic ->
                     musicPlayer.playMusic(clickedMusic.contentUri!!)
                 }
