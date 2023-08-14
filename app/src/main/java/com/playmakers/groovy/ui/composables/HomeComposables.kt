@@ -3,6 +3,7 @@ package com.playmakers.groovy.ui.composables
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,9 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Pause
+import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.rounded.SkipNext
+import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -165,7 +169,6 @@ fun MiniHeading(){
 @Preview(showBackground = true)
 @Composable
 fun BottomPlayback() {
-
     var isExpanded by rememberSaveable { mutableStateOf(true) }
     Modifier.fillMaxWidth()
 
@@ -241,18 +244,21 @@ fun BottomPlayback() {
     }
 }
 
-@Preview(showBackground = true)
+// @Preview(showBackground = true)
 @Composable
 private fun PlaybackScreen(){
     Column(
         Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.SpaceEvenly
+
     ) {
         BrandBar()
 
         Box(
             Modifier
+                .fillMaxWidth()
                 .clip(RoundedCornerShape(32.dp))
                 .aspectRatio(1f)
         ) {
@@ -277,16 +283,18 @@ private fun PlaybackScreen(){
         )
 
         MusicSlider()
+
+        PlaybackControl()
     }
 }
 
 // @Preview(showBackground = true)
 @Composable
-private fun BrandBar(){
+private fun BrandBar() {
     Row(
         Modifier.fillMaxWidth()
     ){
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = { }) {
             Icon(
                 imageVector = Icons.Rounded.KeyboardArrowDown,
                 contentDescription = null,
@@ -313,7 +321,7 @@ private fun BrandBar(){
     }
 }
 
-@Preview(showBackground = true)
+// @Preview(showBackground = true)
 @Composable
 private fun MusicSlider() {
     var sliderPosition by remember { mutableStateOf(0f) }
@@ -324,5 +332,39 @@ private fun MusicSlider() {
             onValueChange = { sliderPosition = it },
         )
         Text(text = sliderPosition.toString())
+    }
+}
+
+// @Preview(showBackground = true)
+@Composable
+private fun PlaybackControl(){
+    Row (
+        Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ){
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                imageVector = Icons.Rounded.SkipPrevious,
+                contentDescription = null,
+                Modifier.size(70.dp)
+            )
+        }
+
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                imageVector = Icons.Rounded.PlayArrow,
+                contentDescription = null,
+                Modifier.size(72.dp)
+            )
+        }
+
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                imageVector = Icons.Rounded.SkipNext,
+                contentDescription = null,
+                Modifier.size(70.dp)
+            )
+        }
     }
 }
