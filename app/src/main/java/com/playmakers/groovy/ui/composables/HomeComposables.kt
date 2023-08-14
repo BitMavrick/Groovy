@@ -22,16 +22,19 @@ import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -39,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
@@ -158,15 +162,18 @@ fun MiniHeading(){
     }
 }
 
-// @Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun BottomPlayback() {
 
     var isExpanded by rememberSaveable { mutableStateOf(true) }
-    val cardModifier = Modifier.fillMaxWidth()
+    Modifier.fillMaxWidth()
 
     Card(
-        Modifier.fillMaxWidth()
+        Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        )
     ) {
         Row(
             if(isExpanded){
@@ -245,7 +252,9 @@ private fun PlaybackScreen(){
         BrandBar()
 
         Box(
-            Modifier.clip(RoundedCornerShape(32.dp)).aspectRatio(1f)
+            Modifier
+                .clip(RoundedCornerShape(32.dp))
+                .aspectRatio(1f)
         ) {
             Image(
                 painter = painterResource(R.drawable.album_art),
@@ -266,6 +275,8 @@ private fun PlaybackScreen(){
             modifier = Modifier.align(Alignment.CenterHorizontally),
             maxLines = 1
         )
+
+        MusicSlider()
     }
 }
 
@@ -299,5 +310,19 @@ private fun BrandBar(){
             )
         }
 
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MusicSlider() {
+    var sliderPosition by remember { mutableStateOf(0f) }
+    Column {
+        Slider(
+            modifier = Modifier.semantics { this.contentDescription = "Localized Description" },
+            value = sliderPosition,
+            onValueChange = { sliderPosition = it },
+        )
+        Text(text = sliderPosition.toString())
     }
 }
