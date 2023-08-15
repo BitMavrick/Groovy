@@ -6,6 +6,7 @@ package com.playmakers.groovy.module
 import android.app.Application
 import android.content.Context
 import androidx.media3.exoplayer.ExoPlayer
+import com.playmakers.groovy.player.MyPlayer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,12 +29,10 @@ class AppModule {
         return ExoPlayer.Builder(context).build()
     }
 
-    /*
+
     @Provides
     @Singleton
-    fun provideMyPlayer(player : ExoPlayer) {
-
+    fun provideMyPlayer(player : ExoPlayer): MyPlayer {
+        return MyPlayer(player)
     }
-
-     */
 }
