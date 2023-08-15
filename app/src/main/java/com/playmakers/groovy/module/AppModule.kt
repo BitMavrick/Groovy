@@ -26,4 +26,10 @@ class AppModule {
     fun provideExoPlayer(context: Context) : ExoPlayer {
         return ExoPlayer.Builder(context).build()
     }
+
+    @Provides
+    @Singleton
+    fun provideMyPlayer(player : ExoPlayer) {
+
+    }
 }
