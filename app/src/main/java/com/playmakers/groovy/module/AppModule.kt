@@ -2,7 +2,7 @@
 
 package com.playmakers.groovy.module
 
-/*
+
 import android.app.Application
 import android.content.Context
 import com.google.android.exoplayer2.ExoPlayer
@@ -34,4 +34,3 @@ class AppModule {
 
     }
 }
- */
