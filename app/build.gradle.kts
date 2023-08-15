@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -83,4 +84,8 @@ dependencies {
 
     // Exo-player
     implementation("com.google.android.exoplayer:exoplayer:2.19.0")
+
+    // Version 4.0
+    implementation("com.google.dagger:hilt-android:2.46.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.46.1")
 }
