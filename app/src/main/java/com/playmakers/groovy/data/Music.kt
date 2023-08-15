@@ -1,6 +1,8 @@
 package com.playmakers.groovy.data
 
 import android.net.Uri
+import com.playmakers.groovy.player.PlayerStates
+import com.playmakers.groovy.player.PlayerStates.STATE_IDLE
 
 data class Music(
     val id: Long,
@@ -9,7 +11,10 @@ data class Music(
     val album: String,
     val duration: Long,
     val path: String,
-    val contentUri: Uri?
+    val contentUri: Uri?,
+    var isSelected: Boolean = false,
+    var state: PlayerStates = STATE_IDLE
+
 )
 
 val dummyMusicList = listOf(

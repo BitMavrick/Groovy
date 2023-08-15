@@ -1,6 +1,6 @@
 package com.playmakers.groovy.player
 
-data class PlayBackState(
+data class PlaybackState(
     val currentPlaybackPosition: Long,
     val currentTrackDuration: Long
 )
