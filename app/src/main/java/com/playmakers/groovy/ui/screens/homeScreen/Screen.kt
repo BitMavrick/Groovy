@@ -13,11 +13,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playmakers.groovy.data.getMusic
 import com.playmakers.groovy.ui.composables.BottomPlayback
 import com.playmakers.groovy.ui.composables.MiniHeading
@@ -25,12 +26,25 @@ import com.playmakers.groovy.ui.composables.MusicList
 import com.playmakers.groovy.ui.composables.TopSearchBar
 
 @OptIn(ExperimentalLayoutApi::class)
-@Preview
 @Composable
 fun HomeScreen() {
 
     val context = LocalContext.current
-    val musicPlayer = MusicPlayer(context)
+    val musicViewModel : MusicViewModel = viewModel()
+
+    /*
+
+    val musicPlayer: MusicPlayer by lazy {
+        MusicPlayer(context)
+    }
+    */
+
+    DisposableEffect(Unit) {
+        musicViewModel.initMusicPlayer(context)
+        onDispose {
+            musicViewModel.release() // Release the player when the Composable is disposed
+        }
+    }
 
     Scaffold(
         topBar = { TopSearchBar() },
@@ -49,7 +63,7 @@ fun HomeScreen() {
         },
         content = { innerPadding ->
 
-            val musicFiles = remember { getMusic(context) }
+            val musicFiles = rememberSaveable { getMusic(context) }
 
             LazyColumn(
                 modifier = Modifier.consumeWindowInsets(innerPadding),
@@ -61,14 +75,15 @@ fun HomeScreen() {
                 
                 items(count = musicFiles.size) {
                     MusicList(musicFiles[it]) { clickedMusic ->
-                        musicPlayer.playMusic(clickedMusic.contentUri!!)
+                        // musicPlayer.playMusic(clickedMusic.contentUri!!)
+                        musicViewModel.playMusic(clickedMusic.contentUri!!)
                     }
                 }
             }
         },
 
         bottomBar = {
-            BottomPlayback(musicPlayer)
+            BottomPlayback(musicViewModel)
         }
     )
 }
