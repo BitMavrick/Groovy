@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -94,4 +95,13 @@ dependencies {
     // Updated media3 and exoplayer
     implementation("androidx.media3:media3-common:1.1.0")
     implementation("androidx.media3:media3-exoplayer:1.1.0")
+
+    // Dagger Android
+    api ("com.google.dagger:dagger-android:2.46.1")
+    api ("com.google.dagger:dagger-android-support:2.46.1")
+    kapt ("com.google.dagger:dagger-android-processor:2.46.1")
+
+    // Dagger Core
+    implementation ("com.google.dagger:dagger:2.46.1")
+    kapt ("com.google.dagger:dagger-compiler:2.46.1")
 }

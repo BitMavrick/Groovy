@@ -15,7 +15,6 @@ import com.playmakers.groovy.player.MyPlayer
 import com.playmakers.groovy.player.PlaybackState
 import com.playmakers.groovy.player.PlayerEvents
 import com.playmakers.groovy.player.PlayerStates
-import com.playmakers.groovy.repositories.MusicRepository
 import com.playmakers.groovy.ui.util.collectPlayerState
 import com.playmakers.groovy.ui.util.launchPlaybackStateJob
 import com.playmakers.groovy.ui.util.resetTracks
@@ -24,14 +23,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @Suppress("EmptyMethod")
 @HiltViewModel
 class MusicViewModel @Inject constructor(
-    private val musicRepository: MusicRepository,
     private val myPlayer: MyPlayer,
     application: Application
 ) : AndroidViewModel(application), PlayerEvents {
@@ -108,27 +105,28 @@ class MusicViewModel @Inject constructor(
 
 
     override fun onPlayPauseClick() {
-        myPlayer.playPause()
+        // myPlayer.playPause()
     }
 
     override fun onPreviousClick() {
-        if(selectedMusicIndex > 0) onMusicSelected(selectedMusicIndex - 1)
+        // if(selectedMusicIndex > 0) onMusicSelected(selectedMusicIndex - 1)
     }
 
     override fun onNextClick() {
-        if(selectedMusicIndex < musics.size - 1) onMusicSelected(selectedMusicIndex + 1)
+        // if(selectedMusicIndex < musics.size - 1) onMusicSelected(selectedMusicIndex + 1)
     }
 
     override fun onTrackClick(music: Music) {
-        onMusicSelected(musics.indexOf(music))
+        // onMusicSelected(musics.indexOf(music))
     }
 
     override fun onSeekBarPositionChanged(position: Long) {
-        viewModelScope.launch { myPlayer.seekToPosition(position) }
+        // viewModelScope.launch { myPlayer.seekToPosition(position) }
     }
 
     override fun onCleared(){
-        super.onCleared()
-        myPlayer.releasePlayer()
+        // super.onCleared()
+        // myPlayer.releasePlayer()
     }
+
 }

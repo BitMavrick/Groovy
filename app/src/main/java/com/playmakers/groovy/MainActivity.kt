@@ -13,7 +13,9 @@ import androidx.compose.ui.Modifier
 import com.playmakers.groovy.ui.screens.homeScreen.HomeScreen
 import com.playmakers.groovy.ui.screens.homeScreen.MusicViewModel
 import com.playmakers.groovy.ui.theme.GroovyTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val musicViewModel : MusicViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +34,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+// Todo: Implement MusicRepositoryImpl
 
 private fun onAudioPermissionGranted(context : Context) {
     showToast(context, "Permission Granted")
