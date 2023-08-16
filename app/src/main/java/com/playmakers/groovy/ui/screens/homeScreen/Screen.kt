@@ -30,21 +30,6 @@ import com.playmakers.groovy.ui.composables.TopSearchBar
 fun HomeScreen() {
 
     val context = LocalContext.current
-    val musicViewModel : MusicViewModel = viewModel()
-
-    /*
-
-    val musicPlayer: MusicPlayer by lazy {
-        MusicPlayer(context)
-    }
-    */
-
-    DisposableEffect(Unit) {
-        musicViewModel.initMusicPlayer(context)
-        onDispose {
-            musicViewModel.release() // Release the player when the Composable is disposed
-        }
-    }
 
     Scaffold(
         topBar = { TopSearchBar() },
@@ -76,14 +61,13 @@ fun HomeScreen() {
                 items(count = musicFiles.size) {
                     MusicList(musicFiles[it]) { clickedMusic ->
                         // musicPlayer.playMusic(clickedMusic.contentUri!!)
-                        musicViewModel.playMusic(clickedMusic.contentUri!!)
                     }
                 }
             }
         },
 
         bottomBar = {
-            BottomPlayback(musicViewModel)
+            BottomPlayback()
         }
     )
 }

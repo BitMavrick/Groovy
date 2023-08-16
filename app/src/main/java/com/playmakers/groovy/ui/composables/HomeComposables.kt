@@ -56,7 +56,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playmakers.groovy.R
 import com.playmakers.groovy.data.Music
-import com.playmakers.groovy.ui.screens.homeScreen.MusicViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -176,9 +175,7 @@ fun MiniHeading(){
 }
 
 @Composable
-fun BottomPlayback(
-    musicViewModel: MusicViewModel
-) {
+fun BottomPlayback() {
     val playbackViewModel: PlaybackViewModel = viewModel()
     val isExpanded = playbackViewModel.isExpandedState.value
     val isPlaying = playbackViewModel.isPlayingState.value
@@ -250,7 +247,7 @@ fun BottomPlayback(
                     if(isPlaying){
                         IconButton(onClick = {
                             // musicPlayer.pauseMusic()
-                            musicViewModel.pauseMusic()
+                            // musicViewModel.pauseMusic()
                             playbackViewModel.togglePlayState()
                         }) {
                             Icon(
@@ -263,7 +260,7 @@ fun BottomPlayback(
                     }else{
                         IconButton(onClick = {
                             // musicPlayer.resumeMusic()
-                            musicViewModel.resumeMusic()
+                            // musicViewModel.resumeMusic()
                             playbackViewModel.togglePlayState()
                         }) {
                             Icon(

@@ -9,10 +9,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import com.playmakers.groovy.data.Music
+import com.playmakers.groovy.data.getMusic
 import com.playmakers.groovy.player.MyPlayer
 import com.playmakers.groovy.player.PlaybackState
 import com.playmakers.groovy.player.PlayerEvents
 import com.playmakers.groovy.repositories.MusicRepository
+import com.playmakers.groovy.ui.util.resetTracks
+import com.playmakers.groovy.ui.util.toMediaItemList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,6 +53,24 @@ class MusicViewModel @Inject constructor(
 
     private var isAuto: Boolean = false
 
+    init {
+        _music.addAll(getMusic(applicationContext))
+        myPlayer.iniPlayer(musics.toMediaItemList())
+        // observePlayerState()
+    }
+
+    private fun onMusicSelected(index: Int){
+        if(selectedMusicIndex == -1) isMusicPlay = true
+        if(selectedMusicIndex == -1 || selectedMusicIndex != index){
+            _music.resetTracks()
+            selectedMusicIndex = index
+            // setUpTrack()
+        }
+    }
+
+    private fun setUpTrack(){
+
+    }
 
     override fun onPlayPauseClick() {
         TODO("Not yet implemented")
