@@ -25,8 +25,7 @@ import com.playmakers.groovy.ui.composables.TopSearchBar
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun HomeScreen(viewModel: MusicViewModel) {
-
+fun HomeScreen(musicViewModel: MusicViewModel) {
     val context = LocalContext.current
 
     Scaffold(
@@ -47,6 +46,7 @@ fun HomeScreen(viewModel: MusicViewModel) {
         content = { innerPadding ->
 
             val musicFiles = rememberSaveable { getMusic(context) }
+            // val musicFiles = musicViewModel.musics
 
             LazyColumn(
                 modifier = Modifier.consumeWindowInsets(innerPadding),

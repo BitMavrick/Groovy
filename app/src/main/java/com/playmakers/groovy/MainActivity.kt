@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.playmakers.groovy.ui.screens.homeScreen.HomeScreen
 import com.playmakers.groovy.ui.screens.homeScreen.MusicViewModel
 import com.playmakers.groovy.ui.theme.GroovyTheme
-import com.playmakers.groovy.ui.util.PermissionHandler
 
 class MainActivity : ComponentActivity() {
     private val musicViewModel : MusicViewModel by viewModels()
@@ -25,9 +25,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    PermissionHandler(musicViewModel, this, onAudioPermissionGranted ={
-                        onAudioPermissionGranted(this)
-                    })
+                    // PermissionHandler( this, onAudioPermissionGranted ={})
+                    HomeScreen(musicViewModel)
                 }
             }
         }
