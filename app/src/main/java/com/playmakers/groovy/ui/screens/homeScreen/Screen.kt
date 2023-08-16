@@ -13,12 +13,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playmakers.groovy.data.getMusic
 import com.playmakers.groovy.ui.composables.BottomPlayback
 import com.playmakers.groovy.ui.composables.MiniHeading
@@ -27,7 +25,7 @@ import com.playmakers.groovy.ui.composables.TopSearchBar
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(viewModel: MusicViewModel) {
 
     val context = LocalContext.current
 
