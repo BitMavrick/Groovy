@@ -8,18 +8,23 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.playmakers.groovy.data.Music
 import com.playmakers.groovy.data.getMusic
 import com.playmakers.groovy.player.MyPlayer
 import com.playmakers.groovy.player.PlaybackState
 import com.playmakers.groovy.player.PlayerEvents
+import com.playmakers.groovy.player.PlayerStates
 import com.playmakers.groovy.repositories.MusicRepository
+import com.playmakers.groovy.ui.util.collectPlayerState
+import com.playmakers.groovy.ui.util.launchPlaybackStateJob
 import com.playmakers.groovy.ui.util.resetTracks
 import com.playmakers.groovy.ui.util.toMediaItemList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -56,7 +61,7 @@ class MusicViewModel @Inject constructor(
     init {
         _music.addAll(getMusic(applicationContext))
         myPlayer.iniPlayer(musics.toMediaItemList())
-        // observePlayerState()
+        observePlayerState()
     }
 
     private fun onMusicSelected(index: Int){
@@ -64,33 +69,66 @@ class MusicViewModel @Inject constructor(
         if(selectedMusicIndex == -1 || selectedMusicIndex != index){
             _music.resetTracks()
             selectedMusicIndex = index
-            // setUpTrack()
+            setUpTrack()
         }
     }
 
     private fun setUpTrack(){
-
+        if(!isAuto) myPlayer.setUpTrack(selectedMusicIndex, isMusicPlay)
+        isAuto = false
     }
 
+    private fun updateState(state: PlayerStates){
+        if (selectedMusicIndex != -1){
+            isMusicPlay = state == PlayerStates.STATE_PLAYING
+            _music[selectedMusicIndex].state = state
+            _music[selectedMusicIndex].isSelected = true
+            selectedMusic = null
+            selectedMusic = musics[selectedMusicIndex]
+
+            updatePlaybackState(state)
+
+            if(state == PlayerStates.STATE_NEXT_TRACK){
+                isAuto = true
+                onNextClick()
+            }
+
+            if(state == PlayerStates.STATE_END) onMusicSelected(0)
+        }
+    }
+
+    private fun observePlayerState(){
+        viewModelScope.collectPlayerState(myPlayer, ::updateState)
+    }
+
+    private fun updatePlaybackState(state: PlayerStates){
+        playbackStateJob?.cancel()
+        playbackStateJob = viewModelScope.launchPlaybackStateJob(_playbackState, state, myPlayer)
+    }
+
+
     override fun onPlayPauseClick() {
-        TODO("Not yet implemented")
+        myPlayer.playPause()
     }
 
     override fun onPreviousClick() {
-        TODO("Not yet implemented")
+        if(selectedMusicIndex > 0) onMusicSelected(selectedMusicIndex - 1)
     }
 
     override fun onNextClick() {
-        TODO("Not yet implemented")
+        if(selectedMusicIndex < musics.size - 1) onMusicSelected(selectedMusicIndex + 1)
     }
 
     override fun onTrackClick(music: Music) {
-        TODO("Not yet implemented")
+        onMusicSelected(musics.indexOf(music))
     }
 
     override fun onSeekBarPositionChanged(position: Long) {
-        TODO("Not yet implemented")
+        viewModelScope.launch { myPlayer.seekToPosition(position) }
     }
 
-
+    override fun onCleared(){
+        super.onCleared()
+        myPlayer.releasePlayer()
+    }
 }
