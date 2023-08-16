@@ -23,6 +23,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -105,28 +106,28 @@ class MusicViewModel @Inject constructor(
 
 
     override fun onPlayPauseClick() {
-        // myPlayer.playPause()
+        myPlayer.playPause()
     }
 
     override fun onPreviousClick() {
-        // if(selectedMusicIndex > 0) onMusicSelected(selectedMusicIndex - 1)
+        if(selectedMusicIndex > 0) onMusicSelected(selectedMusicIndex - 1)
     }
 
     override fun onNextClick() {
-        // if(selectedMusicIndex < musics.size - 1) onMusicSelected(selectedMusicIndex + 1)
+        if(selectedMusicIndex < musics.size - 1) onMusicSelected(selectedMusicIndex + 1)
     }
 
     override fun onTrackClick(music: Music) {
-        // onMusicSelected(musics.indexOf(music))
+        onMusicSelected(musics.indexOf(music))
     }
 
     override fun onSeekBarPositionChanged(position: Long) {
-        // viewModelScope.launch { myPlayer.seekToPosition(position) }
+        viewModelScope.launch { myPlayer.seekToPosition(position) }
     }
 
     override fun onCleared(){
-        // super.onCleared()
-        // myPlayer.releasePlayer()
+        super.onCleared()
+        myPlayer.releasePlayer()
     }
 
 }
