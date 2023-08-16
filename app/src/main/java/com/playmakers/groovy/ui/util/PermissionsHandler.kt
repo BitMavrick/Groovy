@@ -31,13 +31,15 @@ import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.playmakers.groovy.ui.screens.homeScreen.HomeScreen
+import com.playmakers.groovy.ui.screens.homeScreen.MusicViewModel
 import com.playmakers.groovy.ui.screens.permissionsScreen.AudioPermissionTextProvider
 import com.playmakers.groovy.ui.screens.permissionsScreen.PermissionDialogScreen
 import com.playmakers.groovy.ui.screens.permissionsScreen.PermissionsViewModel
 
 @Composable
 fun PermissionHandler(
-    // musicViewModel: MusicViewModel,
+    musicViewModel: MusicViewModel,
     activity: Activity,
     onAudioPermissionGranted: () -> Unit
 ) {
@@ -67,7 +69,7 @@ fun PermissionHandler(
     )
 
     if (isPermissionGranted){
-        // HomeScreen()
+        HomeScreen(musicViewModel)
     }else{
         Column(
             modifier = Modifier

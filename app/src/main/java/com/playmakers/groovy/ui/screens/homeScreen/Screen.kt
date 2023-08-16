@@ -13,11 +13,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.playmakers.groovy.data.getMusic
 import com.playmakers.groovy.ui.composables.BottomPlayback
 import com.playmakers.groovy.ui.composables.MiniHeading
 import com.playmakers.groovy.ui.composables.MusicList
@@ -45,8 +43,8 @@ fun HomeScreen(musicViewModel: MusicViewModel) {
         },
         content = { innerPadding ->
 
-            val musicFiles = rememberSaveable { getMusic(context) }
-            // val musicFiles = musicViewModel.musics
+            // val musicFiles = rememberSaveable { getMusic(context) }
+            val musicFiles = musicViewModel.musics
 
             LazyColumn(
                 modifier = Modifier.consumeWindowInsets(innerPadding),
