@@ -59,6 +59,7 @@ import com.playmakers.groovy.data.Music
 import com.playmakers.groovy.player.PlaybackState
 import com.playmakers.groovy.player.PlayerStates
 import com.playmakers.groovy.ui.screens.homeScreen.MusicViewModel
+import com.playmakers.groovy.ui.util.formatTime
 import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -390,7 +391,22 @@ private fun MusicSlider(
             valueRange = 0f..playbackStateValue.currentTrackDuration.toFloat(),
             modifier = Modifier.semantics { this.contentDescription = "Localized Description" },
         )
-        // Text(text = sliderPosition.toString())
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 6.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = playbackStateValue.currentPlaybackPosition.formatTime(),
+                style = MaterialTheme.typography.bodySmall
+            )
+            Text(
+                text = playbackStateValue.currentTrackDuration.formatTime(),
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
     }
 }
 
