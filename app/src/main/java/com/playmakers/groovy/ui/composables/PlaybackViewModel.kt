@@ -13,12 +13,4 @@ class PlaybackViewModel : ViewModel(){
     fun togglePlayState() {
         isPlayingState.value = !isPlayingState.value
     }
-
-    fun StatePlay() {
-        isPlayingState.value = true
-    }
-
-    fun StatePause() {
-        isPlayingState.value = false
-    }
 }

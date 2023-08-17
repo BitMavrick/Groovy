@@ -29,6 +29,7 @@ import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,7 +48,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.isTraversalGroup
@@ -56,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playmakers.groovy.R
 import com.playmakers.groovy.data.Music
+import com.playmakers.groovy.player.PlayerStates
 import com.playmakers.groovy.ui.screens.homeScreen.MusicViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -107,12 +108,9 @@ fun TopSearchBar() {
 @Composable
 fun MusicList(music : Music, onItemClick: (Music) -> Unit){
 
-    val playbackViewModel: PlaybackViewModel = viewModel()
-
     Row(
         Modifier
             .clickable {
-                playbackViewModel.StatePlay()
                 onItemClick(music)
             }
             .fillMaxWidth()
@@ -181,9 +179,6 @@ fun BottomPlayback(
 ) {
     val playbackViewModel: PlaybackViewModel = viewModel()
     val isExpanded = playbackViewModel.isExpandedState.value
-    val isPlaying = playbackViewModel.isPlayingState.value
-
-    val context = LocalContext.current
 
     if(musicViewModel.selectedMusic != null){
         Modifier.fillMaxWidth()
@@ -248,34 +243,29 @@ fun BottomPlayback(
 
                     Box(modifier = Modifier.align(Alignment.CenterVertically)
                     ){
-                        /*
-                        if(isPlaying){
-                            IconButton(onClick = {
-                                // musicPlayer.pauseMusic()
-                                // musicViewModel.pauseMusic()
-                                playbackViewModel.togglePlayState()
-                            }) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Pause,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(40.dp)
-                                )
-                            }
-
+                        if(musicViewModel.selectedMusic?.state == PlayerStates.STATE_BUFFERING){
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(40.dp)
+                            )
                         }else{
                             IconButton(onClick = {
-                                // musicPlayer.resumeMusic()
-                                // musicViewModel.resumeMusic()
-                                playbackViewModel.togglePlayState()
+                                musicViewModel.onPlayPauseClick()
                             }) {
-                                Icon(
-                                    imageVector = Icons.Rounded.PlayArrow,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(40.dp)
-                                )
+                                if(musicViewModel.selectedMusic?.state == PlayerStates.STATE_PLAYING){
+                                    Icon(
+                                        imageVector = Icons.Rounded.Pause,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(40.dp)
+                                    )
+                                }else{
+                                    Icon(
+                                        imageVector = Icons.Rounded.PlayArrow,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(40.dp)
+                                    )
+                                }
                             }
                         }
-                        */
                     }
                 }
             }
