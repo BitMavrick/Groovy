@@ -208,7 +208,7 @@ fun BottomPlayback(
             ){
                 if(isExpanded){
                     // The Playback screen will be here
-                    PlaybackScreen()
+                    PlaybackScreen(musicViewModel)
                 }else{
                     Box(
                         Modifier.clip(RoundedCornerShape(5.dp))
@@ -275,8 +275,9 @@ fun BottomPlayback(
 
 @Composable
 private fun PlaybackScreen(
-    playbackViewModel: PlaybackViewModel = viewModel()
+    musicViewModel: MusicViewModel
 ){
+    val playbackViewModel: PlaybackViewModel = viewModel()
     BackHandler {
         playbackViewModel.toggleExpandState()
     }
@@ -305,7 +306,7 @@ private fun PlaybackScreen(
         }
 
         Text(
-            text = "The Music Title",
+            text = musicViewModel.selectedMusic?.title ?: " Loading ... ",
             modifier = Modifier.align(Alignment.CenterHorizontally),
             style = MaterialTheme.typography.titleLarge,
             maxLines = 1
@@ -319,7 +320,7 @@ private fun PlaybackScreen(
 
         MusicSlider()
 
-        PlaybackControl()
+        PlaybackControl(musicViewModel)
     }
 }
 
@@ -378,8 +379,9 @@ private fun MusicSlider() {
 // @Preview(showBackground = true)
 @Composable
 private fun PlaybackControl(
-    playbackViewModel: PlaybackViewModel = viewModel()
+    musicViewModel: MusicViewModel
 ){
+    val playbackViewModel: PlaybackViewModel = viewModel()
     val isPlaying = playbackViewModel.isPlayingState.value
 
     Row (
@@ -395,27 +397,30 @@ private fun PlaybackControl(
             )
         }
 
-        if(isPlaying){
-            IconButton(onClick = {
-                playbackViewModel.togglePlayState()
-            }) {
-                Icon(
-                    imageVector = Icons.Rounded.Pause,
-                    contentDescription = null,
-                    Modifier.size(72.dp)
-                )
-            }
+        if(musicViewModel.selectedMusic?.state == PlayerStates.STATE_BUFFERING){
+            CircularProgressIndicator(
+                modifier = Modifier.size(40.dp)
+            )
         }else{
             IconButton(onClick = {
-                playbackViewModel.togglePlayState()
+                musicViewModel.onPlayPauseClick()
             }) {
-                Icon(
-                    imageVector = Icons.Rounded.PlayArrow,
-                    contentDescription = null,
-                    Modifier.size(72.dp)
-                )
+                if(musicViewModel.selectedMusic?.state == PlayerStates.STATE_PLAYING){
+                    Icon(
+                        imageVector = Icons.Rounded.Pause,
+                        contentDescription = null,
+                        modifier = Modifier.size(72.dp)
+                    )
+                }else{
+                    Icon(
+                        imageVector = Icons.Rounded.PlayArrow,
+                        contentDescription = null,
+                        modifier = Modifier.size(72.dp)
+                    )
+                }
             }
         }
+
 
         IconButton(onClick = { /*TODO*/ }) {
             Icon(
