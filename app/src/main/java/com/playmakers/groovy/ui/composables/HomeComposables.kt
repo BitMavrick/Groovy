@@ -39,9 +39,9 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -56,8 +56,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playmakers.groovy.R
 import com.playmakers.groovy.data.Music
+import com.playmakers.groovy.player.PlaybackState
 import com.playmakers.groovy.player.PlayerStates
 import com.playmakers.groovy.ui.screens.homeScreen.MusicViewModel
+import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -318,7 +320,9 @@ private fun PlaybackScreen(
             maxLines = 1
         )
 
-        MusicSlider()
+        MusicSlider(musicViewModel.playbackState){
+            musicViewModel.onSeekBarPositionChanged(it)
+        }
 
         PlaybackControl(musicViewModel)
     }
@@ -364,15 +368,29 @@ private fun BrandBar(
 // @Preview(showBackground = true)
 @SuppressLint("AutoboxingStateCreation")
 @Composable
-private fun MusicSlider() {
-    var sliderPosition by remember { mutableStateOf(0f) }
+private fun MusicSlider(
+    playbackState: StateFlow<PlaybackState>,
+    onSeekBarPositionChanged: (Long) -> Unit
+) {
+    val playbackStateValue = playbackState.collectAsState(
+        initial = PlaybackState(0L, 0L)
+    ).value
+    var currentMediaProgress = playbackStateValue.currentPlaybackPosition.toFloat()
+    var currentPosTemp by rememberSaveable { mutableStateOf(0f) }
+
     Column {
         Slider(
+            value = if (currentPosTemp == 0f) currentMediaProgress else currentPosTemp,
+            onValueChange = { currentPosTemp = it },
+            onValueChangeFinished = {
+                currentMediaProgress = currentPosTemp
+                currentPosTemp = 0f
+                onSeekBarPositionChanged(currentMediaProgress.toLong())
+            },
+            valueRange = 0f..playbackStateValue.currentTrackDuration.toFloat(),
             modifier = Modifier.semantics { this.contentDescription = "Localized Description" },
-            value = sliderPosition,
-            onValueChange = { sliderPosition = it },
         )
-        Text(text = sliderPosition.toString())
+        // Text(text = sliderPosition.toString())
     }
 }
 

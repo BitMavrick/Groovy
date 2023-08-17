@@ -55,8 +55,8 @@ fun HomeScreen(musicViewModel: MusicViewModel) {
                 items(count = musicFiles.size) { it ->
                     MusicList(
                         musicFiles[it],
-                        onItemClick = { it -> musicViewModel.onTrackClick(it) }
-                        )
+                        onItemClick = { musicViewModel.onTrackClick(it) }
+                    )
                 }
             }
         },
