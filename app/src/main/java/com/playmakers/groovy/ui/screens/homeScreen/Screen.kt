@@ -1,5 +1,7 @@
 package com.playmakers.groovy.ui.screens.homeScreen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -60,7 +62,12 @@ fun HomeScreen(musicViewModel: MusicViewModel) {
         },
 
         bottomBar = {
-            BottomPlayback(musicViewModel)
+            AnimatedVisibility(
+                visible = musicViewModel.selectedMusic != null,
+                enter = slideInVertically(initialOffsetY = { fullHeight -> fullHeight })
+            ) {
+                BottomPlayback(musicViewModel)
+            }
         }
     )
 }
