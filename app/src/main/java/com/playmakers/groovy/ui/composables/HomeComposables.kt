@@ -150,7 +150,7 @@ fun MusicList(music : Music, onItemClick: (Music) -> Unit){
 }
 
 @Composable
-fun MiniHeading(){
+fun MiniHeading(totalMusic : Int){
     Row(
         Modifier
             .fillMaxWidth()
@@ -167,7 +167,7 @@ fun MiniHeading(){
         Spacer(modifier = Modifier.weight(1f))
 
         Text(
-            text = "278 Songs",
+            text = "$totalMusic Songs",
             style = MaterialTheme.typography.labelMedium,
         )
     }
@@ -306,14 +306,14 @@ private fun PlaybackScreen(
         }
 
         Text(
-            text = musicViewModel.selectedMusic?.title ?: " Loading ... ",
+            text = musicViewModel.selectedMusic?.title ?: "Unknown title",
             modifier = Modifier.align(Alignment.CenterHorizontally),
             style = MaterialTheme.typography.titleLarge,
             maxLines = 1
         )
 
         Text(
-            text = "Music Artist • Music album",
+            text = "${musicViewModel.selectedMusic?.artist ?: "Unknown artist"} • ${musicViewModel.selectedMusic?.album ?: "Unknown album"}",
             modifier = Modifier.align(Alignment.CenterHorizontally),
             maxLines = 1
         )
@@ -376,14 +376,10 @@ private fun MusicSlider() {
     }
 }
 
-// @Preview(showBackground = true)
 @Composable
 private fun PlaybackControl(
     musicViewModel: MusicViewModel
 ){
-    val playbackViewModel: PlaybackViewModel = viewModel()
-    val isPlaying = playbackViewModel.isPlayingState.value
-
     Row (
         Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,

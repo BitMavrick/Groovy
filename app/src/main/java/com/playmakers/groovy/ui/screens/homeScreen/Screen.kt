@@ -47,7 +47,7 @@ fun HomeScreen(musicViewModel: MusicViewModel) {
                 contentPadding = innerPadding
             ) {
                 item {
-                    MiniHeading()
+                    MiniHeading(musicFiles.size)
                 }
                 
                 items(count = musicFiles.size) { it ->
