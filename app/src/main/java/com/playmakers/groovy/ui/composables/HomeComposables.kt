@@ -232,13 +232,13 @@ fun BottomPlayback(
                             .align(Alignment.CenterVertically)
                     ) {
                         Text(
-                            text = "Music Title",
+                            text = musicViewModel.selectedMusic?.title ?: " Loading ... ",
                             style = MaterialTheme.typography.bodyLarge,
                             maxLines = 1
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "Music Artist",
+                            text = musicViewModel.selectedMusic?.artist ?: " Loading ... ",
                             style = MaterialTheme.typography.bodyMedium,
                             maxLines = 1
                         )
@@ -276,8 +276,6 @@ fun BottomPlayback(
                             }
                         }
                         */
-
-
                     }
                 }
             }
