@@ -389,7 +389,9 @@ private fun PlaybackControl(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ){
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = {
+            musicViewModel.onPreviousClick()
+        }) {
             Icon(
                 imageVector = Icons.Rounded.SkipPrevious,
                 contentDescription = null,
@@ -421,8 +423,9 @@ private fun PlaybackControl(
             }
         }
 
-
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = {
+            musicViewModel.onNextClick()
+        }) {
             Icon(
                 imageVector = Icons.Rounded.SkipNext,
                 contentDescription = null,
