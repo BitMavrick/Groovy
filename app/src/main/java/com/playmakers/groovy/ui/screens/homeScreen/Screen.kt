@@ -60,7 +60,7 @@ fun HomeScreen(musicViewModel: MusicViewModel) {
         },
 
         bottomBar = {
-            BottomPlayback()
+            BottomPlayback(musicViewModel)
         }
     )
 }

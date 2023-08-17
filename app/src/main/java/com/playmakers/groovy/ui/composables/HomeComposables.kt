@@ -56,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playmakers.groovy.R
 import com.playmakers.groovy.data.Music
+import com.playmakers.groovy.ui.screens.homeScreen.MusicViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -175,100 +176,108 @@ fun MiniHeading(){
 }
 
 @Composable
-fun BottomPlayback() {
+fun BottomPlayback(
+    musicViewModel: MusicViewModel
+) {
     val playbackViewModel: PlaybackViewModel = viewModel()
     val isExpanded = playbackViewModel.isExpandedState.value
     val isPlaying = playbackViewModel.isPlayingState.value
 
     val context = LocalContext.current
 
-    Modifier.fillMaxWidth()
+    if(musicViewModel.selectedMusic != null){
+        Modifier.fillMaxWidth()
 
-    Card(
-        Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
-        )
-    ) {
-        Row(
-            if(isExpanded){
-                Modifier
-                    .animateContentSize()
-                    .fillMaxSize()
-
-            }else{
-                Modifier
-                    .clickable {
-                        playbackViewModel.toggleExpandState()
-                    }
-                    .animateContentSize()
-                    .fillMaxWidth()
-                    .height(86.dp)
-                    .padding(vertical = 16.dp, horizontal = 16.dp)
-            }
-        ){
-            if(isExpanded){
-                // The Playback screen will be here
-                PlaybackScreen()
-            }else{
-                Box(
-                    Modifier.clip(RoundedCornerShape(5.dp))
-                ){
-                    Image(
-                        painter = painterResource(R.drawable.album_art),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.aspectRatio(1f)
-                    )
-                }
-
-                Column(
+        Card(
+            Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainer
+            )
+        ) {
+            Row(
+                if(isExpanded){
                     Modifier
-                        .padding(start = 16.dp)
-                        .align(Alignment.CenterVertically)
-                ) {
-                    Text(
-                        text = "Music Title",
-                        style = MaterialTheme.typography.bodyLarge,
-                        maxLines = 1
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Music Artist",
-                        style = MaterialTheme.typography.bodyMedium,
-                        maxLines = 1
-                    )
+                        .animateContentSize()
+                        .fillMaxSize()
+
+                }else{
+                    Modifier
+                        .clickable {
+                            playbackViewModel.toggleExpandState()
+                        }
+                        .animateContentSize()
+                        .fillMaxWidth()
+                        .height(86.dp)
+                        .padding(vertical = 16.dp, horizontal = 16.dp)
                 }
+            ){
+                if(isExpanded){
+                    // The Playback screen will be here
+                    PlaybackScreen()
+                }else{
+                    Box(
+                        Modifier.clip(RoundedCornerShape(5.dp))
+                    ){
+                        Image(
+                            painter = painterResource(R.drawable.album_art),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.aspectRatio(1f)
+                        )
+                    }
 
-                Spacer(modifier = Modifier.weight(1f))
+                    Column(
+                        Modifier
+                            .padding(start = 16.dp)
+                            .align(Alignment.CenterVertically)
+                    ) {
+                        Text(
+                            text = "Music Title",
+                            style = MaterialTheme.typography.bodyLarge,
+                            maxLines = 1
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Music Artist",
+                            style = MaterialTheme.typography.bodyMedium,
+                            maxLines = 1
+                        )
+                    }
 
-                Box(modifier = Modifier.align(Alignment.CenterVertically)
-                ){
-                    if(isPlaying){
-                        IconButton(onClick = {
-                            // musicPlayer.pauseMusic()
-                            // musicViewModel.pauseMusic()
-                            playbackViewModel.togglePlayState()
-                        }) {
-                            Icon(
-                                imageVector = Icons.Rounded.Pause,
-                                contentDescription = null,
-                                modifier = Modifier.size(40.dp)
-                            )
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Box(modifier = Modifier.align(Alignment.CenterVertically)
+                    ){
+                        /*
+                        if(isPlaying){
+                            IconButton(onClick = {
+                                // musicPlayer.pauseMusic()
+                                // musicViewModel.pauseMusic()
+                                playbackViewModel.togglePlayState()
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Pause,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(40.dp)
+                                )
+                            }
+
+                        }else{
+                            IconButton(onClick = {
+                                // musicPlayer.resumeMusic()
+                                // musicViewModel.resumeMusic()
+                                playbackViewModel.togglePlayState()
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Rounded.PlayArrow,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(40.dp)
+                                )
+                            }
                         }
+                        */
 
-                    }else{
-                        IconButton(onClick = {
-                            // musicPlayer.resumeMusic()
-                            // musicViewModel.resumeMusic()
-                            playbackViewModel.togglePlayState()
-                        }) {
-                            Icon(
-                                imageVector = Icons.Rounded.PlayArrow,
-                                contentDescription = null,
-                                modifier = Modifier.size(40.dp)
-                            )
-                        }
+
                     }
                 }
             }

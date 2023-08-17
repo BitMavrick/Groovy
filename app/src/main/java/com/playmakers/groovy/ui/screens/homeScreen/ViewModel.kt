@@ -43,7 +43,7 @@ class MusicViewModel @Inject constructor(
 
     private var isMusicPlay: Boolean = false
 
-    private var selectedMusic: Music? by mutableStateOf(null)
+    var selectedMusic: Music? by mutableStateOf(null)
         private set
 
     private var selectedMusicIndex: Int by mutableStateOf(-1)
