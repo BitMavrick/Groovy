@@ -14,7 +14,6 @@ data class Music(
     val contentUri: Uri?,
     var isSelected: Boolean = false,
     var state: PlayerStates = STATE_IDLE
-
 )
 
 val dummyMusicList = listOf(
