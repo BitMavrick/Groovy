@@ -2,8 +2,6 @@ package com.playmakers.groovy.stateModel
 
 import androidx.lifecycle.ViewModel
 import com.playmakers.groovy.model.Music
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 class MainViewModel(private val musicList: List<Music>) : ViewModel(){
     fun getMusic() : List<Music> {

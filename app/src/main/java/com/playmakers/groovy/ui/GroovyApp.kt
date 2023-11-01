@@ -1,8 +1,6 @@
 package com.playmakers.groovy.ui
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,11 +19,13 @@ fun GroovyApp() {
         Modifier.fillMaxSize()
     ){
         item{
+            Text(text = "Hello This is Groovy Music")
+        }
+
+        item{
             for(music in mainViewModel.getMusic()){
                 Text(text = music.title)
             }
         }
     }
-    
-
 }
