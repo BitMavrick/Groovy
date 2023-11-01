@@ -53,7 +53,7 @@ fun getMusic(context: Context) : List<Music>{
             )
 
             val music = Music(
-                id = id,
+                id = id.toString(),
                 title = title,
                 artist = artist,
                 album = album,
