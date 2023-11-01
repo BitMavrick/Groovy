@@ -1,10 +1,11 @@
 @file:Suppress("NAME_SHADOWING")
 
-package com.playmakers.groovy.model
+package com.playmakers.groovy.service
 
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
+import com.playmakers.groovy.model.Music
 
 fun getMusic(context: Context) : List<Music>{
 
