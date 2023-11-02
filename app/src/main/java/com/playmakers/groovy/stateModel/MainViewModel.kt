@@ -6,7 +6,8 @@ import com.playmakers.groovy.model.Music
 
 class MainViewModel(
     private val musicList: List<Music>,
-    private val playMusic: PlayMusic
+
+    private val playMusic: PlayMusic,
 ) : ViewModel() {
 
     fun getMusic() : List<Music> {
