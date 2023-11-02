@@ -10,7 +10,8 @@ object GroovyViewModelProvider{
     val Factory = viewModelFactory {
         initializer {
             MainViewModel(
-                GroovyApplication().musicList
+                GroovyApplication().musicList,
+                GroovyApplication().playMusic
             )
         }
     }
