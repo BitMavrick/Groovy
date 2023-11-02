@@ -11,7 +11,10 @@ object GroovyViewModelProvider{
         initializer {
             MainViewModel(
                 GroovyApplication().musicList,
-                GroovyApplication().playMusic
+                GroovyApplication().addMusic,
+                GroovyApplication().playMusic,
+                GroovyApplication().resumeMusic,
+                GroovyApplication().pauseMusic
             )
         }
     }
