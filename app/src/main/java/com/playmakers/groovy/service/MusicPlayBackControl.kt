@@ -67,13 +67,13 @@ class MusicPlayBackControl(context: Context) : PlayBackControl {
     override fun addMediaItems(musics: List<Music>) {
         val mediaItems = musics.map {
             MediaItem.Builder()
-                .setMediaId(it.contentUri.toString())
-                .setUri(it.contentUri.toString())
+                .setMediaId(it.source)
+                .setUri(it.source)
                 .setMediaMetadata(
                     MediaMetadata.Builder()
                         .setTitle(it.title)
                         .setArtist(it.artist)
-                        .setArtworkUri(Uri.parse(it.contentUri.toString()))
+                        .setArtworkUri(Uri.parse(it.image))
                         .build()
                 )
                 .build()

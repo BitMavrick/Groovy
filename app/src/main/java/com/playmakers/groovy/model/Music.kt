@@ -7,10 +7,8 @@ data class Music (
     val id: String,
     val title: String,
     val artist: String,
-    val album: String,
-    val duration: Long,
-    val path: String,
-    val contentUri: Uri?,
+    val source: String,
+    val image: String
 )
 
 // TODO: >>>>>>>>>> The toMusic function have some serious integration bug, we have to fix this <<<<<<<<<<
@@ -19,8 +17,6 @@ fun MediaItem.toMusic() =
         id = mediaId,
         title = mediaMetadata.title.toString(),
         artist = mediaMetadata.artist.toString(),
-        album = mediaMetadata.albumTitle.toString(),
-        duration = 0L,
-        path = "No Path",
-        contentUri = null
+        source = mediaId,
+        image = mediaMetadata.artworkUri.toString()
     )

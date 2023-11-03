@@ -1,5 +1,6 @@
 package com.playmakers.groovy.stateModel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -24,7 +25,7 @@ class MainViewModel(
 
         addMusic(musicList)
 
-        mainUiState.copy(
+        mainUiState = mainUiState.copy(
             loading = false,
             musics = musicList
         )
@@ -41,7 +42,7 @@ class MainViewModel(
             MainEvent.PauseMusic -> pauseMusic()
 
             is MainEvent.OnMusicSelected -> {
-
+                mainUiState = mainUiState.copy(selectedMusic = event.selectedMusic)
             }
         }
     }
@@ -52,6 +53,7 @@ class MainViewModel(
                 playMusic(it)
             }
         }
+        //Log.d("PlayMusic", "In THE PLAY MUSIC FUNCTION!!")
     }
 
     private fun resumeMusic() {

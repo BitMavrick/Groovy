@@ -56,10 +56,8 @@ fun getMusic(context: Context) : List<Music>{
                 id = id.toString(),
                 title = title,
                 artist = artist,
-                album = album,
-                duration = duration,
-                path = path,
-                contentUri = contentUri
+                source = path,
+                image = path
             )
 
             musicList.add(music)
