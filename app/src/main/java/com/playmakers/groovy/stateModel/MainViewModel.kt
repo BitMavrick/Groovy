@@ -41,19 +41,21 @@ class MainViewModel(
             MainEvent.PauseMusic -> pauseMusic()
 
             is MainEvent.OnMusicSelected -> {
-                Log.d("SelectedMusic", "SELECTED MUSIC ID : ${event.selectedMusic.id}")
+                Log.d("Debug", "SELECTED MUSIC TITLE : ${event.selectedMusic.title}")
                 mainUiState = mainUiState.copy(selectedMusic = event.selectedMusic)
             }
         }
     }
 
     private fun playMusic() {
+
+
         mainUiState.apply {
             musics?.indexOf(selectedMusic)?.let {
                 playMusic(it)
+                Log.d("Debug", "In THE PLAY MUSIC FUNCTION!! ${it.toString()}")
             }
         }
-        //Log.d("PlayMusic", "In THE PLAY MUSIC FUNCTION!!")
     }
 
     private fun resumeMusic() {

@@ -40,6 +40,7 @@ fun GroovyApp() {
                     onClick = {
                         event(MainEvent.OnMusicSelected(music))
                         event(MainEvent.PlayMusic)
+                        event(MainEvent.PlayMusic)
                     }
                 ) {
                     Text(
