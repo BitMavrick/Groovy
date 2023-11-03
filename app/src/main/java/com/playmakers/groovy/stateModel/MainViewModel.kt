@@ -18,8 +18,7 @@ class MainViewModel(
     private val resumeMusic: ResumeMusic,
     private val pauseMusic: PauseMusic
 ) : ViewModel() {
-    var mainUiState by mutableStateOf(MainUiState())
-        private set
+    private var mainUiState by mutableStateOf(MainUiState())
 
     fun getMusic() : List<Music> {
 
@@ -42,6 +41,7 @@ class MainViewModel(
             MainEvent.PauseMusic -> pauseMusic()
 
             is MainEvent.OnMusicSelected -> {
+                Log.d("SelectedMusic", "SELECTED MUSIC ID : ${event.selectedMusic.id}")
                 mainUiState = mainUiState.copy(selectedMusic = event.selectedMusic)
             }
         }
