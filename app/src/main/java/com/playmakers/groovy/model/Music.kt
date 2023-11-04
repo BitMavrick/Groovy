@@ -11,7 +11,6 @@ data class Music (
     val image: String
 )
 
-// TODO: >>>>>>>>>> The toMusic function have some serious integration bug, we have to fix this <<<<<<<<<<
 fun MediaItem.toMusic() =
     Music(
         id = mediaId,

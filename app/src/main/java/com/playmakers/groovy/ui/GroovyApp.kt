@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -39,7 +38,6 @@ fun GroovyApp() {
                 Card(
                     onClick = {
                         event(MainEvent.OnMusicSelected(music))
-                        event(MainEvent.PlayMusic)
                         event(MainEvent.PlayMusic)
                     }
                 ) {
