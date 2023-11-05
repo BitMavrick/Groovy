@@ -5,11 +5,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.playmakers.groovy.control.AddMusic
 import com.playmakers.groovy.control.PauseMusic
 import com.playmakers.groovy.control.PlayMusic
 import com.playmakers.groovy.control.ResumeMusic
 import com.playmakers.groovy.model.Music
+import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val musicList: List<Music>,
@@ -29,8 +31,23 @@ class MainViewModel(
             musics = musicList
         )
 
+
         return musicList
     }
+
+//    init {
+//        setupMusic()
+//    }
+//
+//    private fun setupMusic(){
+//        // mainUiState = mainUiState.copy(loading = true)
+//
+//        //viewModelScope.launch {
+//            Log.d("Debug", "GETTING THE MUSIC FILES ${musicList.size}")
+//
+//
+//        //}
+//    }
 
     fun onEvent(event: MainEvent){
         when (event) {
@@ -41,15 +58,13 @@ class MainViewModel(
             MainEvent.PauseMusic -> pauseMusic()
 
             is MainEvent.OnMusicSelected -> {
-                Log.d("Debug", "SELECTED MUSIC TITLE : ${event.selectedMusic.title}")
+                Log.d("Debug", "SELECTED MUSIC TITLE : ${event.selectedMusic.title} ID: ${event.selectedMusic.id}")
                 mainUiState = mainUiState.copy(selectedMusic = event.selectedMusic)
             }
         }
     }
 
     private fun playMusic() {
-
-
         mainUiState.apply {
             musics?.indexOf(selectedMusic)?.let {
                 playMusic(it)
