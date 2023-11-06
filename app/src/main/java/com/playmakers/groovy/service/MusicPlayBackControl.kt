@@ -3,6 +3,7 @@ package com.playmakers.groovy.service
 import android.content.ComponentName
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
@@ -83,6 +84,7 @@ class MusicPlayBackControl(context: Context) : PlayBackControl {
     }
 
     override fun play(mediaItemIndex: Int) {
+        Log.d("Debug", "PLAYING MEDIA ID: $mediaItemIndex")
         mediaController?.apply {
             seekToDefaultPosition(mediaItemIndex)
             playWhenReady = true

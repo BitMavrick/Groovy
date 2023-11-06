@@ -23,31 +23,17 @@ class MainViewModel(
     private var mainUiState by mutableStateOf(MainUiState())
 
     fun getMusic() : List<Music> {
+        return musicList
+    }
 
+    fun updateMusic(){
         addMusic(musicList)
 
         mainUiState = mainUiState.copy(
             loading = false,
             musics = musicList
         )
-
-
-        return musicList
     }
-
-//    init {
-//        setupMusic()
-//    }
-//
-//    private fun setupMusic(){
-//        // mainUiState = mainUiState.copy(loading = true)
-//
-//        //viewModelScope.launch {
-//            Log.d("Debug", "GETTING THE MUSIC FILES ${musicList.size}")
-//
-//
-//        //}
-//    }
 
     fun onEvent(event: MainEvent){
         when (event) {
@@ -68,7 +54,7 @@ class MainViewModel(
         mainUiState.apply {
             musics?.indexOf(selectedMusic)?.let {
                 playMusic(it)
-                Log.d("Debug", "In THE PLAY MUSIC FUNCTION!! ${it.toString()}")
+                Log.d("Debug", "IN THE PLAY MUSIC FUNCTION!! $it")
             }
         }
     }

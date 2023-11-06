@@ -1,5 +1,6 @@
 package com.playmakers.groovy.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,11 +18,19 @@ import com.playmakers.groovy.stateModel.MainViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GroovyApp() {
+
     val mainViewModel: MainViewModel = viewModel(
         factory = GroovyViewModelProvider.Factory
     )
 
+
+        Log.d("Debug", "-- UPDATE MUSIC --")
+        mainViewModel.updateMusic()
+
+
+
     val event = mainViewModel::onEvent
+    val musicList = mainViewModel.getMusic()
 
     LazyColumn(
         Modifier.fillMaxSize()
@@ -34,7 +43,8 @@ fun GroovyApp() {
         }
 
         item{
-            for(music in mainViewModel.getMusic()){
+            for(music in musicList){ // TODO: Maybe here's the problem
+                Log.d("Debug", "COMPOSABLE GET MUSIC -- RUNNING --")
                 Card(
                     onClick = {
                         event(MainEvent.OnMusicSelected(music))
