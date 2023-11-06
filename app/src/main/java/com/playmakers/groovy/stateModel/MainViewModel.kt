@@ -23,17 +23,21 @@ class MainViewModel(
     private var mainUiState by mutableStateOf(MainUiState())
 
     fun getMusic() : List<Music> {
+        addMusic(musicList)
         return musicList
     }
 
-    fun updateMusic(){
-        addMusic(musicList)
+//    init {
+//        addMusic(musicList)
+//    }
+//
+//    fun updateMusic(){
+//        mainUiState = mainUiState.copy(
+//            loading = false,
+//            musics = musicList
+//        )
+//    }
 
-        mainUiState = mainUiState.copy(
-            loading = false,
-            musics = musicList
-        )
-    }
 
     fun onEvent(event: MainEvent){
         when (event) {
@@ -57,6 +61,11 @@ class MainViewModel(
                 Log.d("Debug", "IN THE PLAY MUSIC FUNCTION!! $it")
             }
         }
+    }
+
+    fun play(int: Int){
+        addMusic(musicList)
+        playMusic(int)
     }
 
     private fun resumeMusic() {

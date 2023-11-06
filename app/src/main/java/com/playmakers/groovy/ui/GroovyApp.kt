@@ -23,11 +23,8 @@ fun GroovyApp() {
         factory = GroovyViewModelProvider.Factory
     )
 
-
-        Log.d("Debug", "-- UPDATE MUSIC --")
-        mainViewModel.updateMusic()
-
-
+//    Log.d("Debug", "-- UPDATE MUSIC --")
+//    mainViewModel.updateMusic()
 
     val event = mainViewModel::onEvent
     val musicList = mainViewModel.getMusic()
@@ -43,12 +40,13 @@ fun GroovyApp() {
         }
 
         item{
-            for(music in musicList){ // TODO: Maybe here's the problem
+            for((index, music) in musicList.withIndex()){ // TODO: Maybe here's the problem
                 Log.d("Debug", "COMPOSABLE GET MUSIC -- RUNNING --")
                 Card(
                     onClick = {
-                        event(MainEvent.OnMusicSelected(music))
-                        event(MainEvent.PlayMusic)
+                        //event(MainEvent.OnMusicSelected(music))
+                        //event(MainEvent.PlayMusic)
+                        mainViewModel.play(index)
                     }
                 ) {
                     Text(
