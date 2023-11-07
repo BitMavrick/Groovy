@@ -29,7 +29,6 @@ class MusicPlayBackService : MediaSessionService() {
             .build()
     }
 
-
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo) = mediaSession
 
     override fun onDestroy() {

@@ -24,6 +24,12 @@ class MainViewModel(
 
     fun getMusic() : List<Music> {
         addMusic(musicList)
+
+        mainUiState = mainUiState.copy(
+            loading = false,
+            musics = musicList
+        )
+
         return musicList
     }
 
