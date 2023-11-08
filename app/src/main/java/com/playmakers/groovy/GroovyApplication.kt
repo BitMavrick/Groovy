@@ -7,6 +7,7 @@ import com.playmakers.groovy.control.PlayMusic
 import com.playmakers.groovy.control.ResumeMusic
 import com.playmakers.groovy.model.Music
 import com.playmakers.groovy.model.PlayBackControl
+import com.playmakers.groovy.model.PlayerState
 import com.playmakers.groovy.service.MusicPlayBackControl
 import com.playmakers.groovy.service.getMusic
 

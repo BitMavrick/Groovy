@@ -54,7 +54,6 @@ class MainViewModel(
             MainEvent.PauseMusic -> pauseMusic()
 
             is MainEvent.OnMusicSelected -> {
-                Log.d("Debug", "SELECTED MUSIC TITLE : ${event.selectedMusic.title} ID: ${event.selectedMusic.id}")
                 mainUiState = mainUiState.copy(selectedMusic = event.selectedMusic)
             }
         }

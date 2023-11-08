@@ -23,7 +23,11 @@ class MusicPlayBackService : MediaSessionService() {
     override fun onCreate(){
         super.onCreate()
 
-        initExoPlayer()
+        if (!::exoPlayer.isInitialized) {
+            Log.d("Debug", "EXOPLAYER IS INITIALIZED!")
+            initExoPlayer()
+        }
+
         mediaSession = MediaSession.Builder(this, exoPlayer)
             .setCallback(MediaSessionCallback())
             .build()

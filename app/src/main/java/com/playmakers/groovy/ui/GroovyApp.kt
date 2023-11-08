@@ -41,12 +41,11 @@ fun GroovyApp() {
 
         item{
             for((index, music) in musicList.withIndex()){
-                Log.d("Debug", "COMPOSABLE GET MUSIC -- RUNNING --")
                 Card(
                     onClick = {
-                        event(MainEvent.OnMusicSelected(music))
-                        event(MainEvent.PlayMusic)
-                        //mainViewModel.play(index)
+                        // event(MainEvent.OnMusicSelected(music))
+                        // event(MainEvent.PlayMusic)
+                        mainViewModel.play(index)
                     }
                 ) {
                     Text(
