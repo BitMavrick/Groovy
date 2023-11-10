@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playmakers.groovy.control.AddMusic
+import com.playmakers.groovy.control.DestroyMusicPlayBackControl
 import com.playmakers.groovy.control.PauseMusic
 import com.playmakers.groovy.control.PlayMusic
 import com.playmakers.groovy.control.ResumeMusic
@@ -18,7 +19,8 @@ class MainViewModel(
     private val addMusic: AddMusic,
     private val playMusic: PlayMusic,
     private val resumeMusic: ResumeMusic,
-    private val pauseMusic: PauseMusic
+    private val pauseMusic: PauseMusic,
+    private val destroyController: DestroyMusicPlayBackControl
 ) : ViewModel() {
     private var mainUiState by mutableStateOf(MainUiState())
 
@@ -79,5 +81,9 @@ class MainViewModel(
 
     private fun pauseMusic() {
         pauseMusic()
+    }
+
+    fun destroyMediaController(){
+        destroyController()
     }
 }

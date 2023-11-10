@@ -14,7 +14,8 @@ object GroovyViewModelProvider{
                 GroovyApplication().addMusic,
                 GroovyApplication().playMusic,
                 GroovyApplication().resumeMusic,
-                GroovyApplication().pauseMusic
+                GroovyApplication().pauseMusic,
+                GroovyApplication().destroyMusic
             )
         }
     }

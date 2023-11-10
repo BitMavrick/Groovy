@@ -1,14 +1,17 @@
 package com.playmakers.groovy
 
 import android.app.Application
+import android.content.Intent
+import android.util.Log
 import com.playmakers.groovy.control.AddMusic
+import com.playmakers.groovy.control.DestroyMusicPlayBackControl
 import com.playmakers.groovy.control.PauseMusic
 import com.playmakers.groovy.control.PlayMusic
 import com.playmakers.groovy.control.ResumeMusic
 import com.playmakers.groovy.model.Music
 import com.playmakers.groovy.model.PlayBackControl
-import com.playmakers.groovy.model.PlayerState
 import com.playmakers.groovy.service.MusicPlayBackControl
+import com.playmakers.groovy.service.MusicPlayBackService
 import com.playmakers.groovy.service.getMusic
 
 class GroovyApplication : Application() {
@@ -19,6 +22,7 @@ class GroovyApplication : Application() {
     lateinit var playMusic: PlayMusic
     lateinit var resumeMusic: ResumeMusic
     lateinit var pauseMusic: PauseMusic
+    lateinit var destroyMusic: DestroyMusicPlayBackControl
 
     override fun onCreate() {
         super.onCreate()
@@ -29,5 +33,6 @@ class GroovyApplication : Application() {
         playMusic = PlayMusic(playBackControl)
         resumeMusic = ResumeMusic(playBackControl)
         pauseMusic = PauseMusic(playBackControl)
+        destroyMusic = DestroyMusicPlayBackControl(playBackControl)
     }
 }
