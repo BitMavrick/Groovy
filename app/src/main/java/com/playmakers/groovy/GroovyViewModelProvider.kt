@@ -15,6 +15,8 @@ object GroovyViewModelProvider{
                 GroovyApplication().playMusic,
                 GroovyApplication().resumeMusic,
                 GroovyApplication().pauseMusic,
+                GroovyApplication().setMediaControlCallBack,
+                GroovyApplication().currentMediaPosition,
                 GroovyApplication().destroyMusic
             )
         }
