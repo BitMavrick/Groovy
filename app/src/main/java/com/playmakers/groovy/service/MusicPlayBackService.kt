@@ -24,7 +24,6 @@ class MusicPlayBackService : MediaSessionService() {
         super.onCreate()
 
         initExoPlayer()
-
         mediaSession = MediaSession.Builder(this, exoPlayer)
             .setCallback(MediaSessionCallback())
             .build()
