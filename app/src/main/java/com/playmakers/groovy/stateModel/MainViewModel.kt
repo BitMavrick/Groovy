@@ -109,7 +109,7 @@ class MainViewModel(
         pauseMusic()
     }
 
-//    fun destroyMediaController(){
-//        destroyController()
-//    }
+    fun destroyMediaController(){
+        destroyController()
+    }
 }
