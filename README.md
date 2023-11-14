@@ -8,16 +8,16 @@ Groovy is a sleek and intuitive offline music player app designed to provide an 
 ### Key Features:
 * Latest material 3 Design.
 * Dynamic theme support.
-* Enabled Backgroud servies for music playback.
 * Native android app.
 
 ### Build With:
-* Kotlin
+* Native Kotlin
 * Jetpack Compose
-* Material Design 3
+* Media3 With Exoplayer
+* Foreground Services & Runtime Permissions Enabled
 
 ### Compatibility:
-* Andorid Version 7.0 (Nougat) or higher
+* Android Version 7.0 (Nougat) or higher
 
 Note: To get the updated code, Please follow the version number in the branch.
 
