@@ -19,7 +19,7 @@ Groovy is a sleek and intuitive offline music player app designed to provide an 
 ### Compatibility:
 * Android Version 7.0 (Nougat) or higher
 
-Note: To get the updated code, Please follow the version number in the branch.
+Note: To get the updated code, Please follow the version number in the branch. To run a test, Please select the STABLE branches, others are not perfectly coded
 
 
 
