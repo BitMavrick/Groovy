@@ -85,4 +85,8 @@ dependencies {
     // -> Media3 Exoplayer
     implementation ("androidx.media3:media3-exoplayer:1.1.1")
     implementation ("androidx.media3:media3-session:1.1.1")
+
+    // -> LottieFiles Animations
+    implementation ("com.airbnb.android:lottie:3.7.0")
+
 }
