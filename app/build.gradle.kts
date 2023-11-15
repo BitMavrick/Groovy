@@ -70,6 +70,9 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    // -> Compose Material Icons Extended
+    implementation ("androidx.compose.material:material-icons-extended:1.5.4")
+
     // -> ViewModel Compose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
@@ -79,7 +82,7 @@ dependencies {
     kapt("androidx.hilt:hilt-compiler:1.1.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
-    // -> Media3
+    // -> Media3 Exoplayer
     implementation ("androidx.media3:media3-exoplayer:1.1.1")
     implementation ("androidx.media3:media3-session:1.1.1")
 }
