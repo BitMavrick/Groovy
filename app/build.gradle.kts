@@ -87,6 +87,6 @@ dependencies {
     implementation ("androidx.media3:media3-session:1.1.1")
 
     // -> LottieFiles Animations
-    implementation ("com.airbnb.android:lottie:3.7.0")
+    implementation ("com.airbnb.android:lottie-compose:6.0.0")
 
 }
