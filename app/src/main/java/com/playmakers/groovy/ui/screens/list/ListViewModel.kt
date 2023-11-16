@@ -1,6 +1,5 @@
 package com.playmakers.groovy.ui.screens.list
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playmakers.groovy.domain.model.Music
