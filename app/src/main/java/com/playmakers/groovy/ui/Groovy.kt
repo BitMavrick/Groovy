@@ -17,7 +17,7 @@ import com.playmakers.groovy.ui.screens.list.ListViewModel
 @Composable
 fun Groovy(){
     hiltViewModel<ListViewModel>()
-    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.permission))
+    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.intro))
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -26,7 +26,7 @@ fun Groovy(){
     ) {
         LottieAnimation(
             composition = composition,
-            iterations = 100,
+            iterations = 200,
         )
     }
 }

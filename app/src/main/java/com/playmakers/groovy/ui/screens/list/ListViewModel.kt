@@ -13,7 +13,6 @@ class ListViewModel @Inject constructor (
     private val musicRepository: MusicRepository
 ): ViewModel() {
     private var musicList: List<Music> = emptyList()
-
     init {
         viewModelScope.launch {
             musicList = musicRepository.getMusicFiles()
