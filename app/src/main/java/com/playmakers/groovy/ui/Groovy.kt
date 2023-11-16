@@ -3,6 +3,7 @@ package com.playmakers.groovy.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -17,7 +18,6 @@ import com.playmakers.groovy.ui.screens.list.ListViewModel
 @Composable
 fun Groovy(){
     val viewModel = hiltViewModel<ListViewModel>()
-
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.permission))
 
     Column(

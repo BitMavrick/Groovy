@@ -18,10 +18,6 @@ class ListViewModel @Inject constructor (
     init {
         viewModelScope.launch {
             musicList = musicRepository.getMusicFiles()
-
-            for(music in musicList){
-                Log.d("Music", "Music title: ${music.title}")
-            }
         }
     }
 }
