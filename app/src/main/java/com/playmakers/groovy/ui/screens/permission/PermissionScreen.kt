@@ -41,8 +41,10 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.playmakers.groovy.R
+import com.playmakers.groovy.ui.screens.list.ListScreen
 import com.playmakers.groovy.ui.util.AudioPermissionTextProvider
 import com.playmakers.groovy.ui.util.PermissionDialogScreen
+import kotlinx.coroutines.delay
 
 @Composable
 fun PermissionScreen(
@@ -52,9 +54,12 @@ fun PermissionScreen(
     val viewModel = viewModel<PermissionViewModel>()
     val dialogQueue = viewModel.visiblePermissionDialogQueue
     var isVisible by remember { mutableStateOf(false) }
+    var isVisibleButton by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         isVisible = true
+        delay(2000L)
+        isVisibleButton = true
     }
 
     var isPermissionGranted by remember {
@@ -69,7 +74,6 @@ fun PermissionScreen(
 
             if(isGranted){
                 isPermissionGranted = true
-                // onAudioPermissionGranted()
             }
 
             viewModel.onPermissionResult(
@@ -80,7 +84,7 @@ fun PermissionScreen(
     )
 
     if (isPermissionGranted){
-        // HomeScreen(musicViewModel)
+        ListScreen()
     }else{
 
         AnimatedVisibility(
@@ -119,17 +123,21 @@ fun PermissionScreen(
 
                 Spacer(modifier = Modifier.height(42.dp))
 
-                Button(
-                    onClick = {
-                        audioPermissionResultLauncher.launch(
-                            musicPermission()
+                AnimatedVisibility(
+                    visible = isVisibleButton,
+                ) {
+                    Button(
+                        onClick = {
+                            audioPermissionResultLauncher.launch(
+                                musicPermission()
+                            )
+                        }
+                    ) {
+                        Text(
+                            text = "Grant Permission",
+                            style = MaterialTheme.typography.titleMedium
                         )
                     }
-                ) {
-                    Text(
-                        text = "Grant Permission",
-                        style = MaterialTheme.typography.titleMedium
-                    )
                 }
             }
         }
