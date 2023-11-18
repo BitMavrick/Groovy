@@ -10,6 +10,9 @@ import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.TweenSpec
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +23,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,6 +50,12 @@ fun PermissionScreen(
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.intro))
     val viewModel = viewModel<PermissionViewModel>()
     val dialogQueue = viewModel.visiblePermissionDialogQueue
+    var isVisible by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        // Triggering the animation by changing the visibility state
+        isVisible = true
+    }
 
     var isPermissionGranted by remember {
         mutableStateOf(
@@ -73,45 +83,50 @@ fun PermissionScreen(
         // HomeScreen(musicViewModel)
     }else{
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Groovy Music",
-                style = MaterialTheme.typography.displaySmall
-            )
-
-            LottieAnimation(
-                composition = composition,
-                iterations = 100,
-            )
-
-            Text(
-                text = "Groovy needs audio access\npermission to play your music.",
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(42.dp))
-
-            Button(
-                onClick = {
-                    audioPermissionResultLauncher.launch(
-                        musicPermission()
-                    )
-                }
+        AnimatedVisibility(
+            visible = isVisible,
+            enter = fadeIn(animationSpec = TweenSpec(1000)),
+            modifier = Modifier.fillMaxSize()
+        ){
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Grant Permission",
-                    style = MaterialTheme.typography.titleMedium
+                    text = "Groovy Music",
+                    style = MaterialTheme.typography.displaySmall
                 )
+
+                LottieAnimation(
+                    composition = composition,
+                    iterations = 100,
+                )
+
+                Text(
+                    text = "Groovy needs audio access\npermission to play your music.",
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(modifier = Modifier.height(42.dp))
+
+                Button(
+                    onClick = {
+                        audioPermissionResultLauncher.launch(
+                            musicPermission()
+                        )
+                    }
+                ) {
+                    Text(
+                        text = "Grant Permission",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
             }
         }
-
     }
 
     dialogQueue.reversed().forEach { permission ->
