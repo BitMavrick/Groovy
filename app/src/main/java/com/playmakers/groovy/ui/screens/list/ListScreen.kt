@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -21,7 +22,14 @@ import com.playmakers.groovy.R
 
 @Composable
 fun ListScreen(){
-    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.not_found))
+    hiltViewModel<ListViewModel>()
+
+
+}
+
+/*
+
+val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.not_found))
 
     Column(
         modifier = Modifier
@@ -45,4 +53,5 @@ fun ListScreen(){
             textAlign = TextAlign.Center
         )
     }
-}
+
+ */
