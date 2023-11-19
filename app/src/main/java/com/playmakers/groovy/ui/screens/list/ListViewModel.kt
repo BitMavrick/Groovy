@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class ListViewModel @Inject constructor (
@@ -31,7 +32,7 @@ class ListViewModel @Inject constructor (
         }
 
         viewModelScope.launch {
-            delay(4000L)
+            delay(1.seconds)
             _listUiState.update {
                 it.copy(
                     musicList = musicRepository.getMusicFiles(),

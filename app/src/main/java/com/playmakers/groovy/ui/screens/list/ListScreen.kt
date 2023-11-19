@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -20,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
@@ -39,11 +41,7 @@ fun ListScreen(){
             Loading()
         }
         ListState.LOADED -> {
-            Text(
-                text = "Loaded Music",
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Center
-            )
+            MusicList()
         }
         ListState.NOT_FOUND -> {
             NotFound()
@@ -52,6 +50,7 @@ fun ListScreen(){
 }
 
 
+@Preview(showBackground = true)
 @Composable
 fun Loading(){
     Column(
@@ -61,8 +60,29 @@ fun Loading(){
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
+        LinearProgressIndicator(
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
         Text(
-            text = "Loading Music ...",
+            text = "Getting your music ...",
+            style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+fun MusicList(){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Text(
+            text = "Music loaded successfully!",
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
@@ -111,7 +131,6 @@ fun NotFound(){
             ) {
                 Text(
                     text = "Refresh",
-                    // color =
                 )
             }
         }
