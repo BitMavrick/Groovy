@@ -35,6 +35,7 @@ import kotlinx.coroutines.delay
 fun ListScreen(){
     val listViewModel = hiltViewModel<ListViewModel>()
     val listUiState = listViewModel.listUiState.collectAsState().value
+    val listEvent = listViewModel::onEvent
 
     when (listUiState.listState) {
         ListState.LOADING -> {
@@ -44,7 +45,11 @@ fun ListScreen(){
             MusicList()
         }
         ListState.NOT_FOUND -> {
-            NotFound()
+            NotFound(
+                onRefreshClick = {
+                    listEvent(ListEvent.RefreshList)
+                }
+            )
         }
     }
 }
@@ -91,7 +96,9 @@ fun MusicList(){
 
 
 @Composable
-fun NotFound(){
+fun NotFound(
+    onRefreshClick: () -> Unit
+){
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.not_found))
     var isArtVisible by remember { mutableStateOf(false) }
 
@@ -127,7 +134,9 @@ fun NotFound(){
         AnimatedVisibility(visible = isArtVisible){
             OutlinedButton(
                 modifier = Modifier.padding(top = 30.dp),
-                onClick = { /*TODO*/ }
+                onClick = {
+                    onRefreshClick()
+                }
             ) {
                 Text(
                     text = "Refresh",

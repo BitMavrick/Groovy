@@ -20,10 +20,6 @@ class ListViewModel @Inject constructor (
     private val _listUiState = MutableStateFlow(ListUiState())
     val listUiState: StateFlow<ListUiState> = _listUiState
 
-    init {
-        getMusicFiles()
-    }
-
     private fun getMusicFiles(){
         _listUiState.update {
             it.copy(
@@ -53,5 +49,15 @@ class ListViewModel @Inject constructor (
                 }
             }
         }
+    }
+
+    fun onEvent(event: ListEvent){
+        when(event){
+            ListEvent.RefreshList -> getMusicFiles()
+        }
+    }
+
+    init {
+        getMusicFiles()
     }
 }

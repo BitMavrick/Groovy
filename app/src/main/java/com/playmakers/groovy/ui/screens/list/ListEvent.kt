@@ -1,4 +1,5 @@
 package com.playmakers.groovy.ui.screens.list
 
-class ListEvent {
+sealed class ListEvent {
+    object RefreshList : ListEvent()
 }
