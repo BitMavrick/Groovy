@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,12 +20,46 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.playmakers.groovy.R
+import com.playmakers.groovy.ui.util.ListState
 
 @Composable
 fun ListScreen(){
-    hiltViewModel<ListViewModel>()
+    val listViewModel = hiltViewModel<ListViewModel>()
+    val listUiState = listViewModel.listUiState.collectAsState().value
 
-
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        if(listUiState.listState == ListState.LOADING){
+            Text(
+                text = "Loading Music",
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center
+            )
+        }else if(listUiState.listState == ListState.LOADED){
+            Text(
+                text = "Loaded Music",
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center
+            )
+        }else if(listUiState.listState == ListState.NOT_FOUND){
+            Text(
+                text = "Music Not Found",
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center
+            )
+        }else{
+            Text(
+                text = "Error!",
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
 }
 
 /*
