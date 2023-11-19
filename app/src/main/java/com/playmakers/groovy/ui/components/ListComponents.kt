@@ -56,7 +56,9 @@ fun MusicList(
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                onClick = { /* fab click handler */ }
+                onClick = {
+                    // TODO : Shuffle click event
+                }
             ) {
                 Icon(
                     imageVector = Icons.Default.Shuffle,
@@ -72,7 +74,7 @@ fun MusicList(
                 modifier = Modifier.consumeWindowInsets(innerPadding),
                 contentPadding = innerPadding
             ){
-                items(count = listMusic.size){it ->
+                items(count = listMusic.size){
                     MusicList(
                         listMusic[it],
                     )
@@ -131,7 +133,7 @@ fun MusicList(music : Music){
     Row(
         Modifier
             .clickable {
-                // TODO
+                // TODO : Music click event
             }
             .fillMaxWidth()
             .height(72.dp)
