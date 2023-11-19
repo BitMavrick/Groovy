@@ -28,6 +28,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.playmakers.groovy.R
+import com.playmakers.groovy.ui.components.MusicList
 import com.playmakers.groovy.ui.util.ListState
 import kotlinx.coroutines.delay
 
@@ -42,7 +43,9 @@ fun ListScreen(){
             Loading()
         }
         ListState.LOADED -> {
-            MusicList()
+            MusicList(
+                listMusic = listUiState.musicList
+            )
         }
         ListState.NOT_FOUND -> {
             NotFound(
@@ -71,23 +74,6 @@ fun Loading(){
 
         Text(
             text = "Getting your music ...",
-            style = MaterialTheme.typography.bodyLarge,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
-fun MusicList(){
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Text(
-            text = "Music loaded successfully!",
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
