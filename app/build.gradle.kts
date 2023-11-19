@@ -52,7 +52,6 @@ android {
 }
 
 dependencies {
-
     // -> Default sets of Dependencies
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
@@ -69,6 +68,9 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    // -> For Search NOTE: Search bar won't work without it
+    implementation("androidx.compose.material3:material3:1.2.0-alpha11")
 
     // -> Compose Material Icons Extended
     implementation ("androidx.compose.material:material-icons-extended:1.5.4")
@@ -88,5 +90,4 @@ dependencies {
 
     // -> LottieFiles Animations
     implementation ("com.airbnb.android:lottie-compose:6.0.0")
-
 }

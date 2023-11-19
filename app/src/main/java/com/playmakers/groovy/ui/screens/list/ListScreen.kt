@@ -1,5 +1,6 @@
 package com.playmakers.groovy.ui.screens.list
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
