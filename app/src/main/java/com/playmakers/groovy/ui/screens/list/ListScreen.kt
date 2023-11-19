@@ -1,6 +1,5 @@
 package com.playmakers.groovy.ui.screens.list
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -45,7 +44,7 @@ fun ListScreen(){
         }
         ListState.LOADED -> {
             MusicList(
-                // listMusic = listUiState.musicList
+                listMusic = listUiState.musicList
             )
         }
         ListState.NOT_FOUND -> {
