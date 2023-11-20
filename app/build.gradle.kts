@@ -24,7 +24,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -69,7 +69,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    // -> For Search NOTE: Search bar won't work without it
+    // -> For Search! NOTE: Search bar won't work without it
     implementation("androidx.compose.material3:material3:1.2.0-alpha11")
 
     // -> Compose Material Icons Extended
@@ -90,4 +90,7 @@ dependencies {
 
     // -> LottieFiles Animations
     implementation ("com.airbnb.android:lottie-compose:6.0.0")
+
+    // -> Coil : For image loading
+    implementation ("io.coil-kt:coil-compose:2.1.0")
 }
