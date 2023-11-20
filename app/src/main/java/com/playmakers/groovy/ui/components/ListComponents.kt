@@ -1,5 +1,8 @@
 package com.playmakers.groovy.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -29,8 +32,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,6 +48,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.playmakers.groovy.R
 import com.playmakers.groovy.domain.model.Music
+import kotlinx.coroutines.delay
 
 @Composable
 fun MusicList(
@@ -55,29 +61,53 @@ fun MusicList(
 
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = {
-                    // TODO : Shuffle click event
-                }
+
+            var isFABVisible by remember { mutableStateOf(false) }
+
+            LaunchedEffect(Unit){
+                delay(1500L)
+                isFABVisible = true
+            }
+
+            AnimatedVisibility(
+                visible = isFABVisible,
+                enter = slideInHorizontally (initialOffsetX = { it }), // Will make it horizontal
             ) {
-                Icon(
-                    imageVector = Icons.Default.Shuffle,
-                    contentDescription = null
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text("Shuffle")
+                ExtendedFloatingActionButton(
+                    onClick = {
+                        // TODO : Shuffle click event
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Shuffle,
+                        contentDescription = null
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Shuffle")
+                }
             }
         },
 
         content = { innerPadding ->
-            LazyColumn(
-                modifier = Modifier.consumeWindowInsets(innerPadding),
-                contentPadding = innerPadding
-            ){
-                items(count = listMusic.size){
-                    MusicList(
-                        listMusic[it],
-                    )
+            var isListVisible by remember { mutableStateOf(false) }
+
+            LaunchedEffect(Unit){
+                isListVisible = true
+            }
+
+            AnimatedVisibility(
+                visible = isListVisible,
+                enter = slideInVertically(initialOffsetY = { it }),
+            ) {
+                LazyColumn(
+                    modifier = Modifier.consumeWindowInsets(innerPadding),
+                    contentPadding = innerPadding
+                ){
+                    items(count = listMusic.size){
+                        MusicList(
+                            listMusic[it],
+                        )
+                    }
                 }
             }
         }
@@ -90,39 +120,50 @@ fun TopSearchBar() {
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
 
-    Box(
-        Modifier
-            .fillMaxWidth()
-            .semantics { isTraversalGroup = true }) {
-        SearchBar(
-            modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 4.dp)
-                .fillMaxWidth(),
-            query = text,
-            onQueryChange = { text = it },
-            onSearch = { active = false },
-            active = active,
-            onActiveChange = {
-                active = it
-            },
-            placeholder = { Text("Search your music") },
-            leadingIcon = { Icon(Icons.Default.Menu, contentDescription = null) },
-            trailingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-        ) {
-            repeat(4) { idx ->
-                val resultText = "Suggestion $idx"
-                ListItem(
-                    headlineContent = { Text(resultText) },
-                    supportingContent = { Text("Additional info") },
-                    leadingContent = { Icon(Icons.Filled.Star, contentDescription = null) },
-                    modifier = Modifier
-                        .clickable {
-                            text = resultText
-                            active = false
-                        }
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                )
+    var isSearchVisible by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit){
+        isSearchVisible = true
+    }
+
+    AnimatedVisibility(
+        visible = isSearchVisible,
+        enter = slideInVertically(initialOffsetY = { -it }),
+    ) {
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .semantics { isTraversalGroup = true }) {
+            SearchBar(
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 4.dp)
+                    .fillMaxWidth(),
+                query = text,
+                onQueryChange = { text = it },
+                onSearch = { active = false },
+                active = active,
+                onActiveChange = {
+                    active = it
+                },
+                placeholder = { Text("Search your music") },
+                leadingIcon = { Icon(Icons.Default.Menu, contentDescription = null) },
+                trailingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+            ) {
+                repeat(4) { idx ->
+                    val resultText = "Suggestion $idx"
+                    ListItem(
+                        headlineContent = { Text(resultText) },
+                        supportingContent = { Text("Additional info") },
+                        leadingContent = { Icon(Icons.Filled.Star, contentDescription = null) },
+                        modifier = Modifier
+                            .clickable {
+                                text = resultText
+                                active = false
+                            }
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp)
+                    )
+                }
             }
         }
     }
