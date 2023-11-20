@@ -54,12 +54,12 @@ fun PermissionScreen(
     val viewModel = viewModel<PermissionViewModel>()
     val dialogQueue = viewModel.visiblePermissionDialogQueue
     var isVisible by remember { mutableStateOf(false) }
-    var isVisibleButton by remember { mutableStateOf(false) }
+    var isVisibleLater by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         isVisible = true
         delay(2000L)
-        isVisibleButton = true
+        isVisibleLater = true
     }
 
     var isPermissionGranted by remember {
@@ -112,6 +112,7 @@ fun PermissionScreen(
 
                 LottieAnimation(
                     composition = composition,
+                    isPlaying = isVisibleLater,
                     iterations = 100,
                 )
 
@@ -124,7 +125,7 @@ fun PermissionScreen(
                 Spacer(modifier = Modifier.height(42.dp))
 
                 AnimatedVisibility(
-                    visible = isVisibleButton,
+                    visible = isVisibleLater,
                 ) {
                     Button(
                         onClick = {
