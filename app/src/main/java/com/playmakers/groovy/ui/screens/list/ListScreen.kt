@@ -96,7 +96,7 @@ fun NotFound(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(32.dp),
+            .padding(40.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -112,8 +112,15 @@ fun NotFound(
         }
 
         Text(
-            text = "Oops, looks like you don't have any\nmusic files!",
-            style = MaterialTheme.typography.bodyLarge,
+            text = "Music not found",
+            style = MaterialTheme.typography.headlineMedium,
+            textAlign = TextAlign.Center
+        )
+
+        Text(
+            text = "Looks like you don't have any music files",
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(top = 16.dp),
             textAlign = TextAlign.Center
         )
 
