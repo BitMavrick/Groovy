@@ -1,6 +1,7 @@
 package com.playmakers.groovy.data.repository
 
 import android.app.Application
+import android.net.Uri
 import android.provider.MediaStore
 import com.playmakers.groovy.domain.model.Music
 import com.playmakers.groovy.domain.repository.MusicRepository
@@ -45,6 +46,10 @@ class MusicRepositoryImpl(
                 val artist = cursor.getString(artistColumn)
                 val album = cursor.getString(albumColumn)
                 val path = cursor.getString(pathColumn)
+                val imagePath: Uri? = Uri.withAppendedPath(
+                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    id.toString()
+                )
 
                 val music = Music(
                     id = id.toString(),
@@ -52,7 +57,8 @@ class MusicRepositoryImpl(
                     artist = artist,
                     album = album,
                     source = path,
-                    image = path
+                    image = path,
+                    imagePath = imagePath
                 )
                 musicList.add(music)
             }
