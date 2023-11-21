@@ -112,13 +112,13 @@ fun NotFound(
         }
 
         Text(
-            text = "Music not found",
+            text = "No music found!",
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center
         )
 
         Text(
-            text = "Looks like you don't have any music files",
+            text = "Looks like you don't have any music files on this device.",
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(top = 16.dp),
             textAlign = TextAlign.Center
