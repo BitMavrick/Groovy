@@ -29,6 +29,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -93,4 +94,7 @@ dependencies {
 
     // -> Coil : For image loading
     implementation ("io.coil-kt:coil-compose:2.5.0")
+
+    // -> Glide : Also for image loading
+    implementation ("com.github.bumptech.glide:compose:1.0.0-beta01")
 }

@@ -8,6 +8,7 @@ import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -55,6 +57,7 @@ import coil.request.ImageRequest
 import com.playmakers.groovy.R
 import com.playmakers.groovy.domain.model.Music
 import kotlinx.coroutines.delay
+import kotlin.math.roundToInt
 
 @Composable
 fun MusicList(
@@ -187,19 +190,25 @@ fun MusicRowTest(music : Music){
             .padding(vertical = 8.dp, horizontal = 16.dp),
     ){
 
-//        Box(
-//            Modifier.clip(RoundedCornerShape(5.dp))
-//        ){
-//            if(music.actualImage != null){
+        Box(
+            Modifier.clip(RoundedCornerShape(5.dp))
+        ){
+            if(music.imagePath != null){
 //                Image(
 //                    bitmap = music.actualImage,
 //                    contentDescription = "Album art",
 //                    contentScale = ContentScale.Crop,
 //                    modifier = Modifier.aspectRatio(1f)
 //                )
-//
-//            }
-//        }
+
+                Image(
+                    painter = painterResource(id = R.drawable.default_album_art),
+                    contentDescription = "Album art",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.aspectRatio(1f)
+                )
+            }
+        }
 
         Column(
             Modifier
@@ -222,6 +231,21 @@ fun MusicRowTest(music : Music){
     }
 }
 
+/*
+TODO: Ok, Here's the working plan for tomorrow,
+I tried a lot of way to make the scrolling smoother, but unfortunately nothing is quite works very well.
+So, I think I have to to it manually using the coroutine scope from the viewmodel.
+I will assign the 60 x 60 size ImageBitmap file to the every image in the background thread, And will be
+called from
+LaunchedEffect(Unit){
+      // The suspend function for loading the images
+}
+
+that's the way how to displaying the album art. That's the first plan.
+If it is not works as expected then kick out the lazy column from the project and stick with the normal column.
+Its the last option for me.
+ */
+
 @Composable
 fun MusicRow(music : Music){
     Row(
@@ -238,10 +262,10 @@ fun MusicRow(music : Music){
         ){
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(music.imagePath?.let { getAlbumArt(LocalContext.current, it) })
-                    .crossfade(false)
+                    .data(music.imagePath?.let { getAlbumArt(LocalContext.current, it, 60, 60) })
+                    .crossfade(true)
                     .build(),
-                //placeholder = painterResource(R.drawable.default_album_art),
+                // placeholder = painterResource(R.drawable.default_album_art),
                 contentDescription = "Album art",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.aspectRatio(1f)
@@ -269,7 +293,7 @@ fun MusicRow(music : Music){
     }
 }
 
-
+/*
 fun getAlbumArt(context: Context, uri: Uri): Bitmap {
     val mmr = MediaMetadataRetriever()
     mmr.setDataSource(context, uri)
@@ -280,4 +304,43 @@ fun getAlbumArt(context: Context, uri: Uri): Bitmap {
     }else{
         BitmapFactory.decodeResource(context.resources, R.drawable.default_album_art)
     }
+}
+
+ */
+
+
+fun getAlbumArt(context: Context, uri: Uri, targetWidth: Int, targetHeight: Int): Bitmap {
+    val mmr = MediaMetadataRetriever()
+    mmr.setDataSource(context, uri)
+    val data = mmr.embeddedPicture
+
+    return if(data != null){
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeByteArray(data, 0, data.size, options)
+
+        // Calculate the inSampleSize to reduce image size while maintaining aspect ratio
+        options.inSampleSize = calculateInSampleSize(options, targetWidth, targetHeight)
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false
+        BitmapFactory.decodeByteArray(data, 0, data.size, options)
+
+    } else {
+        BitmapFactory.decodeResource(context.resources, R.drawable.default_album_art)
+    }
+}
+
+// Calculate the inSampleSize value to resize the image
+fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+    val height = options.outHeight
+    val width = options.outWidth
+    var inSampleSize = 1
+
+    if (height > reqHeight || width > reqWidth) {
+        val heightRatio = (height.toFloat() / reqHeight.toFloat()).roundToInt()
+        val widthRatio = (width.toFloat() / reqWidth.toFloat()).roundToInt()
+        inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
+    }
+    return inSampleSize
 }
