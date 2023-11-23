@@ -1,5 +1,10 @@
 package com.playmakers.groovy.ui.components
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
@@ -42,7 +47,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -172,6 +176,53 @@ fun TopSearchBar() {
 }
 
 @Composable
+fun MusicRowTest(music : Music){
+    Row(
+        Modifier
+            .clickable {
+                // TODO : Music click event
+            }
+            .fillMaxWidth()
+            .height(72.dp)
+            .padding(vertical = 8.dp, horizontal = 16.dp),
+    ){
+
+//        Box(
+//            Modifier.clip(RoundedCornerShape(5.dp))
+//        ){
+//            if(music.actualImage != null){
+//                Image(
+//                    bitmap = music.actualImage,
+//                    contentDescription = "Album art",
+//                    contentScale = ContentScale.Crop,
+//                    modifier = Modifier.aspectRatio(1f)
+//                )
+//
+//            }
+//        }
+
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp)
+                .align(Alignment.CenterVertically)
+        ) {
+            Text(
+                text = music.title,
+                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 1
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = music.artist,
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 1
+            )
+        }
+    }
+}
+
+@Composable
 fun MusicRow(music : Music){
     Row(
         Modifier
@@ -187,10 +238,10 @@ fun MusicRow(music : Music){
         ){
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(music.imagePath)
-                    .crossfade(true)
+                    .data(music.imagePath?.let { getAlbumArt(LocalContext.current, it) })
+                    .crossfade(false)
                     .build(),
-                placeholder = painterResource(R.drawable.default_album_art),
+                //placeholder = painterResource(R.drawable.default_album_art),
                 contentDescription = "Album art",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.aspectRatio(1f)
@@ -218,8 +269,15 @@ fun MusicRow(music : Music){
     }
 }
 
-/*
 
+fun getAlbumArt(context: Context, uri: Uri): Bitmap {
+    val mmr = MediaMetadataRetriever()
+    mmr.setDataSource(context, uri)
+    val data = mmr.embeddedPicture
+    return if(data != null){
+        BitmapFactory.decodeByteArray(data, 0, data.size)
 
-
- */
+    }else{
+        BitmapFactory.decodeResource(context.resources, R.drawable.default_album_art)
+    }
+}

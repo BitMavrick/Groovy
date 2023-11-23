@@ -9,5 +9,6 @@ data class Music (
     val album: String,
     val source: String,
     val image: String,
-    val imagePath: Uri?
+    val imagePath: Uri?,
+    // val actualImage : ImageBitmap?
 )
