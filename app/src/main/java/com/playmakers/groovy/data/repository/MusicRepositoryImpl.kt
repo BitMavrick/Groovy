@@ -51,8 +51,6 @@ class MusicRepositoryImpl(
                     id.toString()
                 )
 
-                // music.imagePath?.let { getAlbumArt(LocalContext.current, it) }
-
                 val music = Music(
                     id = id.toString(),
                     title = title,
@@ -61,7 +59,7 @@ class MusicRepositoryImpl(
                     source = path,
                     image = path,
                     imagePath = imagePath,
-                    // actualImage = imagePath?.let { getAlbumArt(application.applicationContext, it) }!!.asImageBitmap()
+                    actualImage = null
                 )
                 musicList.add(music)
             }
@@ -70,15 +68,3 @@ class MusicRepositoryImpl(
         return musicList
     }
 }
-
-//fun getAlbumArt(context: Context, uri: Uri): Bitmap {
-//    val mmr = MediaMetadataRetriever()
-//    mmr.setDataSource(context, uri)
-//    val data = mmr.embeddedPicture
-//    return if(data != null){
-//        BitmapFactory.decodeByteArray(data, 0, data.size)
-//
-//    }else{
-//        BitmapFactory.decodeResource(context.resources, R.drawable.default_album_art)
-//    }
-//}
