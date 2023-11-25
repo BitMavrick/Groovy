@@ -93,5 +93,5 @@ dependencies {
     implementation ("com.airbnb.android:lottie-compose:6.0.0")
 
     // -> Coil : For image loading
-    implementation ("io.coil-kt:coil-compose:2.4.0")
+    implementation ("io.coil-kt:coil-compose:2.5.0")
 }

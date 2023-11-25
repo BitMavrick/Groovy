@@ -14,6 +14,27 @@ class GroovyApplication : Application(), ImageLoaderFactory {
     override fun newImageLoader(): ImageLoader {
         return ImageLoader(this).newBuilder()
             .memoryCachePolicy(CachePolicy.ENABLED)
+            .memoryCache {
+                MemoryCache.Builder(this)
+                    .maxSizePercent(0.25)
+                    .build()
+            }
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .diskCache(
+                DiskCache.Builder()
+                    .maxSizePercent(0.03)
+                    .directory(cacheDir)
+                    .build()
+            )
+            .logger(DebugLogger())
+            .build()
+    }
+}
+
+/*
+override fun newImageLoader(): ImageLoader {
+        return ImageLoader(this).newBuilder()
+            .memoryCachePolicy(CachePolicy.ENABLED)
             .memoryCache(
                 MemoryCache.Builder(this)
                     .maxSizePercent(0.1)
@@ -30,4 +51,4 @@ class GroovyApplication : Application(), ImageLoaderFactory {
             .logger(DebugLogger())
             .build()
     }
-}
+ */
