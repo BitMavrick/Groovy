@@ -197,7 +197,7 @@ fun MusicRow(music : Music){
                     .data(music.imagePath?.let { getAlbumArt(LocalContext.current, it, 60, 60) })
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.default_album_art),
+                placeholder = painterResource(R.drawable.default_album_art_mini),
                 contentDescription = "Album art",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.aspectRatio(1f)
@@ -239,7 +239,7 @@ fun getAlbumArt(context: Context, uri: Uri, targetWidth: Int, targetHeight: Int)
         BitmapFactory.decodeByteArray(data, 0, data.size, options)
 
     } else {
-        BitmapFactory.decodeResource(context.resources, R.drawable.default_album_art)
+        BitmapFactory.decodeResource(context.resources, R.drawable.default_album_art_mini)
     }
 }
 
