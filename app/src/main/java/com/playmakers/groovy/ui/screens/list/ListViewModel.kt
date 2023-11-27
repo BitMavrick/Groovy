@@ -67,8 +67,6 @@ class ListViewModel @Inject constructor (
                     source = "source"
                 )
             )
-
-            // Important Note: The database only shows when there's some value
         }
     }
 
