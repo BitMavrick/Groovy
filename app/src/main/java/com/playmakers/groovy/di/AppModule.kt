@@ -2,6 +2,7 @@ package com.playmakers.groovy.di
 
 import android.app.Application
 import com.playmakers.groovy.data.MusicDataContainer
+import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.data.repository.MusicRepositoryImpl
 import com.playmakers.groovy.domain.repository.MusicRepository
 import dagger.Module
@@ -22,7 +23,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMusicContainer(app: Application) : MusicDataContainer {
-        return MusicDataContainer(app)
+    fun provideMusicContainer(app: Application) : MusicsRepository {
+        return MusicDataContainer(app).musicsRepository
     }
 }

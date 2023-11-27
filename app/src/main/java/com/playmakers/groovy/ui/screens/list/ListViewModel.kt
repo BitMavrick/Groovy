@@ -1,8 +1,10 @@
 package com.playmakers.groovy.ui.screens.list
 
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playmakers.groovy.data.MusicsRepository
+import com.playmakers.groovy.data.room.RoomMusic
 import com.playmakers.groovy.domain.repository.MusicRepository
 import com.playmakers.groovy.ui.util.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,6 +52,21 @@ class ListViewModel @Inject constructor (
                     )
                 }
             }
+
+
+            // Dummy data just to checking
+            roomMusicsRepository.insertMusic(
+                RoomMusic(
+                    title = "Test Tile",
+                    album = "Test Album",
+                    artist = "Test Artist",
+                    image = "image",
+                    imagePath = "image-path".toUri(),
+                    source = "source"
+                )
+            )
+
+            // Important Note: The database only shows when there's some value
         }
     }
 
