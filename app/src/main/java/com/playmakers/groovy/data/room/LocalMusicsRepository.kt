@@ -1,19 +1,18 @@
 package com.playmakers.groovy.data.room
 
 import com.playmakers.groovy.data.MusicsRepository
-import com.playmakers.groovy.domain.model.Music
 import kotlinx.coroutines.flow.Flow
 
 class LocalMusicsRepository(private val musicDao: MusicDao) : MusicsRepository{
-    override fun getAllMusicsStream(): Flow<List<Music>> {
+    override fun getAllMusicsStream(): Flow<List<RoomMusic>> {
         return musicDao.getAllMusics()
     }
 
-    override fun getMusicStream(id: Int): Flow<Music> {
+    override fun getMusicStream(id: Int): Flow<RoomMusic> {
         return musicDao.getMusic(id)
     }
 
-    override suspend fun insertMusic(music: Music) {
+    override suspend fun insertMusic(music: RoomMusic) {
         return musicDao.insert(music)
     }
 

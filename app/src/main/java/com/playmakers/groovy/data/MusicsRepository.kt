@@ -1,14 +1,14 @@
 package com.playmakers.groovy.data
 
-import com.playmakers.groovy.domain.model.Music
+import com.playmakers.groovy.data.room.RoomMusic
 import kotlinx.coroutines.flow.Flow
 
 interface MusicsRepository {
-    fun getAllMusicsStream(): Flow<List<Music>>
+    fun getAllMusicsStream(): Flow<List<RoomMusic>>
 
-    fun getMusicStream(id: Int): Flow<Music>
+    fun getMusicStream(id: Int): Flow<RoomMusic>
 
-    suspend fun insertMusic(music: Music)
+    suspend fun insertMusic(music: RoomMusic)
 
     suspend fun clearMusic()
 }

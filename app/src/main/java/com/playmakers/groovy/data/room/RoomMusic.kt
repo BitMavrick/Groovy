@@ -1,7 +1,7 @@
 package com.playmakers.groovy.data.room
 
+import android.graphics.Bitmap
 import android.net.Uri
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -15,5 +15,5 @@ data class RoomMusic (
     val source: String,
     val image: String,
     val imagePath: Uri?,
-    val actualImage : ImageBitmap?
+    val actualImage : Bitmap? = null
 )

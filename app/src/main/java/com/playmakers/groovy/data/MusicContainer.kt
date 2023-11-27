@@ -4,7 +4,6 @@ import android.content.Context
 import com.playmakers.groovy.data.room.LocalMusicsRepository
 import com.playmakers.groovy.data.room.MusicDatabase
 
-
 interface MusicContainer {
     val musicsRepository : MusicsRepository
 }

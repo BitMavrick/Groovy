@@ -2,18 +2,22 @@ package com.playmakers.groovy.ui.screens.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.domain.repository.MusicRepository
 import com.playmakers.groovy.ui.util.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class ListViewModel @Inject constructor (
-    private val musicRepository: MusicRepository
+    private val musicRepository: MusicRepository,
+    private val roomMusicsRepository: MusicsRepository
 ): ViewModel() {
     private val _listUiState = MutableStateFlow(ListUiState())
     val listUiState: StateFlow<ListUiState> = _listUiState
@@ -26,10 +30,6 @@ class ListViewModel @Inject constructor (
         }
 
         viewModelScope.launch {
-
-
-
-            /*
             delay(1.seconds)
             _listUiState.update {
                 it.copy(
@@ -50,7 +50,6 @@ class ListViewModel @Inject constructor (
                     )
                 }
             }
-            */
         }
     }
 

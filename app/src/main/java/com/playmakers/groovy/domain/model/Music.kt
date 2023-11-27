@@ -1,7 +1,7 @@
 package com.playmakers.groovy.domain.model
 
+import android.graphics.Bitmap
 import android.net.Uri
-import androidx.compose.ui.graphics.ImageBitmap
 
 data class Music (
     val id: String,
@@ -11,5 +11,5 @@ data class Music (
     val source: String,
     val image: String,
     val imagePath: Uri?,
-    val actualImage : ImageBitmap?
+    val actualImage : Bitmap?
 )
