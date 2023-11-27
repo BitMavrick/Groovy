@@ -3,6 +3,7 @@ package com.playmakers.groovy
 import android.app.Application
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import coil.request.CachePolicy
 import coil.util.DebugLogger
@@ -19,12 +20,12 @@ class GroovyApplication : Application(), ImageLoaderFactory {
                     .build()
             }
             .diskCachePolicy(CachePolicy.DISABLED)
-//            .diskCache(
-//                DiskCache.Builder()
-//                    .maxSizePercent(0.03)
-//                    .directory(cacheDir)
-//                    .build()
-//            )
+            .diskCache(
+                DiskCache.Builder()
+                    .maxSizePercent(0.03)
+                    .directory(cacheDir)
+                    .build()
+            )
             .logger(DebugLogger())
             .build()
     }
