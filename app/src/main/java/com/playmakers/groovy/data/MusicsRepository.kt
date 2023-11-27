@@ -10,5 +10,7 @@ interface MusicsRepository {
 
     suspend fun insertMusic(music: RoomMusic)
 
+    suspend fun insertAllMusic(musics: List<RoomMusic>)
+
     suspend fun clearMusic()
 }

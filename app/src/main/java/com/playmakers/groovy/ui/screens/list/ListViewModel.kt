@@ -51,6 +51,8 @@ class ListViewModel @Inject constructor (
                         listState = ListState.LOADED
                     )
                 }
+
+                // roomMusicsRepository.insertAllMusic(_listUiState.value.musicList)
             }
 
 

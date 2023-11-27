@@ -16,6 +16,10 @@ class LocalMusicsRepository(private val musicDao: MusicDao) : MusicsRepository{
         return musicDao.insert(music)
     }
 
+    override suspend fun insertAllMusic(musics: List<RoomMusic>){
+        return musicDao.insertAll(musics)
+    }
+
     override suspend fun clearMusic() {
         return musicDao.delete()
     }
