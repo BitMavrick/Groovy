@@ -1,7 +1,6 @@
 package com.playmakers.groovy.data.room
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -17,8 +16,8 @@ interface MusicDao {
     @Update
     suspend fun update(music: Music)
 
-    @Delete
-    suspend fun delete(music: Music)
+    @Query("DELETE from `musics`")
+    suspend fun delete()
 
     @Query("SELECT * FROM musics WHERE id = :id")
     fun getMusic(id: Int): Flow<Music>

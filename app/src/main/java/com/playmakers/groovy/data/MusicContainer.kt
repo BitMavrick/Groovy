@@ -1,13 +1,16 @@
 package com.playmakers.groovy.data
 
 import android.content.Context
-import com.playmakers.groovy.domain.repository.MusicRepository
+import com.playmakers.groovy.data.room.LocalMusicsRepository
+import com.playmakers.groovy.data.room.MusicDatabase
+
 
 interface MusicContainer {
-    val musicRepository : MusicRepository
+    val musicsRepository : MusicsRepository
 }
 
-class MusicDataContainer(private val context: Context): MusicContainer{
-    override val musicRepository: MusicRepository
-        get() = TODO("Not yet implemented")
+class MusicDataContainer(private val context: Context) : MusicContainer {
+    override val musicsRepository: MusicsRepository by lazy {
+        LocalMusicsRepository(MusicDatabase.getDatabase(context).musicDao())
+    }
 }
