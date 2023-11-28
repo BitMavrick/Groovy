@@ -6,11 +6,14 @@ import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.domain.repository.MusicRepository
 import com.playmakers.groovy.ui.util.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class ListViewModel @Inject constructor (
@@ -21,15 +24,16 @@ class ListViewModel @Inject constructor (
     val listUiState: StateFlow<ListUiState> = _listUiState
 
     private fun getMusicFiles(){
-        _listUiState.update {
-            it.copy(
-                listState = ListState.LOADING
-            )
-        }
-
         viewModelScope.launch {
 
+            _listUiState.update {
+                it.copy(
+                    listState = ListState.LOADING
+                )
+            }
+
             val musicList = musicRepository.getMusicFiles()
+            delay(1.seconds)
 
             if (musicList.isEmpty()){
                 _listUiState.update {
@@ -41,6 +45,7 @@ class ListViewModel @Inject constructor (
                 roomMusicsRepository.insertAllMusic(musicList)
                 _listUiState.update {
                     it.copy(
+                        musicList = roomMusicsRepository.getAllMusicsStream().firstOrNull() ?: emptyList(),
                         listState = ListState.LOADED
                     )
                 }
