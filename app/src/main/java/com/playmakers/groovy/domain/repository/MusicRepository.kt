@@ -1,7 +1,7 @@
 package com.playmakers.groovy.domain.repository
 
-import com.playmakers.groovy.domain.model.Music
+import com.playmakers.groovy.data.room.RoomMusic
 
 interface MusicRepository {
-    suspend fun getMusicFiles(): List<Music>
+    suspend fun getMusicFiles(): List<RoomMusic>
 }

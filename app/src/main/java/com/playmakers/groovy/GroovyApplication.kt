@@ -19,10 +19,10 @@ class GroovyApplication : Application(), ImageLoaderFactory {
                     .maxSizePercent(0.25)
                     .build()
             }
-            .diskCachePolicy(CachePolicy.DISABLED)
+            .diskCachePolicy(CachePolicy.ENABLED)
             .diskCache(
                 DiskCache.Builder()
-                    .maxSizePercent(0.03)
+                    .maxSizePercent(0.10)
                     .directory(cacheDir)
                     .build()
             )

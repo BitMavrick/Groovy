@@ -3,15 +3,15 @@ package com.playmakers.groovy.data.repository
 import android.app.Application
 import android.net.Uri
 import android.provider.MediaStore
-import com.playmakers.groovy.domain.model.Music
+import com.playmakers.groovy.data.room.RoomMusic
 import com.playmakers.groovy.domain.repository.MusicRepository
 
 @Suppress("NAME_SHADOWING")
 class MusicRepositoryImpl(
     private val application: Application
 ) : MusicRepository {
-    override suspend fun getMusicFiles() : List<Music>{
-        val musicList = mutableListOf<Music>()
+    override suspend fun getMusicFiles() : List<RoomMusic>{
+        val musicList = mutableListOf<RoomMusic>()
         val musicResolver = application.contentResolver
 
         val projection = arrayOf(
@@ -51,8 +51,8 @@ class MusicRepositoryImpl(
                     id.toString()
                 )
 
-                val music = Music(
-                    id = id.toString(),
+                val music = RoomMusic(
+                    id = id.toInt(),
                     title = title,
                     artist = artist,
                     album = album,

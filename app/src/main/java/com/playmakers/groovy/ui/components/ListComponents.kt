@@ -54,13 +54,13 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.playmakers.groovy.R
-import com.playmakers.groovy.domain.model.Music
+import com.playmakers.groovy.data.room.RoomMusic
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 @Composable
 fun MusicList(
-    listMusic: List<Music>
+    listMusic: List<RoomMusic>
 ){
     Scaffold(
         topBar = {
@@ -179,7 +179,7 @@ fun TopSearchBar() {
 
 
 @Composable
-fun MusicRow(music : Music){
+fun MusicRow(music : RoomMusic){
     Row(
         Modifier
             .clickable {
