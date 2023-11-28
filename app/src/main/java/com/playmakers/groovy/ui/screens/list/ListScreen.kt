@@ -21,7 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
@@ -40,7 +39,11 @@ fun ListScreen(){
 
     when (listUiState.listState) {
         ListState.LOADING -> {
-            Loading()
+            Loading(
+                onLoad = {
+                    listEvent(ListEvent.RefreshList)
+                }
+            )
         }
         ListState.LOADED -> {
             MusicList(
@@ -58,9 +61,10 @@ fun ListScreen(){
 }
 
 
-@Preview(showBackground = true)
 @Composable
-fun Loading(){
+fun Loading(
+    onLoad: () -> Unit
+){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -77,6 +81,10 @@ fun Loading(){
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
+    }
+
+    LaunchedEffect(Unit) {
+        onLoad()
     }
 }
 

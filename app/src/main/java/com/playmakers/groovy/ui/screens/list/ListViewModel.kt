@@ -6,12 +6,14 @@ import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.domain.repository.MusicRepository
 import com.playmakers.groovy.ui.util.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class ListViewModel @Inject constructor (
@@ -22,16 +24,22 @@ class ListViewModel @Inject constructor (
     val listUiState: StateFlow<ListUiState> = _listUiState
 
     private fun getMusicFiles(){
+        _listUiState.update {
+            it.copy(
+                listState = ListState.LOADING
+            )
+        }
         viewModelScope.launch {
-
             _listUiState.update {
                 it.copy(
                     listState = ListState.LOADING
                 )
             }
 
-            val musicList = musicRepository.getMusicFiles()
-            // delay(1.seconds)
+            val musicList = musicRepository.getMusicFiles() // This delayed the opening and crushing app
+            //val musicList = emptyList<RoomMusic>()
+
+            delay(1.seconds)
 
             if (musicList.isEmpty()){
                 _listUiState.update {
@@ -48,33 +56,6 @@ class ListViewModel @Inject constructor (
                     )
                 }
             }
-
-
-
-            /*
-            delay(1.seconds)
-            _listUiState.update {
-                it.copy(
-                    musicList = musicRepository.getMusicFiles() // Getting the music from here
-                )
-            }
-
-            if(_listUiState.value.musicList.isEmpty()){
-                _listUiState.update {
-                    it.copy(
-                        listState = ListState.NOT_FOUND
-                    )
-                }
-            }else{
-                _listUiState.update {
-                    it.copy(
-                        listState = ListState.LOADED
-                    )
-                }
-
-                roomMusicsRepository.insertAllMusic(_listUiState.value.musicList)
-            }
-             */
         }
     }
 
@@ -85,6 +66,6 @@ class ListViewModel @Inject constructor (
     }
 
     init {
-        getMusicFiles()
+        // getMusicFiles()
     }
 }
