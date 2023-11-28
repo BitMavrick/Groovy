@@ -12,7 +12,7 @@ class TypeConverters {
     @TypeConverter
     fun bitmapToString(bitmap: Bitmap?): String {
 
-        if (bitmap == null) return ""
+        if (bitmap == null) return "0"
 
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
@@ -23,7 +23,7 @@ class TypeConverters {
     @TypeConverter
     fun stringToBitmap(string: String?): Bitmap? {
 
-        if (string == "" || string == null) return null
+        if (string == "0" || string == null) return null
 
         val imageBytes = Base64.decode(string,0)
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)

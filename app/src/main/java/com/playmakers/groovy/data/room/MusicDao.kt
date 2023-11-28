@@ -11,7 +11,7 @@ interface MusicDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(music: RoomMusic)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(musics: List<RoomMusic>)
 
     @Query("DELETE from `musics`")
