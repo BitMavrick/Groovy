@@ -1,5 +1,6 @@
 package com.playmakers.groovy.data.room
 
+import android.graphics.Bitmap
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -19,6 +20,9 @@ interface MusicDao {
 
     @Query("SELECT * FROM musics WHERE id = :id")
     fun getMusic(id: Int): Flow<RoomMusic>
+
+    @Query("UPDATE Musics SET actualImage = :image WHERE id = :musicId")
+    suspend fun updateActualImage(musicId: Int, image: Bitmap)
 
     @Query("SELECT * FROM musics ORDER BY title ASC")
     fun getAllMusics(): Flow<List<RoomMusic>>

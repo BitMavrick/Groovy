@@ -1,5 +1,6 @@
 package com.playmakers.groovy.data.room
 
+import android.graphics.Bitmap
 import com.playmakers.groovy.data.MusicsRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -18,6 +19,10 @@ class LocalMusicsRepository(private val musicDao: MusicDao) : MusicsRepository{
 
     override suspend fun insertAllMusic(musics: List<RoomMusic>){
         return musicDao.insertAll(musics)
+    }
+
+    override suspend fun updateActualImage(musicId: Int, image: Bitmap) {
+        return musicDao.updateActualImage(musicId, image)
     }
 
     override suspend fun clearMusic() {
