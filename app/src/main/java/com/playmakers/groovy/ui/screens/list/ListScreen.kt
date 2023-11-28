@@ -39,11 +39,7 @@ fun ListScreen(){
 
     when (listUiState.listState) {
         ListState.LOADING -> {
-            Loading(
-                onLoad = {
-                    listEvent(ListEvent.RefreshList)
-                }
-            )
+            Loading()
         }
         ListState.LOADED -> {
             MusicList(
@@ -62,9 +58,7 @@ fun ListScreen(){
 
 
 @Composable
-fun Loading(
-    onLoad: () -> Unit
-){
+fun Loading(){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -81,10 +75,6 @@ fun Loading(
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
-    }
-
-    LaunchedEffect(Unit) {
-        onLoad()
     }
 }
 
