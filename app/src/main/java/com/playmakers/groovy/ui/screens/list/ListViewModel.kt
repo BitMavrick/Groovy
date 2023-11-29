@@ -33,7 +33,13 @@ class ListViewModel @Inject constructor (
                     )
                 }
 
-                val musicList = musicRepository.getMusicFiles() // This delayed the opening and crushing app
+                // val musicList = musicRepository.getMusicFiles() // This delayed the opening and crushing app
+
+                var musicList = roomMusicsRepository.getAllMusicsStream().firstOrNull() ?: emptyList()
+
+                if(musicList.isEmpty()){
+                    musicList = musicRepository.getMusicFiles()
+                }
 
                 if (musicList.isEmpty()){
                     _listUiState.update {
@@ -45,7 +51,8 @@ class ListViewModel @Inject constructor (
                     roomMusicsRepository.insertAllMusic(musicList)
                     _listUiState.update {
                         it.copy(
-                            musicList = roomMusicsRepository.getAllMusicsStream().firstOrNull() ?: emptyList(),
+                            // musicList = roomMusicsRepository.getAllMusicsStream().firstOrNull() ?: emptyList(),
+                            musicList = musicList,
                             listState = ListState.LOADED
                         )
                     }
