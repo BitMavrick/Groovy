@@ -1,10 +1,5 @@
 package com.playmakers.groovy.ui.components
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.MediaMetadataRetriever
-import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
@@ -52,16 +47,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import com.playmakers.groovy.R
 import com.playmakers.groovy.data.room.RoomMusic
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun MusicList(
     listMusic: Flow<List<RoomMusic>>
 ){
+    val musicListSate by listMusic.collectAsState(initial = emptyList())
+
     Scaffold(
         topBar = {
             TopSearchBar()
@@ -79,7 +75,7 @@ fun MusicList(
 
             AnimatedVisibility(
                 visible = isFABVisible,
-                enter = slideInHorizontally (initialOffsetX = { it }), // Will make it horizontal
+                enter = slideInHorizontally (initialOffsetX = { it })
             ) {
                 ExtendedFloatingActionButton(
                     onClick = {
@@ -100,6 +96,7 @@ fun MusicList(
             var isListVisible by remember { mutableStateOf(false) }
 
             LaunchedEffect(Unit){
+                delay(1.seconds)
                 isListVisible = true
             }
 
@@ -107,9 +104,6 @@ fun MusicList(
                 visible = isListVisible,
                 enter = slideInVertically(initialOffsetY = { it }),
             ) {
-
-                val musicListSate by listMusic.collectAsState(initial = emptyList())
-
                 LazyColumn(
                     modifier = Modifier.consumeWindowInsets(innerPadding),
                     contentPadding = innerPadding
@@ -234,6 +228,7 @@ fun MusicRow(music : RoomMusic){
     }
 }
 
+/*
 fun getAlbumArt(context: Context, uri: Uri, targetWidth: Int, targetHeight: Int): Bitmap {
     val mmr = MediaMetadataRetriever()
     mmr.setDataSource(context, uri)
@@ -264,3 +259,5 @@ fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeig
     }
     return inSampleSize
 }
+
+ */
