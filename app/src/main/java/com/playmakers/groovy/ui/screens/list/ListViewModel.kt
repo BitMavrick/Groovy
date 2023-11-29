@@ -33,6 +33,7 @@ class ListViewModel @Inject constructor (
                 }
 
                 // val musicList = musicRepository.getMusicFiles() // This delayed the opening and crushing app
+
                 //roomMusicsRepository.insertAllMusic(musicRepository.getMusicFiles())
 
                 //val musicList =  //Tip: Try to get Flow<List<RoomMusic>>
