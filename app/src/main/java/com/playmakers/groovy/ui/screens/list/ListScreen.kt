@@ -42,9 +42,11 @@ fun ListScreen(){
             Loading()
         }
         ListState.LOADED -> {
-            MusicList(
-                listMusic = listUiState.musicList
-            )
+            listUiState.musicList?.let {
+                MusicList(
+                    listMusic = it
+                )
+            }
         }
         ListState.NOT_FOUND -> {
             NotFound(

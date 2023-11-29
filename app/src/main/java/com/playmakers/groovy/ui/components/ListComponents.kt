@@ -38,6 +38,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,11 +55,12 @@ import androidx.compose.ui.unit.dp
 import com.playmakers.groovy.R
 import com.playmakers.groovy.data.room.RoomMusic
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlin.math.roundToInt
 
 @Composable
 fun MusicList(
-    listMusic: List<RoomMusic>
+    listMusic: Flow<List<RoomMusic>>
 ){
     Scaffold(
         topBar = {
@@ -105,13 +107,16 @@ fun MusicList(
                 visible = isListVisible,
                 enter = slideInVertically(initialOffsetY = { it }),
             ) {
+
+                val musicListSate by listMusic.collectAsState(initial = emptyList())
+
                 LazyColumn(
                     modifier = Modifier.consumeWindowInsets(innerPadding),
                     contentPadding = innerPadding
                 ){
-                    items(count = listMusic.size){
+                    items(count = musicListSate.size){
                         MusicRow(
-                            listMusic[it],
+                            musicListSate[it],
                         )
                     }
                 }

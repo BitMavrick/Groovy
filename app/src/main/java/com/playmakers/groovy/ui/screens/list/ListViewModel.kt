@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,12 +33,24 @@ class ListViewModel @Inject constructor (
                 }
 
                 // val musicList = musicRepository.getMusicFiles() // This delayed the opening and crushing app
+                //roomMusicsRepository.insertAllMusic(musicRepository.getMusicFiles())
 
-                var musicList = roomMusicsRepository.getAllMusicsStream().firstOrNull() ?: emptyList()
+                //val musicList =  //Tip: Try to get Flow<List<RoomMusic>>
 
+                _listUiState.update {
+                    it.copy(
+                        // musicList = roomMusicsRepository.getAllMusicsStream().firstOrNull() ?: emptyList(),
+                        musicList = roomMusicsRepository.getAllMusicsStream(),
+                        listState = ListState.LOADED
+                    )
+                }
+
+                /*
                 if(musicList.isEmpty()){
                     musicList = musicRepository.getMusicFiles()
                 }
+
+
 
                 if (musicList.isEmpty()){
                     _listUiState.update {
@@ -57,6 +68,8 @@ class ListViewModel @Inject constructor (
                         )
                     }
                 }
+                */
+
             }
         }
     }
