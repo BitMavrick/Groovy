@@ -43,7 +43,20 @@ class ListViewModel @Inject constructor (
                         )
                     }
                 }else{
-                    if(quickFetchMusic.size != dbTableSize){
+
+                    if(dbTableSize == 0){
+                        _listUiState.update {
+                            it.copy(
+                                loadingText = "Getting music files ..."
+                            )
+                        }
+                        roomMusicsRepository.insertAllMusic(musicRepository.getMusicFiles())
+                    }else if(quickFetchMusic.size != dbTableSize){
+                        _listUiState.update {
+                            it.copy(
+                                loadingText = "Updating the changes ..."
+                            )
+                        }
                         roomMusicsRepository.clearMusic()
                         roomMusicsRepository.insertAllMusic(musicRepository.getMusicFiles())
                     }
