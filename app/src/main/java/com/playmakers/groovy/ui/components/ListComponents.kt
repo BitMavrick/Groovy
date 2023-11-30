@@ -58,14 +58,10 @@ fun MusicList(
 ){
     val musicListSate by listMusic.collectAsState(initial = emptyList())
 
-    // set for loading condition
-
     if(musicListSate.isNotEmpty()){
         Scaffold(
             topBar = {
-                TopSearchBar(
-                    searchPlaceHolder = musicListSate.size.toString()
-                )
+                TopSearchBar()
             },
 
             floatingActionButtonPosition = FabPosition.End,
@@ -131,9 +127,7 @@ fun MusicList(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopSearchBar(
-    searchPlaceHolder : String
-) {
+fun TopSearchBar() {
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
 
@@ -162,7 +156,7 @@ fun TopSearchBar(
                 onActiveChange = {
                     active = it
                 },
-                placeholder = { Text(searchPlaceHolder) },
+                placeholder = { Text("Search your music") },
                 leadingIcon = { Icon(Icons.Default.Menu, contentDescription = null) },
                 trailingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
             ) {
@@ -201,14 +195,6 @@ fun MusicRow(music : RoomMusic){
         Box(
             Modifier.clip(RoundedCornerShape(5.dp))
         ){
-//            AsyncImage(
-//                model = music.actualImage,
-//                placeholder = painterResource(R.drawable.default_album_art_mini),
-//                contentDescription = "Album art",
-//                contentScale = ContentScale.Crop,
-//                modifier = Modifier.aspectRatio(1f)
-//            )
-
             music.actualImage?.let {
                 Image(
                     bitmap = it.asImageBitmap(),
@@ -239,37 +225,3 @@ fun MusicRow(music : RoomMusic){
         }
     }
 }
-
-/*
-fun getAlbumArt(context: Context, uri: Uri, targetWidth: Int, targetHeight: Int): Bitmap {
-    val mmr = MediaMetadataRetriever()
-    mmr.setDataSource(context, uri)
-    val data = mmr.embeddedPicture
-
-    return if(data != null){
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        BitmapFactory.decodeByteArray(data, 0, data.size, options)
-        options.inSampleSize = calculateInSampleSize(options, targetWidth, targetHeight)
-        options.inJustDecodeBounds = false
-        BitmapFactory.decodeByteArray(data, 0, data.size, options)
-
-    } else {
-        BitmapFactory.decodeResource(context.resources, R.drawable.default_album_art_mini)
-    }
-}
-
-fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
-    val height = options.outHeight
-    val width = options.outWidth
-    var inSampleSize = 1
-
-    if (height > reqHeight || width > reqWidth) {
-        val heightRatio = (height.toFloat() / reqHeight.toFloat()).roundToInt()
-        val widthRatio = (width.toFloat() / reqWidth.toFloat()).roundToInt()
-        inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
-    }
-    return inSampleSize
-}
-
- */

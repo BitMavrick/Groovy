@@ -26,4 +26,7 @@ interface MusicDao {
 
     @Query("SELECT * FROM musics ORDER BY title ASC")
     fun getAllMusics(): Flow<List<RoomMusic>>
+
+    @Query("SELECT COUNT(*) FROM musics")
+    fun getTableSize(): Int
 }

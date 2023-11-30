@@ -25,6 +25,10 @@ class LocalMusicsRepository(private val musicDao: MusicDao) : MusicsRepository{
         return musicDao.updateActualImage(musicId, image)
     }
 
+    override fun getTableSize(): Int {
+        return musicDao.getTableSize()
+    }
+
     override suspend fun clearMusic() {
         return musicDao.delete()
     }

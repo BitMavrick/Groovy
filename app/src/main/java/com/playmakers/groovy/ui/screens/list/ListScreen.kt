@@ -40,7 +40,7 @@ fun ListScreen(){
     when (listUiState.listState) {
         ListState.LOADING -> {
             Loading(
-                loadingText = "Getting your music ..."
+                loadingText = listUiState.loadingText
             )
         }
         ListState.LOADED -> {

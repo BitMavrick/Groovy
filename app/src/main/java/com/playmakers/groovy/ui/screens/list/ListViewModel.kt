@@ -32,15 +32,29 @@ class ListViewModel @Inject constructor (
                     )
                 }
 
-                roomMusicsRepository.insertAllMusic(musicRepository.getMusicFiles())
+                val quickFetchMusic = musicRepository.quickFetchMusicFiles()
+                val dbTableSize = roomMusicsRepository.getTableSize()
 
-                _listUiState.update {
-                    it.copy(
-                        musicList = roomMusicsRepository.getAllMusicsStream(),
-                        listState = ListState.LOADED
-                    )
+                if (quickFetchMusic.isEmpty()){
+                    roomMusicsRepository.clearMusic()
+                    _listUiState.update {
+                        it.copy(
+                            listState = ListState.NOT_FOUND
+                        )
+                    }
+                }else{
+                    if(quickFetchMusic.size != dbTableSize){
+                        roomMusicsRepository.clearMusic()
+                        roomMusicsRepository.insertAllMusic(musicRepository.getMusicFiles())
+                    }
+
+                    _listUiState.update {
+                        it.copy(
+                            musicList = roomMusicsRepository.getAllMusicsStream(),
+                            listState = ListState.LOADED
+                        )
+                    }
                 }
-
             }
         }
     }

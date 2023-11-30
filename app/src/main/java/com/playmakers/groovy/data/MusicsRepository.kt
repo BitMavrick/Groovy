@@ -15,5 +15,7 @@ interface MusicsRepository {
 
     suspend fun updateActualImage(musicId: Int, image: Bitmap)
 
+    fun getTableSize() : Int
+
     suspend fun clearMusic()
 }
