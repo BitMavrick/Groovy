@@ -72,9 +72,43 @@ class ListViewModel @Inject constructor (
         }
     }
 
+    private fun refreshMusicList(){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _listUiState.update {
+                    it.copy(
+                        listState = ListState.LOADING,
+                        loadingText = "Refreshing ..."
+                    )
+                }
+
+                val quickFetchMusic = musicRepository.quickFetchMusicFiles()
+
+                if(quickFetchMusic.isEmpty()){
+                    roomMusicsRepository.clearMusic()
+                    _listUiState.update {
+                        it.copy(
+                            listState = ListState.NOT_FOUND
+                        )
+                    }
+                }else{
+                    roomMusicsRepository.clearMusic()
+                    roomMusicsRepository.insertAllMusic(musicRepository.getMusicFiles())
+
+                    _listUiState.update {
+                        it.copy(
+                            musicList = roomMusicsRepository.getAllMusicsStream(),
+                            listState = ListState.LOADED
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     fun onEvent(event: ListEvent){
         when(event){
-            ListEvent.RefreshList -> getMusicFiles()
+            ListEvent.RefreshList -> refreshMusicList()
         }
     }
 
