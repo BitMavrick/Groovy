@@ -24,8 +24,8 @@ class ListViewModel @Inject constructor (
 
     private fun getMusicFiles(){
         viewModelScope.launch {
+            withContext(Dispatchers.IO) {
 
-            withContext(Dispatchers.IO) {// This solved my problem
                 _listUiState.update {
                     it.copy(
                         listState = ListState.LOADING
@@ -40,31 +40,6 @@ class ListViewModel @Inject constructor (
                         listState = ListState.LOADED
                     )
                 }
-
-                /*
-                if(musicList.isEmpty()){
-                    musicList = musicRepository.getMusicFiles()
-                }
-
-
-
-                if (musicList.isEmpty()){
-                    _listUiState.update {
-                        it.copy(
-                            listState = ListState.NOT_FOUND
-                        )
-                    }
-                }else{
-                    roomMusicsRepository.insertAllMusic(musicList)
-                    _listUiState.update {
-                        it.copy(
-                            // musicList = roomMusicsRepository.getAllMusicsStream().firstOrNull() ?: emptyList(),
-                            musicList = musicList,
-                            listState = ListState.LOADED
-                        )
-                    }
-                }
-                */
 
             }
         }

@@ -61,7 +61,7 @@ class MusicRepositoryImpl(
                 val bitmap = getAlbumArt(application, Uri.withAppendedPath(
                     MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                     id.toString()
-                ), 85, 85)
+                ), 100, 100)
 
 
                 val music = RoomMusic(
