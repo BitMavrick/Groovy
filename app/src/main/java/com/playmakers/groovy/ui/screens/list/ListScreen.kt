@@ -39,7 +39,9 @@ fun ListScreen(){
 
     when (listUiState.listState) {
         ListState.LOADING -> {
-            Loading()
+            Loading(
+                loadingText = "Getting your music ..."
+            )
         }
         ListState.LOADED -> {
             listUiState.musicList?.let {
@@ -60,7 +62,9 @@ fun ListScreen(){
 
 
 @Composable
-fun Loading(){
+fun Loading(
+    loadingText : String
+){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -73,7 +77,7 @@ fun Loading(){
         )
 
         Text(
-            text = "Getting your music ...",
+            text = loadingText,
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )

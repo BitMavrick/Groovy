@@ -48,9 +48,9 @@ import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.playmakers.groovy.data.room.RoomMusic
+import com.playmakers.groovy.ui.screens.list.Loading
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun MusicList(
@@ -58,70 +58,82 @@ fun MusicList(
 ){
     val musicListSate by listMusic.collectAsState(initial = emptyList())
 
-    Scaffold(
-        topBar = {
-            TopSearchBar()
-        },
+    // set for loading condition
 
-        floatingActionButtonPosition = FabPosition.End,
-        floatingActionButton = {
+    if(musicListSate.isNotEmpty()){
+        Scaffold(
+            topBar = {
+                TopSearchBar(
+                    searchPlaceHolder = musicListSate.size.toString()
+                )
+            },
 
-            var isFABVisible by remember { mutableStateOf(false) }
+            floatingActionButtonPosition = FabPosition.End,
+            floatingActionButton = {
 
-            LaunchedEffect(Unit){
-                delay(1500L)
-                isFABVisible = true
-            }
+                var isFABVisible by remember { mutableStateOf(false) }
 
-            AnimatedVisibility(
-                visible = isFABVisible,
-                enter = slideInHorizontally (initialOffsetX = { it })
-            ) {
-                ExtendedFloatingActionButton(
-                    onClick = {
-                        // TODO : Shuffle click event
-                    }
+                LaunchedEffect(Unit){
+                    delay(1500L)
+                    isFABVisible = true
+                }
+
+                AnimatedVisibility(
+                    visible = isFABVisible,
+                    enter = slideInHorizontally (initialOffsetX = { it })
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Shuffle,
-                        contentDescription = null
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Shuffle")
-                }
-            }
-        },
-
-        content = { innerPadding ->
-            var isListVisible by remember { mutableStateOf(false) }
-
-            LaunchedEffect(Unit){
-                delay(1.seconds)
-                isListVisible = true
-            }
-
-            AnimatedVisibility(
-                visible = isListVisible,
-                enter = slideInVertically(initialOffsetY = { it }),
-            ) {
-                LazyColumn(
-                    modifier = Modifier.consumeWindowInsets(innerPadding),
-                    contentPadding = innerPadding
-                ){
-                    items(count = musicListSate.size){
-                        MusicRow(
-                            musicListSate[it],
+                    ExtendedFloatingActionButton(
+                        onClick = {
+                            // TODO : Shuffle click event
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Shuffle,
+                            contentDescription = null
                         )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text("Shuffle")
+                    }
+                }
+            },
+
+            content = { innerPadding ->
+                var isListVisible by remember { mutableStateOf(false) }
+
+                LaunchedEffect(Unit){
+                    // delay(1.seconds)
+                    isListVisible = true
+                }
+
+                AnimatedVisibility(
+                    visible = isListVisible,
+                    enter = slideInVertically(initialOffsetY = { it }),
+                ) {
+                    LazyColumn(
+                        modifier = Modifier.consumeWindowInsets(innerPadding),
+                        contentPadding = innerPadding
+                    ){
+                        items(count = musicListSate.size){
+                            MusicRow(
+                                musicListSate[it],
+                            )
+                        }
                     }
                 }
             }
-        }
-    )
+        )
+    }else{
+        Loading(
+            loadingText = "Almost there ..."
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopSearchBar() {
+fun TopSearchBar(
+    searchPlaceHolder : String
+) {
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
 
@@ -150,7 +162,7 @@ fun TopSearchBar() {
                 onActiveChange = {
                     active = it
                 },
-                placeholder = { Text("Search your music") },
+                placeholder = { Text(searchPlaceHolder) },
                 leadingIcon = { Icon(Icons.Default.Menu, contentDescription = null) },
                 trailingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
             ) {
