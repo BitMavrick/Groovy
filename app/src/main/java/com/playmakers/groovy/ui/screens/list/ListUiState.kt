@@ -7,5 +7,6 @@ import kotlinx.coroutines.flow.Flow
 data class ListUiState(
     val musicList: Flow<List<RoomMusic>> ? = null,
     val loadingText : String = "Loading ...",
-    val listState: ListState = ListState.LOADING
+    val listState: ListState = ListState.LOADING,
+    val refreshState : Boolean = false
 )

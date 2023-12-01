@@ -47,6 +47,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.playmakers.groovy.data.room.RoomMusic
 import com.playmakers.groovy.ui.screens.list.Loading
 import kotlinx.coroutines.delay
@@ -54,7 +56,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun MusicList(
-    listMusic: Flow<List<RoomMusic>>
+    listMusic: Flow<List<RoomMusic>>,
+    refreshState: SwipeRefreshState,
+    onSwipeRefresh: () -> Unit
 ){
     val musicListSate by listMusic.collectAsState(initial = emptyList())
 
@@ -97,7 +101,6 @@ fun MusicList(
                 var isListVisible by remember { mutableStateOf(false) }
 
                 LaunchedEffect(Unit){
-                    // delay(1.seconds)
                     isListVisible = true
                 }
 
@@ -105,14 +108,21 @@ fun MusicList(
                     visible = isListVisible,
                     enter = slideInVertically(initialOffsetY = { it }),
                 ) {
-                    LazyColumn(
-                        modifier = Modifier.consumeWindowInsets(innerPadding),
-                        contentPadding = innerPadding
-                    ){
-                        items(count = musicListSate.size){
-                            MusicRow(
-                                musicListSate[it],
-                            )
+                    SwipeRefresh(
+                        state = refreshState,
+                        onRefresh = {
+                            onSwipeRefresh()
+                        }
+                    ) {
+                        LazyColumn(
+                            modifier = Modifier.consumeWindowInsets(innerPadding),
+                            contentPadding = innerPadding
+                        ){
+                            items(count = musicListSate.size){
+                                MusicRow(
+                                    musicListSate[it],
+                                )
+                            }
                         }
                     }
                 }

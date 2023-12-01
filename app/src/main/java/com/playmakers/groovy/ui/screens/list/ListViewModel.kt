@@ -78,6 +78,7 @@ class ListViewModel @Inject constructor (
                 _listUiState.update {
                     it.copy(
                         listState = ListState.LOADING,
+                        refreshState = true,
                         loadingText = "Refreshing ..."
                     )
                 }
@@ -88,6 +89,7 @@ class ListViewModel @Inject constructor (
                     roomMusicsRepository.clearMusic()
                     _listUiState.update {
                         it.copy(
+                            refreshState = false,
                             listState = ListState.NOT_FOUND
                         )
                     }
@@ -98,6 +100,7 @@ class ListViewModel @Inject constructor (
                     _listUiState.update {
                         it.copy(
                             musicList = roomMusicsRepository.getAllMusicsStream(),
+                            refreshState = false,
                             listState = ListState.LOADED
                         )
                     }

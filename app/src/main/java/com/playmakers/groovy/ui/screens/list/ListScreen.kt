@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.playmakers.groovy.R
 import com.playmakers.groovy.ui.components.MusicList
 import com.playmakers.groovy.ui.util.ListState
@@ -35,6 +36,7 @@ import kotlinx.coroutines.delay
 fun ListScreen(){
     val listViewModel = hiltViewModel<ListViewModel>()
     val listUiState = listViewModel.listUiState.collectAsState().value
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = listUiState.refreshState)
     val listEvent = listViewModel::onEvent
 
     when (listUiState.listState) {
@@ -46,7 +48,11 @@ fun ListScreen(){
         ListState.LOADED -> {
             listUiState.musicList?.let {
                 MusicList(
-                    listMusic = it
+                    listMusic = it,
+                    refreshState = swipeRefreshState,
+                    onSwipeRefresh = {
+                        listEvent(ListEvent.RefreshList)
+                    }
                 )
             }
         }
