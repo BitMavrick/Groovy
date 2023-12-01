@@ -98,11 +98,27 @@ dependencies {
     // -> LottieFiles Animations
     implementation ("com.airbnb.android:lottie-compose:6.0.0")
 
-    // -> Coil : For image loading
-    implementation ("io.coil-kt:coil-compose:2.5.0")
-
     // -> Room Database
     implementation ("androidx.room:room-ktx:2.6.0")
     //noinspection KaptUsageInsteadOfKsp
     kapt("androidx.room:room-compiler:2.6.0")
+
+    // -> Accompanist: Swipe to refresh
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
