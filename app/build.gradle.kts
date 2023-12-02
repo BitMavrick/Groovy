@@ -99,9 +99,9 @@ dependencies {
     implementation ("com.airbnb.android:lottie-compose:6.0.0")
 
     // -> Room Database
-    implementation ("androidx.room:room-ktx:2.6.0")
+    implementation ("androidx.room:room-ktx:2.6.1")
     //noinspection KaptUsageInsteadOfKsp
-    kapt("androidx.room:room-compiler:2.6.0")
+    kapt("androidx.room:room-compiler:2.6.1")
 
     // -> Accompanist: Swipe to refresh
     implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
