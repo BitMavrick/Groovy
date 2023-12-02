@@ -35,6 +35,15 @@ class ListViewModel @Inject constructor (
                 val quickFetchMusic = musicRepository.quickFetchMusicFiles()
                 val dbTableSize = roomMusicsRepository.getTableSize()
 
+                /* Note: Yes, it's possible!
+
+                val musicFlow = musicRepository.getMusicsFlow()
+
+                musicFlow.collect{music ->
+                    Log.d("MusicFlow", "Music: ${music.title}")
+                }
+                */
+
                 if (quickFetchMusic.isEmpty()){
                     roomMusicsRepository.clearMusic()
                     _listUiState.update {

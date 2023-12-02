@@ -10,6 +10,8 @@ import android.provider.MediaStore
 import com.playmakers.groovy.R
 import com.playmakers.groovy.data.room.RoomMusic
 import com.playmakers.groovy.domain.repository.MusicRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlin.math.roundToInt
 
 @Suppress("NAME_SHADOWING")
@@ -78,6 +80,74 @@ class MusicRepositoryImpl(
             }
         }
         return musicList
+    }
+
+    override suspend fun getMusicsFlow(): Flow<RoomMusic> {
+
+        val musicResolver = application.contentResolver
+
+        val projection = arrayOf(
+            MediaStore.Audio.Media._ID,
+            MediaStore.Audio.Media.TITLE,
+            MediaStore.Audio.Media.ARTIST,
+            MediaStore.Audio.Media.ALBUM,
+            MediaStore.Audio.Media.DATA
+        )
+
+        val selection = "${MediaStore.Audio.Media.IS_MUSIC} != 0"
+        val sortOrder = "${MediaStore.Audio.Media.TITLE} ASC"
+
+        val cursor = musicResolver.query(
+            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            projection,
+            selection,
+            null,
+            sortOrder
+        )
+
+        val musicFlow  = flow{
+            cursor?.use { cursor ->
+                val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
+                val titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
+                val artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
+                val albumColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)
+                val pathColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+
+                while (cursor.moveToNext()){
+                    val id = cursor.getLong(idColumn)
+                    val title = cursor.getString(titleColumn)
+                    val artist = cursor.getString(artistColumn)
+                    val album = cursor.getString(albumColumn)
+                    val path = cursor.getString(pathColumn)
+                    val imagePath: Uri? = Uri.withAppendedPath(
+                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                        id.toString()
+                    )
+
+
+                    val bitmap = getAlbumArt(application, Uri.withAppendedPath(
+                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                        id.toString()
+                    ), 100, 100)
+
+
+                    val music = RoomMusic(
+                        id = id.toInt(),
+                        title = title,
+                        artist = artist,
+                        album = album,
+                        source = path,
+                        image = path,
+                        imagePath = imagePath,
+                        actualImage = bitmap
+                    )
+                    emit(music)
+                    // delay(1.seconds)
+                }
+            }
+        }
+
+        return musicFlow
     }
 
     override suspend fun quickFetchMusicFiles(): List<RoomMusic> {
