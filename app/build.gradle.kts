@@ -77,7 +77,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
     // -> For Search! NOTE: Search bar won't work without it
-    implementation("androidx.compose.material3:material3:1.2.0-alpha11")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha12")
 
     // -> Compose Material Icons Extended
     implementation ("androidx.compose.material:material-icons-extended:1.5.4")
@@ -106,19 +106,3 @@ dependencies {
     // -> Accompanist: Swipe to refresh
     implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
