@@ -27,3 +27,5 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+// TODO: Forget about the background playing .. make the app as it is and move on, It's take so much time so ...
