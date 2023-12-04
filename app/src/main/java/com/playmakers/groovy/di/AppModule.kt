@@ -4,6 +4,8 @@ import android.app.Application
 import com.playmakers.groovy.data.MusicDataContainer
 import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.data.repository.MusicRepositoryImpl
+import com.playmakers.groovy.data.repository.PlaybackControlImpl
+import com.playmakers.groovy.domain.model.PlaybackControl
 import com.playmakers.groovy.domain.repository.MusicRepository
 import dagger.Module
 import dagger.Provides
@@ -25,5 +27,11 @@ object AppModule {
     @Singleton
     fun provideMusicContainer(app: Application) : MusicsRepository {
         return MusicDataContainer(app).musicsRepository
+    }
+
+    @Provides
+    @Singleton
+    fun providePlaybackControl(app: Application) : PlaybackControl {
+        return PlaybackControlImpl(app.applicationContext)
     }
 }
