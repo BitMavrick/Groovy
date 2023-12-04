@@ -1,6 +1,6 @@
 package com.playmakers.groovy.domain.repository
 
-import com.playmakers.groovy.data.room.RoomMusic
+import com.playmakers.groovy.domain.model.RoomMusic
 import kotlinx.coroutines.flow.Flow
 
 interface MusicRepository {

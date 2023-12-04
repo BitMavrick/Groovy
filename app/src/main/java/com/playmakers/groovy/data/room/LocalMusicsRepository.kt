@@ -2,6 +2,7 @@ package com.playmakers.groovy.data.room
 
 import android.graphics.Bitmap
 import com.playmakers.groovy.data.MusicsRepository
+import com.playmakers.groovy.domain.model.RoomMusic
 import kotlinx.coroutines.flow.Flow
 
 class LocalMusicsRepository(private val musicDao: MusicDao) : MusicsRepository{

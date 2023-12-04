@@ -1,6 +1,6 @@
 package com.playmakers.groovy.ui.screens.list
 
-import com.playmakers.groovy.data.room.RoomMusic
+import com.playmakers.groovy.domain.model.RoomMusic
 import com.playmakers.groovy.ui.util.ListState
 import kotlinx.coroutines.flow.Flow
 

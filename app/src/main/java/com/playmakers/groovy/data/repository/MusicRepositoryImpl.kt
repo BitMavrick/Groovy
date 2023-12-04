@@ -8,7 +8,7 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.provider.MediaStore
 import com.playmakers.groovy.R
-import com.playmakers.groovy.data.room.RoomMusic
+import com.playmakers.groovy.domain.model.RoomMusic
 import com.playmakers.groovy.domain.repository.MusicRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
