@@ -73,7 +73,7 @@ dependencies {
     // -> Dynamic colors
     implementation("androidx.palette:palette-ktx:1.0.0")
 
-    // Navigation :
+    // -> Navigation :
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
     // -> For Search! NOTE: Search bar won't work without it
