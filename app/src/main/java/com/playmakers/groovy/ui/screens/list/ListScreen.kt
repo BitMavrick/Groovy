@@ -35,6 +35,8 @@ import kotlinx.coroutines.delay
 @Composable
 fun ListScreen(){
     val listViewModel = hiltViewModel<ListViewModel>()
+    // val playerViewModel = hiltViewModel<PlayerViewModel>()
+
     val listUiState = listViewModel.listUiState.collectAsState().value
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = listUiState.refreshState)
     val listEvent = listViewModel::onEvent
