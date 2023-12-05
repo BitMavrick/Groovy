@@ -1,6 +1,7 @@
 package com.playmakers.groovy.di
 
 import android.app.Application
+import com.playmakers.groovy.controller.AddMusic
 import com.playmakers.groovy.data.MusicDataContainer
 import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.data.repository.MusicRepositoryImpl
@@ -33,5 +34,11 @@ object AppModule {
     @Singleton
     fun providePlaybackControl(app: Application) : PlaybackControl {
         return PlaybackControlImpl(app.applicationContext)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddMusic(playbackControl: PlaybackControl): AddMusic {
+        return AddMusic(playbackControl)
     }
 }
