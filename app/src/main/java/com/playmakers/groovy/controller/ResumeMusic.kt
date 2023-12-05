@@ -1,4 +1,8 @@
 package com.playmakers.groovy.controller
 
-class ResumeMusic {
+import com.playmakers.groovy.domain.model.PlaybackControl
+
+class ResumeMusic(
+    private val playbackControl: PlaybackControl
+) {
 }

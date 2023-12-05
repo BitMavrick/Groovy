@@ -1,4 +1,8 @@
 package com.playmakers.groovy.controller
 
-class SkipNextMusic {
+import com.playmakers.groovy.domain.model.PlaybackControl
+
+class SkipNextMusic(
+    private val playbackControl: PlaybackControl
+) {
 }

@@ -1,4 +1,8 @@
 package com.playmakers.groovy.controller
 
-class GetMusicPosition {
+import com.playmakers.groovy.domain.model.PlaybackControl
+
+class GetMusicPosition(
+    private val playbackControl: PlaybackControl
+) {
 }

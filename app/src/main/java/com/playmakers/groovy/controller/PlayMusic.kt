@@ -1,4 +1,8 @@
 package com.playmakers.groovy.controller
 
-class PlayMusic {
+import com.playmakers.groovy.domain.model.PlaybackControl
+
+class PlayMusic(
+    private val playbackControl: PlaybackControl
+) {
 }

@@ -1,4 +1,8 @@
 package com.playmakers.groovy.controller
 
-class SetMediaControlCallback {
+import com.playmakers.groovy.domain.model.PlaybackControl
+
+class SetMediaControlCallback(
+    private val playbackControl: PlaybackControl
+) {
 }
