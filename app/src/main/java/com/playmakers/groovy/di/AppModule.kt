@@ -4,6 +4,12 @@ import android.app.Application
 import com.playmakers.groovy.controller.AddMusic
 import com.playmakers.groovy.controller.DestroyMusicPlaybackControl
 import com.playmakers.groovy.controller.GetMusicPosition
+import com.playmakers.groovy.controller.PauseMusic
+import com.playmakers.groovy.controller.PlayMusic
+import com.playmakers.groovy.controller.ResumeMusic
+import com.playmakers.groovy.controller.SetMediaControlCallback
+import com.playmakers.groovy.controller.SkipNextMusic
+import com.playmakers.groovy.controller.SkipPreviousMusic
 import com.playmakers.groovy.data.MusicDataContainer
 import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.data.repository.MusicRepositoryImpl
@@ -22,7 +28,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMusicRepository(app: Application) : MusicRepository{
+    fun provideMusicRepository(app: Application) : MusicRepository {
         return MusicRepositoryImpl(app)
     }
 
@@ -46,7 +52,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDestroyMusicPlaybackControl(playbackControl: PlaybackControl): DestroyMusicPlaybackControl{
+    fun provideDestroyMusicPlaybackControl(playbackControl: PlaybackControl): DestroyMusicPlaybackControl {
         return DestroyMusicPlaybackControl(playbackControl)
     }
 
@@ -58,49 +64,37 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provide1(playbackControl: PlaybackControl){
-
+    fun providePauseMusic(playbackControl: PlaybackControl) : PauseMusic {
+        return PauseMusic(playbackControl)
     }
 
     @Provides
     @Singleton
-    fun provide2(playbackControl: PlaybackControl){
-
+    fun providePlayMusic(playbackControl: PlaybackControl) : PlayMusic {
+        return PlayMusic(playbackControl)
     }
 
     @Provides
     @Singleton
-    fun provide3(playbackControl: PlaybackControl){
-
+    fun provideResumeMusic(playbackControl: PlaybackControl) : ResumeMusic {
+        return ResumeMusic(playbackControl)
     }
 
     @Provides
     @Singleton
-    fun provide4(playbackControl: PlaybackControl){
-
+    fun provideSetMediaControlCallback(playbackControl: PlaybackControl) : SetMediaControlCallback {
+        return SetMediaControlCallback(playbackControl)
     }
 
     @Provides
     @Singleton
-    fun provide5(playbackControl: PlaybackControl){
-
+    fun provideSkipNextMusic(playbackControl: PlaybackControl) : SkipNextMusic {
+        return SkipNextMusic(playbackControl)
     }
 
     @Provides
     @Singleton
-    fun provide6(playbackControl: PlaybackControl){
-
-    }
-
-    @Provides
-    @Singleton
-    fun provide7(playbackControl: PlaybackControl){
-
-    }
-
-    @Provides
-    @Singleton
-    fun provide8(playbackControl: PlaybackControl){
-
+    fun provideSkipPreviousMusic(playbackControl: PlaybackControl) : SkipPreviousMusic {
+        return SkipPreviousMusic(playbackControl)
     }
 }
