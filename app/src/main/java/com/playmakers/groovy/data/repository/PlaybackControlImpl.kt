@@ -17,7 +17,6 @@ import com.playmakers.groovy.domain.model.toMusic
 import com.playmakers.groovy.service.PlaybackService
 
 class PlaybackControlImpl(context: Context) : PlaybackControl {
-
     private var mediaControllerFuture: ListenableFuture<MediaController>
     private val mediaController: MediaController?
         get() = if (mediaControllerFuture.isDone) mediaControllerFuture.get() else null
