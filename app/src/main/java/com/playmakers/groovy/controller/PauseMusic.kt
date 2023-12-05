@@ -5,4 +5,7 @@ import com.playmakers.groovy.domain.model.PlaybackControl
 class PauseMusic(
     private val playbackControl: PlaybackControl
 ) {
+    operator fun invoke(){
+        playbackControl.pause()
+    }
 }

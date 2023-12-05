@@ -5,4 +5,7 @@ import com.playmakers.groovy.domain.model.PlaybackControl
 class SkipPreviousMusic(
     private val playbackControl: PlaybackControl
 ) {
+    operator fun invoke(){
+        playbackControl.skipPrevious()
+    }
 }
