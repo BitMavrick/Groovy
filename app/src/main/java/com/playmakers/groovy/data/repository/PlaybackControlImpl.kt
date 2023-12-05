@@ -2,6 +2,9 @@ package com.playmakers.groovy.data.repository
 
 import android.content.ComponentName
 import android.content.Context
+import android.net.Uri
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
@@ -60,46 +63,67 @@ class PlaybackControlImpl(context: Context) : PlaybackControl {
         }
 
     override fun addMediaItems(musics: List<RoomMusic>) {
-        TODO("Not yet implemented")
+        val mediaItems = musics.map {
+            MediaItem.Builder()
+                .setMediaId(it.source)
+                .setUri(it.source)
+                .setMediaMetadata(
+                    MediaMetadata.Builder()
+                        .setTitle(it.title)
+                        .setArtist(it.artist)
+                        .setArtworkUri(Uri.parse(it.image))
+                        .build()
+                )
+                .build()
+        }
+
+        mediaController?.setMediaItems(mediaItems)
     }
 
     override fun play(mediaItemIndex: Int) {
-        TODO("Not yet implemented")
+        mediaController?.apply {
+            seekToDefaultPosition(mediaItemIndex)
+            playWhenReady = true
+            prepare()
+        }
     }
 
     override fun resume() {
-        TODO("Not yet implemented")
+        mediaController?.play()
     }
 
     override fun pause() {
-        TODO("Not yet implemented")
+        mediaController?.pause()
     }
 
     override fun seekTo(position: Long) {
-        TODO("Not yet implemented")
+        mediaController?.seekTo(position)
     }
 
     override fun skipNext() {
-        TODO("Not yet implemented")
+        mediaController?.seekToNext()
     }
 
     override fun skipPrevious() {
-        TODO("Not yet implemented")
+        mediaController?.seekToPrevious()
     }
 
     override fun setShuffleModeEnabled(isEnabled: Boolean) {
-        TODO("Not yet implemented")
+        mediaController?.shuffleModeEnabled = isEnabled
     }
 
     override fun setRepeatOneEnabled(isEnabled: Boolean) {
-        TODO("Not yet implemented")
+        mediaController?.repeatMode = if (isEnabled) {
+            Player.REPEAT_MODE_ONE
+        } else {
+            Player.REPEAT_MODE_OFF
+        }
     }
 
-    override fun getCurrentPosition(): Long {
-        TODO("Not yet implemented")
-    }
+    override fun getCurrentPosition() = mediaController?.currentPosition ?: 0L
 
     override fun destroy() {
-        TODO("Not yet implemented")
+        MediaController.releaseFuture(mediaControllerFuture)
+        mediaControllerCallback = null
     }
 }
