@@ -70,6 +70,20 @@ class PlayerViewModel @Inject constructor (
         }
     }
 
+    fun onEvent(event : PlayerEvent){
+        when(event){
+            PlayerEvent.PlayMusic -> playMusic()
+
+            PlayerEvent.ResumeMusic -> resumeMusic()
+
+            PlayerEvent.PauseMusic -> pauseMusic()
+
+            is PlayerEvent.OnMusicSelected -> {
+                playerUiState = playerUiState.copy(selectedMusic = event.selectedMusic)
+            }
+        }
+    }
+
     private fun playMusic(){
         playerUiState.apply {
             musicList?.indexOf(selectedMusic)?.let {
