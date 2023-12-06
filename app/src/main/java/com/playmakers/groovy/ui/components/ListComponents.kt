@@ -51,6 +51,8 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.playmakers.groovy.domain.model.RoomMusic
 import com.playmakers.groovy.ui.screens.list.Loading
+import com.playmakers.groovy.ui.screens.player.PlayerEvent
+import com.playmakers.groovy.ui.screens.player.PlayerViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 
@@ -58,9 +60,11 @@ import kotlinx.coroutines.flow.Flow
 fun MusicList(
     listMusic: Flow<List<RoomMusic>>,
     refreshState: SwipeRefreshState,
+    playerViewModel: PlayerViewModel,
     onSwipeRefresh: () -> Unit
 ){
     val musicListSate by listMusic.collectAsState(initial = emptyList())
+    val playerEvent = playerViewModel::onEvent
 
     if(musicListSate.isNotEmpty()){
         Scaffold(
@@ -121,6 +125,10 @@ fun MusicList(
                             items(count = musicListSate.size){
                                 MusicRow(
                                     musicListSate[it],
+                                    onMusicClick = {
+                                        playerEvent(PlayerEvent.OnMusicSelected(musicListSate[it]))
+                                        playerEvent(PlayerEvent.PlayMusic)
+                                    }
                                 )
                             }
                         }
@@ -192,11 +200,14 @@ fun TopSearchBar() {
 
 
 @Composable
-fun MusicRow(music : RoomMusic){
+fun MusicRow(
+    music : RoomMusic,
+    onMusicClick: () -> Unit
+){
     Row(
         Modifier
             .clickable {
-                // TODO : Music click event
+                onMusicClick()
             }
             .fillMaxWidth()
             .height(72.dp)

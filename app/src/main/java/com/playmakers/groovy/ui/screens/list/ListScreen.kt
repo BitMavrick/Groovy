@@ -40,6 +40,7 @@ fun ListScreen(){
 
     val listUiState = listViewModel.listUiState.collectAsState().value
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = listUiState.refreshState)
+
     val listEvent = listViewModel::onEvent
 
     when (listUiState.listState) {
@@ -53,6 +54,7 @@ fun ListScreen(){
                 MusicList(
                     listMusic = it,
                     refreshState = swipeRefreshState,
+                    playerViewModel = playerViewModel,
                     onSwipeRefresh = {
                         listEvent(ListEvent.RefreshList)
                     }

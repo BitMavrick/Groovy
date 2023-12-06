@@ -21,7 +21,7 @@ data class RoomMusic (
 
 fun MediaItem.toMusic() =
     RoomMusic(
-        id = mediaId.toInt(),
+        id = 0,
         title = mediaMetadata.title.toString(),
         artist = mediaMetadata.artist.toString(),
         album = mediaMetadata.albumTitle.toString(),
