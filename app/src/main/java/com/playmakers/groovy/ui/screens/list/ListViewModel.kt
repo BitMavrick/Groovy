@@ -10,7 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -80,7 +79,7 @@ class ListViewModel @Inject constructor (
                             listState = ListState.LOADED
                         )
                     }
-                    addMusic(musicList.first())
+                    // addMusic(musicList.first())
                 }
             }
         }
@@ -121,7 +120,7 @@ class ListViewModel @Inject constructor (
                         )
                     }
 
-                    addMusic(musicList.first())
+                    // addMusic(musicList.first())
                 }
             }
         }

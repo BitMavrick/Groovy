@@ -29,13 +29,14 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.playmakers.groovy.R
 import com.playmakers.groovy.ui.components.MusicList
+import com.playmakers.groovy.ui.screens.player.PlayerViewModel
 import com.playmakers.groovy.ui.util.ListState
 import kotlinx.coroutines.delay
 
 @Composable
 fun ListScreen(){
     val listViewModel = hiltViewModel<ListViewModel>()
-    // val playerViewModel = hiltViewModel<PlayerViewModel>()
+    val playerViewModel = hiltViewModel<PlayerViewModel>()
 
     val listUiState = listViewModel.listUiState.collectAsState().value
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = listUiState.refreshState)
