@@ -39,6 +39,9 @@ class PlayerViewModel @Inject constructor (
         viewModelScope.launch {
             val musicFlow = roomMusicsRepository.getAllMusicsStream()
             addMusic(musicFlow.first())
+            playerUiState.apply {
+                musicList = musicFlow.first()
+            }
         }
     }
 
@@ -67,7 +70,25 @@ class PlayerViewModel @Inject constructor (
         }
     }
 
+    private fun playMusic(){
+        playerUiState.apply {
+            musicList?.indexOf(selectedMusic)?.let {
+                playMusic(it)
+            }
+        }
+    }
 
+    private fun resumeMusic() {
+        resumeMusic()
+    }
+
+    private fun pauseMusic() {
+        pauseMusic()
+    }
+
+    fun destroyMediaController(){
+        destroyController()
+    }
 
     init {
         addMusicToMedia()
