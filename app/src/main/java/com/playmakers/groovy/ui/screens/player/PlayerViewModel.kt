@@ -1,6 +1,5 @@
 package com.playmakers.groovy.ui.screens.player
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playmakers.groovy.controller.AddMusic
@@ -28,7 +27,6 @@ class PlayerViewModel @Inject constructor (
     private val roomMusicsRepository: MusicsRepository,
 ) : ViewModel() {
     private fun addMusicToMedia(){
-        Log.d("AddMusic", "Outside the viewmodel")
         viewModelScope.launch {
             val musicFlow = roomMusicsRepository.getAllMusicsStream()
             addMusic(musicFlow.first())
