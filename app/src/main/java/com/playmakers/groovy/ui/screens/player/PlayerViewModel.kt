@@ -1,5 +1,9 @@
 package com.playmakers.groovy.ui.screens.player
 
+import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playmakers.groovy.controller.AddMusic
@@ -10,10 +14,13 @@ import com.playmakers.groovy.controller.PlayMusic
 import com.playmakers.groovy.controller.ResumeMusic
 import com.playmakers.groovy.controller.SetMediaControlCallback
 import com.playmakers.groovy.data.MusicsRepository
+import com.playmakers.groovy.domain.model.PlayerState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class PlayerViewModel @Inject constructor (
@@ -26,6 +33,8 @@ class PlayerViewModel @Inject constructor (
     private val destroyController: DestroyMusicPlaybackControl,
     private val roomMusicsRepository: MusicsRepository,
 ) : ViewModel() {
+    var playerUiState by mutableStateOf(PlayerUiState())
+        private set
     private fun addMusicToMedia(){
         viewModelScope.launch {
             val musicFlow = roomMusicsRepository.getAllMusicsStream()
@@ -33,7 +42,35 @@ class PlayerViewModel @Inject constructor (
         }
     }
 
+    private fun setMediaControllerCallback(){
+        setMediaControlCallBack { playerState, currentMusic, currentPosition, totalDuration, isShuffleEnabled, isRepeatOneEnabled ->
+            playerUiState = playerUiState.copy(
+                playerState = playerState,
+                currentMusic = currentMusic,
+                currentPosition = currentPosition,
+                totalDuration = totalDuration,
+                isShuffleEnabled = isShuffleEnabled,
+                isRepeatOneEnabled = isRepeatOneEnabled
+            )
+
+            if(playerState == PlayerState.PLAYING){
+                viewModelScope.launch {
+                    while (true){
+                        delay(1.seconds)
+                        Log.d("Debug", "-- UPDATE THE MUSIC STATUS --")
+                        playerUiState = playerUiState.copy(
+                            currentPosition = getCurrentMediaPosition()
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+
+
     init {
         addMusicToMedia()
+        setMediaControllerCallback()
     }
 }
