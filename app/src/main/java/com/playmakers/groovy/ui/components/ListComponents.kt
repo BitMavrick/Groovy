@@ -126,7 +126,7 @@ fun MusicList(
                                 MusicRow(
                                     musicListSate[it],
                                     onMusicClick = {
-                                        playerEvent(PlayerEvent.OnMusicSelected(musicListSate[it]))
+                                        playerEvent(PlayerEvent.OnMusicSelected(musicListSate[it].id))
                                         playerEvent(PlayerEvent.PlayMusic)
                                     }
                                 )

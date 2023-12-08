@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "Musics")
 data class RoomMusic (
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey(autoGenerate = false)
+    val id: String,
     val title: String,
     val artist: String,
     val album: String,
@@ -21,7 +21,7 @@ data class RoomMusic (
 
 fun MediaItem.toMusic() =
     RoomMusic(
-        id = mediaMetadata.hashCode(),
+        id = mediaId,
         title = mediaMetadata.title.toString(),
         artist = mediaMetadata.artist.toString(),
         album = mediaMetadata.albumTitle.toString(),

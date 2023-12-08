@@ -67,7 +67,7 @@ class MusicRepositoryImpl(
 
 
                 val music = RoomMusic(
-                    id = id.toInt(),
+                    id = path,
                     title = title,
                     artist = artist,
                     album = album,
@@ -132,7 +132,7 @@ class MusicRepositoryImpl(
 
 
                     val music = RoomMusic(
-                        id = id.toInt(),
+                        id = path,
                         title = title,
                         artist = artist,
                         album = album,
@@ -192,7 +192,7 @@ class MusicRepositoryImpl(
                 )
 
                 val music = RoomMusic(
-                    id = id.toInt(),
+                    id = path,
                     title = title,
                     artist = artist,
                     album = album,
