@@ -20,5 +20,4 @@ class SetMediaControlCallback @Inject constructor(
     ){
         playbackControl.mediaControllerCallback = callback
     }
-
 }
