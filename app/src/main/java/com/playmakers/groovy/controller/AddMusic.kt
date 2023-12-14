@@ -9,7 +9,7 @@ class AddMusic  @Inject constructor(
     private val playbackControl: PlaybackControl
 ) {
     operator fun invoke(musics: List<RoomMusic>){
-        Log.d("AddMusic", "Total Music added: ${musics.size}")
+        Log.d("Groovy Music", "Total Music added: ${musics.size}")
         playbackControl.addMediaItems(musics)
     }
 }

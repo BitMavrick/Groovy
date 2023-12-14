@@ -3,7 +3,6 @@ package com.playmakers.groovy.ui.screens.list
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.playmakers.groovy.controller.AddMusic
 import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.domain.repository.MusicRepository
 import com.playmakers.groovy.ui.util.ListState
@@ -20,7 +19,7 @@ import javax.inject.Inject
 class ListViewModel @Inject constructor (
     private val musicRepository: MusicRepository,
     private val roomMusicsRepository: MusicsRepository,
-    private val addMusic: AddMusic,
+    // private val addMusic: AddMusic,
 ): ViewModel() {
     private val _listUiState = MutableStateFlow(ListUiState())
     val listUiState: StateFlow<ListUiState> = _listUiState
@@ -83,7 +82,7 @@ class ListViewModel @Inject constructor (
                             listState = ListState.LOADED
                         )
                     }
-                    // addMusic(musicList.first())
+                    // addMusic(musicList) --> Warning: Calling from the wrong thread
                 }
             }
         }
@@ -114,17 +113,18 @@ class ListViewModel @Inject constructor (
                     roomMusicsRepository.clearMusic()
                     roomMusicsRepository.insertAllMusic(musicRepository.getMusicFiles())
 
-                    val musicList = roomMusicsRepository.getAllMusicsStream()
+                    val musicList = roomMusicsRepository.getAllMusicsStreamAsList()
 
                     _listUiState.update {
                         it.copy(
-                            musicList = musicList,
+                            // musicList = musicList,
+                            musicListAsList = musicList,
                             refreshState = false,
                             listState = ListState.LOADED
                         )
                     }
 
-                    // addMusic(musicList.first())
+                    // addMusic(musicList) --> Warning: Calling from the wrong thread
                 }
             }
         }
