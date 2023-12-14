@@ -21,6 +21,7 @@ class MusicRepositoryImpl(
     override suspend fun getMusicFiles(): List<RoomMusic> {
         val musicList = mutableListOf<RoomMusic>()
         val musicResolver = application.contentResolver
+        var idValue = 0
 
         val projection = arrayOf(
             MediaStore.Audio.Media._ID,
@@ -67,7 +68,7 @@ class MusicRepositoryImpl(
 
 
                 val music = RoomMusic(
-                    id = path,
+                    id = idValue.toString(),
                     title = title,
                     artist = artist,
                     album = album,
@@ -77,6 +78,7 @@ class MusicRepositoryImpl(
                     actualImage = bitmap
                 )
                 musicList.add(music)
+                idValue ++
             }
         }
         return musicList
@@ -85,6 +87,7 @@ class MusicRepositoryImpl(
     override suspend fun getMusicsFlow(): Flow<RoomMusic> {
 
         val musicResolver = application.contentResolver
+        var idValue = 0
 
         val projection = arrayOf(
             MediaStore.Audio.Media._ID,
@@ -132,7 +135,7 @@ class MusicRepositoryImpl(
 
 
                     val music = RoomMusic(
-                        id = path,
+                        id = idValue.toString(),
                         title = title,
                         artist = artist,
                         album = album,
@@ -142,6 +145,7 @@ class MusicRepositoryImpl(
                         actualImage = bitmap
                     )
                     emit(music)
+                    idValue ++
                     // delay(1.seconds)
                 }
             }
@@ -153,6 +157,7 @@ class MusicRepositoryImpl(
     override suspend fun quickFetchMusicFiles(): List<RoomMusic> {
         val musicList = mutableListOf<RoomMusic>()
         val musicResolver = application.contentResolver
+        var idValue = 0
 
         val projection = arrayOf(
             MediaStore.Audio.Media._ID,
@@ -192,7 +197,7 @@ class MusicRepositoryImpl(
                 )
 
                 val music = RoomMusic(
-                    id = path,
+                    id = idValue.toString(),
                     title = title,
                     artist = artist,
                     album = album,
@@ -202,6 +207,7 @@ class MusicRepositoryImpl(
                     actualImage = null
                 )
                 musicList.add(music)
+                idValue ++
             }
         }
         return musicList
