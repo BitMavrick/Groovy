@@ -37,7 +37,7 @@ class PlayerViewModel @Inject constructor (
         private set
     private fun addMusicToMedia(){
         viewModelScope.launch {
-            val musicFlow = roomMusicsRepository.getAllMusicsStream()
+            val musicFlow = roomMusicsRepository.getAllMusicsStream() // --> Warning: Can't call List<Music> here, It will block the main thread!
             addMusic(musicFlow.first())
             playerUiState.apply {
                 musicList = musicFlow.first()
