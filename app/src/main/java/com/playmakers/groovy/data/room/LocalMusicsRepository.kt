@@ -10,6 +10,10 @@ class LocalMusicsRepository(private val musicDao: MusicDao) : MusicsRepository{
         return musicDao.getAllMusics()
     }
 
+    override fun getAllMusicsStreamAsList(): List<RoomMusic> {
+        return musicDao.getAllMusicsAsList()
+    }
+
     override fun getMusicStream(id: Int): Flow<RoomMusic> {
         return musicDao.getMusic(id)
     }

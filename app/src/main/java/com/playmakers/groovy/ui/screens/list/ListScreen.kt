@@ -50,6 +50,7 @@ fun ListScreen(){
             )
         }
         ListState.LOADED -> {
+            /*
             listUiState.musicList?.let {
                 MusicList(
                     listMusic = it,
@@ -60,6 +61,17 @@ fun ListScreen(){
                     }
                 )
             }
+
+             */
+
+            MusicList(
+                listMusic = listUiState.musicListAsList,
+                refreshState = swipeRefreshState,
+                playerViewModel = playerViewModel,
+                onSwipeRefresh = {
+                    listEvent(ListEvent.RefreshList)
+                }
+            )
         }
         ListState.NOT_FOUND -> {
             NotFound(

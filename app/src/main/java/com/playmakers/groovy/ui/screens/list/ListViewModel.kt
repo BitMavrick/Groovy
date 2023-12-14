@@ -1,5 +1,6 @@
 package com.playmakers.groovy.ui.screens.list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playmakers.groovy.controller.AddMusic
@@ -71,11 +72,14 @@ class ListViewModel @Inject constructor (
                         roomMusicsRepository.insertAllMusic(musicRepository.getMusicFiles())
                     }
 
-                    val musicList = roomMusicsRepository.getAllMusicsStream()
+                    val musicList = roomMusicsRepository.getAllMusicsStreamAsList()
+
+                    Log.d("Groovy Music", "The music list size is : ${musicList.size}")
 
                     _listUiState.update {
                         it.copy(
-                            musicList = musicList,
+                            // musicList = musicList,
+                            musicListAsList = musicList,
                             listState = ListState.LOADED
                         )
                     }

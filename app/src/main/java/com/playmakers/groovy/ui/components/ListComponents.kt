@@ -33,7 +33,6 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,22 +50,19 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.playmakers.groovy.domain.model.RoomMusic
 import com.playmakers.groovy.ui.screens.list.Loading
-import com.playmakers.groovy.ui.screens.player.PlayerEvent
 import com.playmakers.groovy.ui.screens.player.PlayerViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun MusicList(
-    listMusic: Flow<List<RoomMusic>>,
+    listMusic: List<RoomMusic>,
     refreshState: SwipeRefreshState,
     playerViewModel: PlayerViewModel,
     onSwipeRefresh: () -> Unit
 ){
-    val musicListSate by listMusic.collectAsState(initial = emptyList())
     val playerEvent = playerViewModel::onEvent
 
-    if(musicListSate.isNotEmpty()){
+    if(listMusic.isNotEmpty()){
         Scaffold(
             topBar = {
                 TopSearchBar()
@@ -122,12 +118,12 @@ fun MusicList(
                             modifier = Modifier.consumeWindowInsets(innerPadding),
                             contentPadding = innerPadding
                         ){
-                            items(count = musicListSate.size){
+                            items(count = listMusic.size){
                                 MusicRow(
-                                    musicListSate[it],
+                                    listMusic[it],
                                     onMusicClick = {
-                                        playerEvent(PlayerEvent.OnMusicSelected(musicListSate[it].id))
-                                        playerEvent(PlayerEvent.PlayMusic)
+                                        // playerEvent(PlayerEvent.OnMusicSelected(musicListSate[it].id))
+                                        // playerEvent(PlayerEvent.PlayMusic)
                                     }
                                 )
                             }
