@@ -9,6 +9,6 @@ data class PlayerUiState (
     val totalDuration: Long = 0L,
     val isShuffleEnabled: Boolean = false,
     val isRepeatOneEnabled: Boolean = false,
-    val selectedMusic : String? = null,
+    val selectedMusic : RoomMusic? = null,
     var musicList: List<RoomMusic>? = emptyList(),
 )

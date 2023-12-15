@@ -50,6 +50,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.playmakers.groovy.domain.model.RoomMusic
 import com.playmakers.groovy.ui.screens.list.Loading
+import com.playmakers.groovy.ui.screens.player.PlayerEvent
 import com.playmakers.groovy.ui.screens.player.PlayerViewModel
 import kotlinx.coroutines.delay
 
@@ -122,8 +123,8 @@ fun MusicList(
                                 MusicRow(
                                     listMusic[it],
                                     onMusicClick = {
-                                        // playerEvent(PlayerEvent.OnMusicSelected(musicListSate[it].id))
-                                        // playerEvent(PlayerEvent.PlayMusic)
+                                        playerEvent(PlayerEvent.OnMusicSelected(listMusic[it]))
+                                        playerEvent(PlayerEvent.PlayMusic)
                                     }
                                 )
                             }

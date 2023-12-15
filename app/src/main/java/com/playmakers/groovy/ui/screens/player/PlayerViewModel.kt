@@ -85,12 +85,11 @@ class PlayerViewModel @Inject constructor (
     }
 
     private fun playMusic(){
-//        playerUiState.apply {
-//            musicList?.indexOf(selectedMusic)?.let {
-//                Log.d("PlayMusic","The Selected music id is : $it")
-//                // playMusic(it)
-//            }
-//        }
+        playerUiState.apply {
+            musicList?.indexOf(selectedMusic)?.let {
+                playMusic(it)
+            }
+        }
 
         if(playerUiState.selectedMusic != null){
             Log.d("PlayMusic","The Selected music id is : ${playerUiState.selectedMusic}")
