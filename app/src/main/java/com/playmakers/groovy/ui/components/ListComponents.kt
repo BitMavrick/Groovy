@@ -135,7 +135,7 @@ fun MusicList(
         )
     }else{
         Loading(
-            loadingText = "Almost there ..."
+            loadingText = "Almost there ..." // Continue from here ....
         )
     }
 }

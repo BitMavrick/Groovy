@@ -8,6 +8,7 @@ import com.playmakers.groovy.controller.PauseMusic
 import com.playmakers.groovy.controller.PlayMusic
 import com.playmakers.groovy.controller.ResumeMusic
 import com.playmakers.groovy.controller.SetMediaControlCallback
+import com.playmakers.groovy.controller.SetShuffleMode
 import com.playmakers.groovy.controller.SkipNextMusic
 import com.playmakers.groovy.controller.SkipPreviousMusic
 import com.playmakers.groovy.data.MusicDataContainer
@@ -96,5 +97,12 @@ object AppModule {
     @Singleton
     fun provideSkipPreviousMusic(playbackControl: PlaybackControl) : SkipPreviousMusic {
         return SkipPreviousMusic(playbackControl)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideSetShuffleMode(playbackControl: PlaybackControl) : SetShuffleMode {
+        return SetShuffleMode(playbackControl)
     }
 }

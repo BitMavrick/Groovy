@@ -13,6 +13,7 @@ import com.playmakers.groovy.controller.PauseMusic
 import com.playmakers.groovy.controller.PlayMusic
 import com.playmakers.groovy.controller.ResumeMusic
 import com.playmakers.groovy.controller.SetMediaControlCallback
+import com.playmakers.groovy.controller.SetShuffleMode
 import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.domain.model.PlayerState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,6 +31,7 @@ class PlayerViewModel @Inject constructor (
     private val pauseMusic: PauseMusic,
     private val setMediaControlCallBack:SetMediaControlCallback,
     private val getCurrentMediaPosition: GetMusicPosition,
+    private val setShuffleMode: SetShuffleMode,
     private val destroyController: DestroyMusicPlaybackControl,
     private val roomMusicsRepository: MusicsRepository,
 ) : ViewModel() {
@@ -107,5 +109,6 @@ class PlayerViewModel @Inject constructor (
     init {
         addMusicToMedia()
         setMediaControllerCallback()
+        setShuffleMode(true)
     }
 }
