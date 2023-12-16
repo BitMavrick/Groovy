@@ -80,24 +80,15 @@ class PlayerViewModel @Inject constructor (
 
             is PlayerEvent.OnMusicSelected -> {
                 playerUiState = playerUiState.copy(selectedMusic = event.selectedMusic)
-                Log.d("PlayMusic","The Selected music id is : ${playerUiState.selectedMusic?.title}")
             }
         }
     }
 
     private fun playMusic(){
         playerUiState.apply {
-            /*
-            musicList?.indexOf(selectedMusic)?.let {
-                playMusic(it)
-                Log.d("PlayMusic","The playing index is : $it")
-            } // --> This passed the music index : -1
-             */
-            selectedMusic?.id?.let { playMusic(it.toInt()) } // Successfully passing the correct music index
-        }
-
-        if(playerUiState.selectedMusic != null){
-            Log.d("PlayMusic","The Selected music id is : ${playerUiState.selectedMusic}")
+            selectedMusic?.id?.let {
+                playMusic(it.toInt())
+            }
         }
     }
 
