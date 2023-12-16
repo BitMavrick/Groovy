@@ -1,6 +1,5 @@
 package com.playmakers.groovy.ui.screens.player
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -62,7 +61,6 @@ class PlayerViewModel @Inject constructor (
                 viewModelScope.launch {
                     while (true){
                         delay(1.seconds)
-                        Log.d("Debug", "-- UPDATE THE MUSIC STATUS --")
                         playerUiState = playerUiState.copy(
                             currentPosition = getCurrentMediaPosition()
                         )
@@ -109,6 +107,6 @@ class PlayerViewModel @Inject constructor (
     init {
         addMusicToMedia()
         setMediaControllerCallback()
-        setShuffleMode(true)
+        // setShuffleMode(true)
     }
 }

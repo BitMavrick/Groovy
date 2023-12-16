@@ -1,6 +1,5 @@
 package com.playmakers.groovy.ui.screens.list
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playmakers.groovy.data.MusicsRepository
@@ -19,7 +18,6 @@ import javax.inject.Inject
 class ListViewModel @Inject constructor (
     private val musicRepository: MusicRepository,
     private val roomMusicsRepository: MusicsRepository,
-    // private val addMusic: AddMusic,
 ): ViewModel() {
     private val _listUiState = MutableStateFlow(ListUiState())
     val listUiState: StateFlow<ListUiState> = _listUiState
@@ -73,16 +71,12 @@ class ListViewModel @Inject constructor (
 
                     val musicList = roomMusicsRepository.getAllMusicsStreamAsList()
 
-                    Log.d("Groovy Music", "The music list size is : ${musicList.size}")
-
                     _listUiState.update {
                         it.copy(
-                            // musicList = musicList,
                             musicListAsList = musicList,
                             listState = ListState.LOADED
                         )
                     }
-                    // addMusic(musicList) --> Warning: Calling from the wrong thread
                 }
             }
         }
@@ -117,14 +111,11 @@ class ListViewModel @Inject constructor (
 
                     _listUiState.update {
                         it.copy(
-                            // musicList = musicList,
                             musicListAsList = musicList,
                             refreshState = false,
                             listState = ListState.LOADED
                         )
                     }
-
-                    // addMusic(musicList) --> Warning: Calling from the wrong thread
                 }
             }
         }
