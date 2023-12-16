@@ -81,6 +81,11 @@ class PlayerViewModel @Inject constructor (
             is PlayerEvent.OnMusicSelected -> {
                 playerUiState = playerUiState.copy(selectedMusic = event.selectedMusic)
             }
+
+            is PlayerEvent.SetShuffleMode -> {
+                playerUiState = playerUiState.copy(isShuffleEnabled = event.shuffleEnable)
+                setShuffleMode(event.shuffleEnable)
+            }
         }
     }
 
@@ -107,6 +112,5 @@ class PlayerViewModel @Inject constructor (
     init {
         addMusicToMedia()
         setMediaControllerCallback()
-        // setShuffleMode(true)
     }
 }
