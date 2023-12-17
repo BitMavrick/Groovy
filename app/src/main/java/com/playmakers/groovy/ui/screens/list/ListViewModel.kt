@@ -1,10 +1,14 @@
 package com.playmakers.groovy.ui.screens.list
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playmakers.groovy.controller.AddMusic
 import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.domain.repository.MusicRepository
+import com.playmakers.groovy.ui.screens.player.PlayerUiState
 import com.playmakers.groovy.ui.util.ListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +28,9 @@ class ListViewModel @Inject constructor (
 ): ViewModel() {
     private val _listUiState = MutableStateFlow(ListUiState())
     val listUiState: StateFlow<ListUiState> = _listUiState
+
+    var playerUiState by mutableStateOf(PlayerUiState())
+        private set
 
     private fun getMusicFiles(){
         viewModelScope.launch {
@@ -82,6 +89,12 @@ class ListViewModel @Inject constructor (
                     }
                 }
             }
+
+            val musicFlow = roomMusicsRepository.getAllMusicsStream()
+            addMusic(musicFlow.first()) // --> Assumed: addMusic causes the music restart while reopen the app
+            playerUiState.apply {
+                musicList = musicFlow.first()
+            }
         }
     }
 
@@ -124,6 +137,9 @@ class ListViewModel @Inject constructor (
 
             val musicFlow = roomMusicsRepository.getAllMusicsStream()
             addMusic(musicFlow.first()) // --> Assumed: addMusic causes the music restart while reopen the app
+            playerUiState.apply {
+                musicList = musicFlow.first()
+            }
         }
     }
 

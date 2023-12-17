@@ -48,9 +48,10 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
+import com.playmakers.groovy.domain.model.PlayerState
 import com.playmakers.groovy.domain.model.RoomMusic
-import com.playmakers.groovy.ui.screens.list.Loading
 import com.playmakers.groovy.ui.screens.player.PlayerEvent
+import com.playmakers.groovy.ui.screens.player.PlayerScreen
 import com.playmakers.groovy.ui.screens.player.PlayerViewModel
 import kotlinx.coroutines.delay
 
@@ -64,81 +65,86 @@ fun MusicList(
     val playerUiState = playerViewModel.playerUiState
     val playerEvent = playerViewModel::onEvent
 
-    if(listMusic.isNotEmpty()){
-        Scaffold(
-            topBar = {
-                TopSearchBar()
-            },
+    Scaffold(
+        topBar = {
+            TopSearchBar()
+        },
 
-            floatingActionButtonPosition = FabPosition.End,
-            floatingActionButton = {
+        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButton = {
 
-                var isFABVisible by remember { mutableStateOf(false) }
+            var isFABVisible by remember { mutableStateOf(false) }
 
-                LaunchedEffect(Unit){
-                    delay(800L)
-                    isFABVisible = true
-                }
+            LaunchedEffect(Unit){
+                delay(800L)
+                isFABVisible = true
+            }
 
-                AnimatedVisibility(
-                    visible = isFABVisible,
-                    enter = slideInHorizontally (initialOffsetX = { it })
-                ) {
-                    ExtendedFloatingActionButton(
-                        onClick = {
-                            playerEvent(PlayerEvent.ShuffleAndPlay)
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Shuffle,
-                            contentDescription = null
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Shuffle")
+            AnimatedVisibility(
+                visible = isFABVisible,
+                enter = slideInHorizontally (initialOffsetX = { it })
+            ) {
+                ExtendedFloatingActionButton(
+                    onClick = {
+                        playerEvent(PlayerEvent.ShuffleAndPlay)
                     }
-                }
-            },
-
-            content = { innerPadding ->
-                var isListVisible by remember { mutableStateOf(false) }
-
-                LaunchedEffect(Unit){
-                    isListVisible = true
-                }
-
-                AnimatedVisibility(
-                    visible = isListVisible,
-                    enter = slideInVertically(initialOffsetY = { it }),
                 ) {
-                    SwipeRefresh(
-                        state = refreshState,
-                        onRefresh = {
-                            onSwipeRefresh()
-                        }
-                    ) {
-                        LazyColumn(
-                            modifier = Modifier.consumeWindowInsets(innerPadding),
-                            contentPadding = innerPadding
-                        ){
-                            items(count = listMusic.size){
-                                MusicRow(
-                                    listMusic[it],
-                                    onMusicClick = {
-                                        playerEvent(PlayerEvent.OnMusicSelected(listMusic[it]))
-                                        playerEvent(PlayerEvent.PlayMusic)
-                                    }
-                                )
-                            }
+                    Icon(
+                        imageVector = Icons.Default.Shuffle,
+                        contentDescription = null
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Shuffle")
+                }
+            }
+        },
+
+        content = { innerPadding ->
+            var isListVisible by remember { mutableStateOf(false) }
+
+            LaunchedEffect(Unit){
+                isListVisible = true
+            }
+
+            AnimatedVisibility(
+                visible = isListVisible,
+                enter = slideInVertically(initialOffsetY = { it }),
+            ) {
+                SwipeRefresh(
+                    state = refreshState,
+                    onRefresh = {
+                        onSwipeRefresh()
+                    }
+                ) {
+                    LazyColumn(
+                        modifier = Modifier.consumeWindowInsets(innerPadding),
+                        contentPadding = innerPadding
+                    ){
+                        items(count = listMusic.size){
+                            MusicRow(
+                                listMusic[it],
+                                onMusicClick = {
+                                    playerEvent(PlayerEvent.OnMusicSelected(listMusic[it]))
+                                    playerEvent(PlayerEvent.PlayMusic)
+                                }
+                            )
                         }
                     }
                 }
             }
-        )
-    }else{
-        Loading(
-            loadingText = "Almost there ..." // Continue from here ....
-        )
-    }
+        },
+
+        bottomBar = {
+            AnimatedVisibility(
+                visible = playerUiState.playerState == PlayerState.PLAYING || playerUiState.playerState == PlayerState.PAUSED,
+                enter = slideInVertically(initialOffsetY = { fullHeight -> fullHeight })
+            ) {
+                PlayerScreen(
+                    playerViewModel
+                )
+            }
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
