@@ -41,7 +41,7 @@ class PlayerViewModel @Inject constructor (
     private fun addMusicToMedia(){
         viewModelScope.launch {
             val musicFlow = roomMusicsRepository.getAllMusicsStream()
-            addMusic(musicFlow.first())
+            addMusic(musicFlow.first()) // --> Assumed: addMusic causes the music restart while reopen the app
             totalMusic = musicFlow.first().size
             playerUiState.apply {
                 musicList = musicFlow.first()

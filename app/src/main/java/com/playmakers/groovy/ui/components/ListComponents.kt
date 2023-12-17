@@ -76,7 +76,7 @@ fun MusicList(
                 var isFABVisible by remember { mutableStateOf(false) }
 
                 LaunchedEffect(Unit){
-                    delay(1500L)
+                    delay(800L)
                     isFABVisible = true
                 }
 
@@ -94,7 +94,6 @@ fun MusicList(
                             contentDescription = null
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-
                         Text("Shuffle")
                     }
                 }

@@ -2,6 +2,7 @@ package com.playmakers.groovy.ui.screens.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.playmakers.groovy.controller.AddMusic
 import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.domain.repository.MusicRepository
 import com.playmakers.groovy.ui.util.ListState
@@ -9,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,6 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor (
+    private val addMusic: AddMusic,
     private val musicRepository: MusicRepository,
     private val roomMusicsRepository: MusicsRepository,
 ): ViewModel() {
@@ -118,6 +121,9 @@ class ListViewModel @Inject constructor (
                     }
                 }
             }
+
+            val musicFlow = roomMusicsRepository.getAllMusicsStream()
+            addMusic(musicFlow.first()) // --> Assumed: addMusic causes the music restart while reopen the app
         }
     }
 
