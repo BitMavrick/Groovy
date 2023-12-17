@@ -1,5 +1,10 @@
 package com.playmakers.groovy.ui.screens.player
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -29,9 +34,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import com.playmakers.groovy.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
 @Composable
 fun PlayerScreen(
@@ -49,9 +58,13 @@ fun PlayerScreen(
         val musicSource by remember { mutableStateOf(playerUiState.currentMusic?.source) }
         var musicFile by remember { mutableStateOf(playerUiState.currentMusic) }
 
-        LaunchedEffect(Unit){
-            withContext(Dispatchers.IO) {
-                musicFile = musicSource?.let { playerViewModel.getMusicBySource(it) }
+        LaunchedEffect(Unit) {
+            val currentMusicSource = musicSource // Store the current value of musicSource
+            if (currentMusicSource != null) {
+                withContext(Dispatchers.IO) {
+                    val music = playerViewModel.getMusicBySource(currentMusicSource)
+                    musicFile = music // Update musicFile only if the source is not null
+                }
             }
         }
 
@@ -68,6 +81,7 @@ fun PlayerScreen(
                     .animateContentSize()
                     .fillMaxWidth()
                     .height(86.dp)
+                    .padding(vertical = 16.dp, horizontal = 16.dp)
             }
         ) {
             if(playerUiState.isPlayerExpanded) {
@@ -75,47 +89,75 @@ fun PlayerScreen(
                     playerEvent(PlayerEvent.PlayerCollapse)
                 }
             }else{
-                if(musicFile != null){
-                    Box(
-                        Modifier.clip(RoundedCornerShape(5.dp))
-                    ){
-                        if (musicFile != null) {
-                            musicFile!!.actualImage?.let {
-                                Image(
-                                    bitmap = it.asImageBitmap(),
-                                    contentDescription = "Album art",
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier.aspectRatio(1f)
-                                )
-                            }
-                        }
+                Box(
+                    Modifier.clip(RoundedCornerShape(5.dp))
+                ){
+                    val currentMusicSource = playerUiState.currentMusic?.source?.toUri()
+                    val imageBitmap = currentMusicSource?.let { getAlbumArt(LocalContext.current, it, 100, 100) }
+                    if (imageBitmap != null) {
+                        Image(
+                            bitmap = imageBitmap.asImageBitmap(),
+                            contentDescription = "Album art",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.aspectRatio(1f)
+                        )
                     }
-                    Column(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp)
-                            .align(Alignment.CenterVertically)
-                    ) {
-                        playerUiState.currentMusic?.title?.let {
-                            Text(
-                                text = it,
-                                style = MaterialTheme.typography.bodyLarge,
-                                maxLines = 1
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(4.dp))
-                        playerUiState.currentMusic?.source?.let {
-                            Text(
-                                text = it.toString(),
-                                style = MaterialTheme.typography.bodyMedium,
-                                maxLines = 1
-                            )
-                        }
+                }
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp)
+                        .align(Alignment.CenterVertically)
+                ) {
+                    playerUiState.currentMusic?.title?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.bodyLarge,
+                            maxLines = 1
+                        )
                     }
-                }else {
-                    Text(text = "Null music")
+                    Spacer(modifier = Modifier.height(4.dp))
+                    playerUiState.currentMusic?.artist?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.bodyMedium,
+                            maxLines = 1
+                        )
+                    }
                 }
             }
         }
     }
+}
+
+
+fun getAlbumArt(context: Context, uri: Uri, targetWidth: Int, targetHeight: Int): Bitmap {
+    val mmr = MediaMetadataRetriever()
+    mmr.setDataSource(context, uri)
+    val data = mmr.embeddedPicture
+
+    return if(data != null){
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeByteArray(data, 0, data.size, options)
+        options.inSampleSize = calculateInSampleSize(options, targetWidth, targetHeight)
+        options.inJustDecodeBounds = false
+        BitmapFactory.decodeByteArray(data, 0, data.size, options)
+
+    } else {
+        BitmapFactory.decodeResource(context.resources, R.drawable.default_album_art)
+    }
+}
+
+fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+    val height = options.outHeight
+    val width = options.outWidth
+    var inSampleSize = 1
+
+    if (height > reqHeight || width > reqWidth) {
+        val heightRatio = (height.toFloat() / reqHeight.toFloat()).roundToInt()
+        val widthRatio = (width.toFloat() / reqWidth.toFloat()).roundToInt()
+        inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
+    }
+    return inSampleSize
 }
