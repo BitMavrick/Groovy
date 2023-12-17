@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.playmakers.groovy.domain.model.RoomMusic
 
 
-@Database(entities = [RoomMusic::class], version = 2, exportSchema = false)
+@Database(entities = [RoomMusic::class], version = 1, exportSchema = false)
 @TypeConverters(com.playmakers.groovy.ui.util.TypeConverters::class)
 abstract class MusicDatabase : RoomDatabase() {
     abstract fun musicDao() : MusicDao
