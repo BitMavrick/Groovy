@@ -24,11 +24,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,8 +33,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.playmakers.groovy.R
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
 
 @Composable
@@ -55,19 +48,6 @@ fun PlayerScreen(
             containerColor = MaterialTheme.colorScheme.surfaceContainer
         )
     ) {
-        val musicSource by remember { mutableStateOf(playerUiState.currentMusic?.source) }
-        var musicFile by remember { mutableStateOf(playerUiState.currentMusic) }
-
-        LaunchedEffect(Unit) {
-            val currentMusicSource = musicSource // Store the current value of musicSource
-            if (currentMusicSource != null) {
-                withContext(Dispatchers.IO) {
-                    val music = playerViewModel.getMusicBySource(currentMusicSource)
-                    musicFile = music // Update musicFile only if the source is not null
-                }
-            }
-        }
-
         Row(
             if(playerUiState.isPlayerExpanded){
                 Modifier
