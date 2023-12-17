@@ -61,6 +61,7 @@ fun MusicList(
     playerViewModel: PlayerViewModel,
     onSwipeRefresh: () -> Unit
 ){
+    val playerUiState = playerViewModel.playerUiState
     val playerEvent = playerViewModel::onEvent
 
     if(listMusic.isNotEmpty()){
@@ -85,7 +86,7 @@ fun MusicList(
                 ) {
                     ExtendedFloatingActionButton(
                         onClick = {
-                            // TODO : Shuffle click event
+                            playerEvent(PlayerEvent.ShuffleAndPlay)
                         }
                     ) {
                         Icon(
@@ -93,6 +94,7 @@ fun MusicList(
                             contentDescription = null
                         )
                         Spacer(modifier = Modifier.width(4.dp))
+
                         Text("Shuffle")
                     }
                 }

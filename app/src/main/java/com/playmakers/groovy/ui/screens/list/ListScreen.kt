@@ -50,19 +50,6 @@ fun ListScreen(){
             )
         }
         ListState.LOADED -> {
-            /*
-            listUiState.musicList?.let {
-                MusicList(
-                    listMusic = it,
-                    refreshState = swipeRefreshState,
-                    playerViewModel = playerViewModel,
-                    onSwipeRefresh = {
-                        listEvent(ListEvent.RefreshList)
-                    }
-                )
-            }
-             */
-
             MusicList(
                 listMusic = listUiState.musicListAsList,
                 refreshState = swipeRefreshState,

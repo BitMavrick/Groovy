@@ -20,6 +20,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
@@ -36,10 +37,12 @@ class PlayerViewModel @Inject constructor (
 ) : ViewModel() {
     var playerUiState by mutableStateOf(PlayerUiState())
         private set
+    private var totalMusic = 0
     private fun addMusicToMedia(){
         viewModelScope.launch {
-            val musicFlow = roomMusicsRepository.getAllMusicsStream() // --> Warning: Can't call List<Music> here, It will block the main thread!
+            val musicFlow = roomMusicsRepository.getAllMusicsStream()
             addMusic(musicFlow.first())
+            totalMusic = musicFlow.first().size
             playerUiState.apply {
                 musicList = musicFlow.first()
             }
@@ -78,13 +81,14 @@ class PlayerViewModel @Inject constructor (
 
             PlayerEvent.PauseMusic -> pauseMusic()
 
+            PlayerEvent.ShuffleAndPlay -> musicShuffleAndPlay()
+
             is PlayerEvent.OnMusicSelected -> {
                 playerUiState = playerUiState.copy(selectedMusic = event.selectedMusic)
             }
 
             is PlayerEvent.SetShuffleMode -> {
-                playerUiState = playerUiState.copy(isShuffleEnabled = event.shuffleEnable)
-                setShuffleMode(event.shuffleEnable)
+                setMusicShuffleMode(event.shuffleEnable)
             }
         }
     }
@@ -103,6 +107,19 @@ class PlayerViewModel @Inject constructor (
 
     private fun pauseMusic() {
         pauseMusic()
+    }
+
+    private fun musicShuffleAndPlay(){
+        setShuffleMode(true)
+        playMusic(getRandomMusicId())
+    }
+
+    private fun getRandomMusicId() : Int {
+        return Random.nextInt(0, totalMusic - 2)
+    }
+
+    private fun setMusicShuffleMode(isEnabled : Boolean){
+        setShuffleMode(isEnabled)
     }
 
     fun destroyMediaController(){
