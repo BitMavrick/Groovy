@@ -22,6 +22,9 @@ interface MusicDao {
     @Query("SELECT * FROM musics WHERE id = :id")
     fun getMusic(id: Int): Flow<RoomMusic>
 
+    @Query("SELECT * FROM musics WHERE source = :source")
+    fun getMusicBySource(source: String): RoomMusic
+
     @Query("UPDATE Musics SET actualImage = :image WHERE id = :musicId")
     suspend fun updateActualImage(musicId: Int, image: Bitmap)
 

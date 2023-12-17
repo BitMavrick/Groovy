@@ -7,7 +7,6 @@ import com.playmakers.groovy.data.room.MusicDatabase
 interface MusicContainer {
     val musicsRepository : MusicsRepository
 }
-
 class MusicDataContainer(private val context: Context) : MusicContainer {
     override val musicsRepository: MusicsRepository by lazy {
         LocalMusicsRepository(MusicDatabase.getDatabase(context).musicDao())

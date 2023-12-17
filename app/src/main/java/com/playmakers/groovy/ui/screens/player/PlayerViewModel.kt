@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playmakers.groovy.controller.AddMusic
-import com.playmakers.groovy.controller.DestroyMusicPlaybackControl
 import com.playmakers.groovy.controller.GetMusicPosition
 import com.playmakers.groovy.controller.PauseMusic
 import com.playmakers.groovy.controller.PlayMusic
@@ -15,6 +14,7 @@ import com.playmakers.groovy.controller.SetMediaControlCallback
 import com.playmakers.groovy.controller.SetShuffleMode
 import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.domain.model.PlayerState
+import com.playmakers.groovy.domain.model.RoomMusic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
@@ -32,7 +32,7 @@ class PlayerViewModel @Inject constructor (
     private val setMediaControlCallBack:SetMediaControlCallback,
     private val getCurrentMediaPosition: GetMusicPosition,
     private val setShuffleMode: SetShuffleMode,
-    private val destroyController: DestroyMusicPlaybackControl,
+    // private val destroyController: DestroyMusicPlaybackControl,
     private val roomMusicsRepository: MusicsRepository,
 ) : ViewModel() {
     var playerUiState by mutableStateOf(PlayerUiState())
@@ -77,9 +77,9 @@ class PlayerViewModel @Inject constructor (
         when(event){
             PlayerEvent.PlayMusic -> playMusic()
 
-            PlayerEvent.ResumeMusic -> resumeMusic()
+            PlayerEvent.ResumeMusic -> onResumeMusic()
 
-            PlayerEvent.PauseMusic -> pauseMusic()
+            PlayerEvent.PauseMusic -> onPauseMusic()
 
             PlayerEvent.PlayerExpand -> onPlayerExpand()
 
@@ -97,6 +97,10 @@ class PlayerViewModel @Inject constructor (
         }
     }
 
+    fun getMusicBySource(source: String) : RoomMusic{
+        return roomMusicsRepository.getMusicBySource(source)
+    }
+
     private fun playMusic(){
         playerUiState.apply {
             selectedMusic?.id?.let {
@@ -105,11 +109,11 @@ class PlayerViewModel @Inject constructor (
         }
     }
 
-    private fun resumeMusic() {
+    private fun onResumeMusic() {
         resumeMusic()
     }
 
-    private fun pauseMusic() {
+    private fun onPauseMusic() {
         pauseMusic()
     }
 
@@ -138,9 +142,11 @@ class PlayerViewModel @Inject constructor (
         }
     }
 
+    /*
     fun destroyMediaController(){
         destroyController()
     }
+    */
 
     init {
         addMusicToMedia()

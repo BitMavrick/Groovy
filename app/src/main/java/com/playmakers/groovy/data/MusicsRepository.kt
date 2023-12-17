@@ -11,6 +11,8 @@ interface MusicsRepository {
 
     fun getMusicStream(id: Int): Flow<RoomMusic>
 
+    fun getMusicBySource(source: String) : RoomMusic
+
     suspend fun insertMusic(music: RoomMusic)
 
     suspend fun insertAllMusic(musics: List<RoomMusic>)

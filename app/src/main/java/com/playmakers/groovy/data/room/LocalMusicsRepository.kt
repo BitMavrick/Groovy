@@ -18,6 +18,10 @@ class LocalMusicsRepository(private val musicDao: MusicDao) : MusicsRepository{
         return musicDao.getMusic(id)
     }
 
+    override fun getMusicBySource(source: String): RoomMusic {
+        return musicDao.getMusicBySource(source)
+    }
+
     override suspend fun insertMusic(music: RoomMusic) {
         return musicDao.insert(music)
     }
