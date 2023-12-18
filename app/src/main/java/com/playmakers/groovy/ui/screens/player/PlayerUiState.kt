@@ -11,5 +11,4 @@ data class PlayerUiState (
     val isRepeatOneEnabled: Boolean = false,
     val selectedMusic : RoomMusic? = null,
     var musicList: List<RoomMusic>? = emptyList(),
-    var isPlayerExpanded : Boolean = false
 )

@@ -28,6 +28,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,6 +48,7 @@ fun PlayerScreen(
 ){
     val playerUiState = playerViewModel.playerUiState
     val playerEvent = playerViewModel::onEvent
+    var isPayerExpanded by rememberSaveable { mutableStateOf(false) }
 
     val currentMusicSource = playerUiState.currentMusic?.source?.toUri()
     val context = LocalContext.current
@@ -66,14 +68,14 @@ fun PlayerScreen(
         )
     ) {
         Row(
-            if(playerUiState.isPlayerExpanded){
+            if(isPayerExpanded){
                 Modifier
                     .animateContentSize()
                     .fillMaxSize()
             }else{
                 Modifier
                     .clickable {
-                        playerEvent(PlayerEvent.PlayerExpand)
+                        isPayerExpanded = true
                     }
                     .animateContentSize()
                     .fillMaxWidth()
@@ -81,9 +83,9 @@ fun PlayerScreen(
                     .padding(vertical = 16.dp, horizontal = 16.dp)
             }
         ) {
-            if(playerUiState.isPlayerExpanded) {
+            if(isPayerExpanded) {
                 BackHandler {
-                    playerEvent(PlayerEvent.PlayerCollapse)
+                    isPayerExpanded = false
                 }
             }else{
                 Box(

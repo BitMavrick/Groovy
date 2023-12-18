@@ -78,10 +78,6 @@ class PlayerViewModel @Inject constructor (
 
             PlayerEvent.PauseMusic -> onPauseMusic()
 
-            PlayerEvent.PlayerExpand -> onPlayerExpand()
-
-            PlayerEvent.PlayerCollapse -> onPlayerCollapse()
-
             PlayerEvent.ShuffleAndPlay -> musicShuffleAndPlay()
 
             is PlayerEvent.OnMusicSelected -> {
@@ -117,18 +113,6 @@ class PlayerViewModel @Inject constructor (
 
     private fun setMusicShuffleMode(isEnabled : Boolean){
         setShuffleMode(isEnabled)
-    }
-
-    private fun onPlayerExpand(){
-        playerUiState.apply {
-            isPlayerExpanded = true
-        }
-    }
-
-    private fun onPlayerCollapse(){
-        playerUiState.apply {
-            isPlayerExpanded = false
-        }
     }
 
     /*
