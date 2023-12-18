@@ -228,7 +228,7 @@ fun getAlbumArt(context: Context, uri: Uri, targetWidth: Int, targetHeight: Int)
         BitmapFactory.decodeByteArray(data, 0, data.size, options)
 
     } else {
-        BitmapFactory.decodeResource(context.resources, R.drawable.default_album_art)
+        BitmapFactory.decodeResource(context.resources, R.drawable.default_album_art_mini)
     }
 }
 

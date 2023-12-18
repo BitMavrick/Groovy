@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -24,9 +25,15 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -41,6 +48,17 @@ fun PlayerScreen(
 ){
     val playerUiState = playerViewModel.playerUiState
     val playerEvent = playerViewModel::onEvent
+
+    val currentMusicSource = playerUiState.currentMusic?.source?.toUri()
+    val context = LocalContext.current
+    var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+
+    LaunchedEffect(currentMusicSource) {
+        currentMusicSource?.let { source ->
+            val bitmap = getAlbumArt(context, source, 100, 100).asImageBitmap()
+            imageBitmap = bitmap
+        }
+    }
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -72,11 +90,9 @@ fun PlayerScreen(
                 Box(
                     Modifier.clip(RoundedCornerShape(5.dp))
                 ){
-                    val currentMusicSource = playerUiState.currentMusic?.source?.toUri()
-                    val imageBitmap = currentMusicSource?.let { getAlbumArt(LocalContext.current, it, 100, 100) }
                     if (imageBitmap != null) {
                         Image(
-                            bitmap = imageBitmap.asImageBitmap(),
+                            bitmap = imageBitmap!!,
                             contentDescription = "Album art",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.aspectRatio(1f)
@@ -112,6 +128,7 @@ fun PlayerScreen(
 
 
 fun getAlbumArt(context: Context, uri: Uri, targetWidth: Int, targetHeight: Int): Bitmap {
+    Log.d("hello1", "Loading album art ...")
     val mmr = MediaMetadataRetriever()
     mmr.setDataSource(context, uri)
     val data = mmr.embeddedPicture
