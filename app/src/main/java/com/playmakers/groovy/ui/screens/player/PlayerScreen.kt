@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -128,7 +127,6 @@ fun PlayerScreen(
 
 
 fun getAlbumArt(context: Context, uri: Uri, targetWidth: Int, targetHeight: Int): Bitmap {
-    Log.d("hello1", "Loading album art ...")
     val mmr = MediaMetadataRetriever()
     mmr.setDataSource(context, uri)
     val data = mmr.embeddedPicture
