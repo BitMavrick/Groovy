@@ -54,7 +54,7 @@ fun PlayerScreen(
 
     LaunchedEffect(currentMusicSource) {
         currentMusicSource?.let { source ->
-            val bitmap = getAlbumArt(context, source, 100, 100).asImageBitmap()
+            val bitmap = getAlbumArt(context, source, 400, 400).asImageBitmap()
             imageBitmap = bitmap
         }
     }

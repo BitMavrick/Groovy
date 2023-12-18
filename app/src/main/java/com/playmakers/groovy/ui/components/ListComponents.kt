@@ -54,6 +54,7 @@ import com.playmakers.groovy.ui.screens.player.PlayerEvent
 import com.playmakers.groovy.ui.screens.player.PlayerScreen
 import com.playmakers.groovy.ui.screens.player.PlayerViewModel
 import kotlinx.coroutines.delay
+import kotlin.random.Random
 
 @Composable
 fun MusicList(
@@ -86,6 +87,11 @@ fun MusicList(
             ) {
                 ExtendedFloatingActionButton(
                     onClick = {
+                        playerEvent(
+                            PlayerEvent.OnMusicSelected(
+                                listMusic[Random.nextInt(0, listMusic.size-1)]
+                            )
+                        )
                         playerEvent(PlayerEvent.ShuffleAndPlay)
                     }
                 ) {

@@ -14,13 +14,11 @@ import com.playmakers.groovy.controller.SetMediaControlCallback
 import com.playmakers.groovy.controller.SetShuffleMode
 import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.domain.model.PlayerState
-import com.playmakers.groovy.domain.model.RoomMusic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
@@ -37,12 +35,11 @@ class PlayerViewModel @Inject constructor (
 ) : ViewModel() {
     var playerUiState by mutableStateOf(PlayerUiState())
         private set
-    private var totalMusic = 0
+
     private fun addMusicToMedia(){
         viewModelScope.launch {
             val musicFlow = roomMusicsRepository.getAllMusicsStream()
             addMusic(musicFlow.first()) // --> Assumed: addMusic causes the music restart while reopen the app
-            totalMusic = musicFlow.first().size
             playerUiState.apply {
                 musicList = musicFlow.first()
             }
@@ -97,10 +94,6 @@ class PlayerViewModel @Inject constructor (
         }
     }
 
-    fun getMusicBySource(source: String) : RoomMusic{
-        return roomMusicsRepository.getMusicBySource(source)
-    }
-
     private fun playMusic(){
         playerUiState.apply {
             selectedMusic?.id?.let {
@@ -118,12 +111,8 @@ class PlayerViewModel @Inject constructor (
     }
 
     private fun musicShuffleAndPlay(){
+        playMusic()
         setShuffleMode(true)
-        playMusic(getRandomMusicId())
-    }
-
-    private fun getRandomMusicId() : Int {
-        return Random.nextInt(0, totalMusic - 2)
     }
 
     private fun setMusicShuffleMode(isEnabled : Boolean){
