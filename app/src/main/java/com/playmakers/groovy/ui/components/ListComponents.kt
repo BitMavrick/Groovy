@@ -26,6 +26,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -68,7 +69,11 @@ fun MusicList(
 
     Scaffold(
         topBar = {
-            TopSearchBar()
+            TopSearchBar(
+                onMenuClick = {
+
+                }
+            )
         },
 
         floatingActionButtonPosition = FabPosition.End,
@@ -105,7 +110,12 @@ fun MusicList(
             }
         },
 
+
+
         content = { innerPadding ->
+
+
+
             var isListVisible by remember { mutableStateOf(false) }
 
             LaunchedEffect(Unit){
@@ -155,7 +165,9 @@ fun MusicList(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopSearchBar() {
+fun TopSearchBar(
+    onMenuClick: () -> Unit
+) {
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
 
@@ -185,7 +197,11 @@ fun TopSearchBar() {
                     active = it
                 },
                 placeholder = { Text("Search your music") },
-                leadingIcon = { Icon(Icons.Default.Menu, contentDescription = null) },
+                leadingIcon = { IconButton(
+                                  onClick = { onMenuClick() }
+                              ) {
+                                  Icon(Icons.Default.Menu, contentDescription = null)
+                              } },
                 trailingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
             ) {
                 repeat(4) { idx ->
