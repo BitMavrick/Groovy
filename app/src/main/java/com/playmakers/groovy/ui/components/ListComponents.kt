@@ -63,7 +63,8 @@ fun MusicList(
     listMusic: List<RoomMusic>,
     refreshState: SwipeRefreshState,
     playerViewModel: PlayerViewModel,
-    onSwipeRefresh: () -> Unit
+    onSwipeRefresh: () -> Unit,
+    onDrawerButtonClick: () -> Unit
 ){
     val playerUiState = playerViewModel.playerUiState
     val playerEvent = playerViewModel::onEvent
@@ -72,7 +73,7 @@ fun MusicList(
         topBar = {
             TopSearchBar(
                 onMenuClick = {
-
+                    onDrawerButtonClick()
                 }
             )
         },
@@ -110,8 +111,6 @@ fun MusicList(
                 }
             }
         },
-
-
 
         content = { innerPadding ->
 
