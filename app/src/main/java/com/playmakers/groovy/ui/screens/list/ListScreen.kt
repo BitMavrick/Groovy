@@ -2,25 +2,29 @@ package com.playmakers.groovy.ui.screens.list
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.automirrored.outlined.HelpOutline
+import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.material.icons.outlined.Equalizer
+import androidx.compose.material.icons.outlined.OpenInBrowser
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
@@ -34,7 +38,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
@@ -95,9 +101,6 @@ fun Drawer(
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    // icons to mimic drawer destinations
-    val items = listOf(Icons.Default.Favorite, Icons.Default.Face, Icons.Default.Email)
-    val selectedItem = remember { mutableStateOf(items[0]) }
 
     if(drawerState.isOpen){
         BackHandler {
@@ -109,19 +112,7 @@ fun Drawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                Spacer(Modifier.height(12.dp))
-                items.forEach { item ->
-                    NavigationDrawerItem(
-                        icon = { Icon(item, contentDescription = null) },
-                        label = { Text(item.name) },
-                        selected = item == selectedItem.value,
-                        onClick = {
-                            scope.launch { drawerState.close() }
-                            selectedItem.value = item
-                        },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
-                    )
-                }
+                SidebarContent()
             }
         },
         content = {
@@ -138,6 +129,82 @@ fun Drawer(
             )
         }
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SidebarContent(){
+    Column(
+        Modifier.padding(vertical = 8.dp)
+    ) {
+        Spacer(modifier = Modifier.weight(1f))
+
+        Text(
+            text = "Version: 1.0.0-beta",
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(start = 26.dp)
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(12.dp))
+        option(
+            icon = Icons.Outlined.Equalizer,
+            title = "Equalizer",
+            onOptionClick = {}
+        )
+        option(
+            icon = Icons.Outlined.AutoAwesome,
+            title = "Party tricks",
+            onOptionClick = {}
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(12.dp))
+        option(
+            icon = Icons.Outlined.Settings,
+            title = "Settings",
+            onOptionClick = {}
+        )
+        option(
+            icon = Icons.Outlined.OpenInBrowser,
+            title = "View source-code",
+            onOptionClick = {}
+        )
+        option(
+            icon =  Icons.AutoMirrored.Outlined.HelpOutline,
+            title = "Help & Feedback",
+            onOptionClick = {}
+        )
+    }
+}
+
+@Composable
+fun option(
+    icon: ImageVector,
+    title: String,
+    onOptionClick : () -> Unit,
+){
+    Box(
+        Modifier.clickable {
+            onOptionClick()
+        }
+    ) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp, horizontal = 26.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Icon(
+                imageVector = icon,
+                contentDescription = title)
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
+    }
 }
 
 @Composable
