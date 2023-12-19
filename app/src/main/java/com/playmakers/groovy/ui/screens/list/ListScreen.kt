@@ -1,5 +1,6 @@
 package com.playmakers.groovy.ui.screens.list
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -97,6 +98,13 @@ fun Drawer(
     // icons to mimic drawer destinations
     val items = listOf(Icons.Default.Favorite, Icons.Default.Face, Icons.Default.Email)
     val selectedItem = remember { mutableStateOf(items[0]) }
+
+    if(drawerState.isOpen){
+        BackHandler {
+            scope.launch { drawerState.close() }
+        }
+    }
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
