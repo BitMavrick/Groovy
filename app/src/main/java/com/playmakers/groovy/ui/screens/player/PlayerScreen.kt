@@ -18,9 +18,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,9 +43,11 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.playmakers.groovy.R
+import com.playmakers.groovy.domain.model.PlayerState
 import kotlin.math.roundToInt
 
 @Composable
@@ -100,26 +108,59 @@ fun PlayerScreen(
                         )
                     }
                 }
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp)
+
+                Box(
+                    modifier = Modifier
+                        .weight(3f)
                         .align(Alignment.CenterVertically)
+                        .padding(end = 8.dp)
                 ) {
-                    playerUiState.currentMusic?.title?.let {
-                        Text(
-                            text = it,
-                            style = MaterialTheme.typography.bodyLarge,
-                            maxLines = 1
-                        )
+                    Column(
+                        Modifier.padding(start = 16.dp)
+                    ) {
+                        playerUiState.currentMusic?.title?.let {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.bodyLarge,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        playerUiState.currentMusic?.artist?.let {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.bodyMedium,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
                     }
-                    Spacer(modifier = Modifier.height(4.dp))
-                    playerUiState.currentMusic?.artist?.let {
-                        Text(
-                            text = it,
-                            style = MaterialTheme.typography.bodyMedium,
-                            maxLines = 1
-                        )
+                }
+
+                Box(modifier = Modifier.align(Alignment.CenterVertically)
+                ){
+                    if(playerUiState.playerState == PlayerState.PLAYING){
+                        IconButton(onClick = {
+                            playerEvent(PlayerEvent.PauseMusic)
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.Pause,
+                                contentDescription = null,
+                                modifier = Modifier.size(40.dp)
+                            )
+                        }
+
+                    }else if(playerUiState.playerState == PlayerState.PAUSED){
+                        IconButton(onClick = {
+                            playerEvent(PlayerEvent.ResumeMusic)
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.PlayArrow,
+                                contentDescription = null,
+                                modifier = Modifier.size(40.dp)
+                            )
+                        }
                     }
                 }
             }
