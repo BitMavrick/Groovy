@@ -9,6 +9,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,7 +45,9 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.playmakers.groovy.R
@@ -56,7 +60,7 @@ fun PlayerScreen(
 ){
     val playerUiState = playerViewModel.playerUiState
     val playerEvent = playerViewModel::onEvent
-    var isPayerExpanded by rememberSaveable { mutableStateOf(false) }
+    var isPlayerExpanded by rememberSaveable { mutableStateOf(false) }
 
     val currentMusicSource = playerUiState.currentMusic?.source?.toUri()
     val context = LocalContext.current
@@ -76,14 +80,14 @@ fun PlayerScreen(
         )
     ) {
         Row(
-            if(isPayerExpanded){
+            if(isPlayerExpanded){
                 Modifier
                     .animateContentSize()
                     .fillMaxSize()
             }else{
                 Modifier
                     .clickable {
-                        isPayerExpanded = true
+                        isPlayerExpanded = true
                     }
                     .animateContentSize()
                     .fillMaxWidth()
@@ -91,10 +95,12 @@ fun PlayerScreen(
                     .padding(vertical = 16.dp, horizontal = 16.dp)
             }
         ) {
-            if(isPayerExpanded) {
+            if(isPlayerExpanded) {
                 BackHandler {
-                    isPayerExpanded = false
+                    isPlayerExpanded = false
                 }
+
+                PlayerScreenExpanded()
             }else{
                 Box(
                     Modifier.clip(RoundedCornerShape(5.dp))
@@ -198,4 +204,65 @@ fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeig
         inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
     }
     return inSampleSize
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PlayerScreenExpanded(){
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Box {
+                Column(
+                    modifier = Modifier.padding(horizontal = 50.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Groovy Music",
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+
+                    Spacer(modifier = Modifier.height(30.dp))
+
+                    Box(
+                        Modifier.clip(RoundedCornerShape(10.dp))
+                    ){
+                        Image(
+                            painter = painterResource(id = R.drawable.default_album_art),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.aspectRatio(1f)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(25.dp))
+
+                    Text(
+                        text = "Manwaa Laage",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = "Arijit Singh, Shreya Ghoshal",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+
+                    Spacer(modifier = Modifier.height(30.dp))
+
+                    LinearProgressIndicator(
+                        progress = { 0.7f },
+                        modifier = Modifier.fillMaxWidth().height(5.dp)
+                    )
+                }
+            }
+        }
+    }
 }
