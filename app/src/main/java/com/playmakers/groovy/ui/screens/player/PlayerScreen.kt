@@ -51,9 +51,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.playmakers.groovy.R
@@ -106,7 +104,13 @@ fun PlayerScreen(
                     isPlayerExpanded = false
                 }
 
-                PlayerScreenExpanded()
+                PlayerScreenExpanded(
+                    playerViewModel = playerViewModel,
+                    albumArt = imageBitmap,
+                    onMinimizeCLick = {
+                        isPlayerExpanded = false
+                    }
+                )
             }else{
                 Box(
                     Modifier.clip(RoundedCornerShape(5.dp))
@@ -212,9 +216,15 @@ fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeig
     return inSampleSize
 }
 
-@Preview(showBackground = true)
 @Composable
-fun PlayerScreenExpanded(){
+fun PlayerScreenExpanded(
+    playerViewModel: PlayerViewModel,
+    albumArt: ImageBitmap?,
+    onMinimizeCLick: () -> Unit
+){
+    val playerUiState = playerViewModel.playerUiState
+    val playerEvent = playerViewModel::onEvent
+
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -241,12 +251,14 @@ fun PlayerScreenExpanded(){
                     Box(
                         Modifier.clip(RoundedCornerShape(10.dp))
                     ){
-                        Image(
-                            painter = painterResource(id = R.drawable.default_album_art),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.aspectRatio(1f)
-                        )
+                        if(albumArt != null){
+                            Image(
+                                bitmap = albumArt,
+                                contentDescription = "Album art",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.aspectRatio(1f)
+                            )
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(25.dp))
@@ -304,7 +316,7 @@ fun PlayerScreenExpanded(){
                         }
 
                         IconButton(
-                            onClick = { /*TODO*/ }
+                            onClick = {}
                         ) {
                             Icon(
                                 imageVector = Icons.Default.SkipPrevious,
@@ -313,23 +325,50 @@ fun PlayerScreenExpanded(){
                             )
                         }
 
-                        Card(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(50.dp))
-                                .height(60.dp)
-                                .width(60.dp)
-                                .clickable {/* TODO */ },
-                        ) {
-                            Row(
-                                modifier = Modifier.fillMaxSize(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceEvenly
+                        if(playerUiState.playerState == PlayerState.PLAYING){
+                            Card(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .height(60.dp)
+                                    .width(60.dp)
+                                    .clickable {
+                                        playerEvent(PlayerEvent.PauseMusic)
+                                    },
                             ) {
-                                Icon(
-                                    imageVector = Icons.Default.PlayArrow,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(40.dp)
-                                )
+                                Row(
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceEvenly
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Pause,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(40.dp)
+                                    )
+                                }
+                            }
+
+                        }else if( playerUiState.playerState == PlayerState.PAUSED){
+                            Card(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .height(60.dp)
+                                    .width(60.dp)
+                                    .clickable {
+                                        playerEvent(PlayerEvent.ResumeMusic)
+                                    },
+                            ) {
+                                Row(
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceEvenly
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.PlayArrow,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(40.dp)
+                                    )
+                                }
                             }
                         }
 
@@ -357,7 +396,9 @@ fun PlayerScreenExpanded(){
                     Spacer(modifier = Modifier.height(20.dp))
 
                     OutlinedButton(
-                        onClick = { /*TODO*/ }
+                        onClick = {
+                            onMinimizeCLick()
+                        }
                     ) {
                         Text(
                             text = "Minimize",
