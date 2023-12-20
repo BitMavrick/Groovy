@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContract
@@ -46,6 +47,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -147,13 +149,14 @@ fun SidebarContent(
     drawerState: DrawerState,
     scope: CoroutineScope
 ){
+    val context = LocalContext.current
     Column(
         Modifier.padding(vertical = 8.dp)
     ) {
         Spacer(modifier = Modifier.weight(1f))
 
         Text(
-            text = "Version: 1.0.0-beta",
+            text = "release: 1.0.0-beta",
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.padding(start = 26.dp)
         )
@@ -163,12 +166,16 @@ fun SidebarContent(
         option(
             icon = Icons.Outlined.Equalizer,
             title = "Equalizer",
-            onOptionClick = {}
+            onOptionClick = {
+                showToast("Unavailable in current release", context)
+            }
         )
         option(
             icon = Icons.Outlined.AutoAwesome,
             title = "Party tricks",
-            onOptionClick = {}
+            onOptionClick = {
+                showToast("Unavailable in current release", context)
+            }
         )
         Spacer(modifier = Modifier.height(12.dp))
         HorizontalDivider()
@@ -176,7 +183,9 @@ fun SidebarContent(
         option(
             icon = Icons.Outlined.Settings,
             title = "Settings",
-            onOptionClick = {}
+            onOptionClick = {
+                showToast("Unavailable in current release", context)
+            }
         )
 
         val openUrlContract = object : ActivityResultContract<String, Boolean>() {
@@ -211,6 +220,10 @@ fun SidebarContent(
             }
         )
     }
+}
+
+fun showToast(message: String, context : Context) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 
 @Composable
