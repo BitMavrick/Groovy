@@ -263,20 +263,28 @@ fun PlayerScreenExpanded(
 
                     Spacer(modifier = Modifier.height(25.dp))
 
-                    Text(
-                        text = "Manwaa Laage",
-                        style = MaterialTheme.typography.titleLarge
-                    )
+                    playerUiState.currentMusic?.title?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    }
+
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text(
-                        text = "Arijit Singh, Shreya Ghoshal",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+
+                    playerUiState.currentMusic?.artist?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(30.dp))
 
+                    val progressValue = ( playerUiState.currentPosition.toFloat() / playerUiState.totalDuration)
+
                     LinearProgressIndicator(
-                        progress = { 0.7f },
+                        progress = { progressValue },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(5.dp)
@@ -286,12 +294,12 @@ fun PlayerScreenExpanded(
 
                     Row {
                         Text(
-                            text = "03:01",
+                            text = formatDuration(playerUiState.currentPosition),
                             style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
-                            text = "04:10",
+                            text = formatDuration(playerUiState.totalDuration),
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -316,7 +324,9 @@ fun PlayerScreenExpanded(
                         }
 
                         IconButton(
-                            onClick = {}
+                            onClick = {
+                                playerEvent(PlayerEvent.SkipPrevious)
+                            }
                         ) {
                             Icon(
                                 imageVector = Icons.Default.SkipPrevious,
@@ -373,7 +383,9 @@ fun PlayerScreenExpanded(
                         }
 
                         IconButton(
-                            onClick = { /*TODO*/ }
+                            onClick = {
+                                playerEvent(PlayerEvent.SkipNext)
+                            }
                         ) {
                             Icon(
                                 imageVector = Icons.Default.SkipNext,
@@ -408,5 +420,19 @@ fun PlayerScreenExpanded(
                 }
             }
         }
+    }
+}
+
+fun formatDuration(milliseconds: Long): String {
+    val totalSeconds = milliseconds / 1000
+    val hours = totalSeconds / 3600
+    val remainingSeconds = totalSeconds % 3600
+    val minutes = remainingSeconds / 60
+    val seconds = remainingSeconds % 60
+
+    return if (hours > 0) {
+        String.format("%02d:%02d:%02d", hours, minutes, seconds)
+    } else {
+        String.format("%02d:%02d", minutes, seconds)
     }
 }

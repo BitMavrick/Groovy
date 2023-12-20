@@ -12,6 +12,8 @@ import com.playmakers.groovy.controller.PlayMusic
 import com.playmakers.groovy.controller.ResumeMusic
 import com.playmakers.groovy.controller.SetMediaControlCallback
 import com.playmakers.groovy.controller.SetShuffleMode
+import com.playmakers.groovy.controller.SkipNextMusic
+import com.playmakers.groovy.controller.SkipPreviousMusic
 import com.playmakers.groovy.data.MusicsRepository
 import com.playmakers.groovy.domain.model.PlayerState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,6 +29,8 @@ class PlayerViewModel @Inject constructor (
     private val playMusic: PlayMusic,
     private val resumeMusic: ResumeMusic,
     private val pauseMusic: PauseMusic,
+    private val skipNextMusic: SkipNextMusic,
+    private val skipPreviousMusic: SkipPreviousMusic,
     private val setMediaControlCallBack:SetMediaControlCallback,
     private val getCurrentMediaPosition: GetMusicPosition,
     private val setShuffleMode: SetShuffleMode,
@@ -78,6 +82,10 @@ class PlayerViewModel @Inject constructor (
 
             PlayerEvent.PauseMusic -> onPauseMusic()
 
+            PlayerEvent.SkipNext -> onSkipNext()
+
+            PlayerEvent.SkipPrevious -> onSkipPrevious()
+
             PlayerEvent.ShuffleAndPlay -> musicShuffleAndPlay()
 
             is PlayerEvent.OnMusicSelected -> {
@@ -104,6 +112,14 @@ class PlayerViewModel @Inject constructor (
 
     private fun onPauseMusic() {
         pauseMusic()
+    }
+
+    private fun onSkipNext(){
+        skipNextMusic()
+    }
+
+    private fun onSkipPrevious(){
+        skipPreviousMusic()
     }
 
     private fun musicShuffleAndPlay(){
