@@ -1,6 +1,12 @@
 package com.playmakers.groovy.ui.screens.list
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +24,7 @@ import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Equalizer
 import androidx.compose.material.icons.outlined.OpenInBrowser
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -40,7 +47,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
@@ -53,6 +59,7 @@ import com.playmakers.groovy.domain.model.RoomMusic
 import com.playmakers.groovy.ui.components.MusicList
 import com.playmakers.groovy.ui.screens.player.PlayerViewModel
 import com.playmakers.groovy.ui.util.ListState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -112,7 +119,11 @@ fun Drawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                SidebarContent()
+                SidebarContent(
+                    drawerState = drawerState,
+                    scope = scope
+
+                )
             }
         },
         content = {
@@ -131,9 +142,11 @@ fun Drawer(
     )
 }
 
-@Preview(showBackground = true)
 @Composable
-fun SidebarContent(){
+fun SidebarContent(
+    drawerState: DrawerState,
+    scope: CoroutineScope
+){
     Column(
         Modifier.padding(vertical = 8.dp)
     ) {
@@ -165,15 +178,37 @@ fun SidebarContent(){
             title = "Settings",
             onOptionClick = {}
         )
+
+        val openUrlContract = object : ActivityResultContract<String, Boolean>() {
+            override fun createIntent(context: Context, input: String): Intent {
+                return Intent(Intent.ACTION_VIEW, Uri.parse(input))
+            }
+
+            override fun parseResult(resultCode: Int, intent: Intent?): Boolean {
+                return resultCode == Activity.RESULT_OK
+            }
+        }
+
+        val openUrlLauncher = rememberLauncherForActivityResult(openUrlContract){}
+
         option(
             icon = Icons.Outlined.OpenInBrowser,
             title = "View source-code",
-            onOptionClick = {}
+            onOptionClick = {
+                val url = "https://github.com/BitMavrick/Groovy"
+                openUrlLauncher.launch(url)
+                scope.launch { drawerState.close() }
+            }
         )
+
         option(
             icon =  Icons.AutoMirrored.Outlined.HelpOutline,
             title = "Help & feedback",
-            onOptionClick = {}
+            onOptionClick = {
+                val url = "https://github.com/BitMavrick/Groovy/issues"
+                openUrlLauncher.launch(url)
+                scope.launch { drawerState.close() }
+            }
         )
     }
 }
