@@ -167,14 +167,14 @@ fun SidebarContent(
             icon = Icons.Outlined.Equalizer,
             title = "Equalizer",
             onOptionClick = {
-                showToast("Unavailable in current release", context)
+                showToast("Unavailable in this release", context)
             }
         )
         option(
             icon = Icons.Outlined.AutoAwesome,
             title = "Party tricks",
             onOptionClick = {
-                showToast("Unavailable in current release", context)
+                showToast("Unavailable in this release", context)
             }
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -184,7 +184,7 @@ fun SidebarContent(
             icon = Icons.Outlined.Settings,
             title = "Settings",
             onOptionClick = {
-                showToast("Unavailable in current release", context)
+                showToast("Unavailable in this release", context)
             }
         )
 
