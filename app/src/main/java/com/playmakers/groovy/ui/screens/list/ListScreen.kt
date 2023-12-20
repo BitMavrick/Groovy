@@ -172,7 +172,7 @@ fun SidebarContent(){
         )
         option(
             icon =  Icons.AutoMirrored.Outlined.HelpOutline,
-            title = "Help & Feedback",
+            title = "Help & feedback",
             onOptionClick = {}
         )
     }
