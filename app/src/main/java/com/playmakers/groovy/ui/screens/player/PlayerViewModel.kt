@@ -6,11 +6,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playmakers.groovy.controller.AddMusic
+import com.playmakers.groovy.controller.DestroyMusicPlaybackControl
 import com.playmakers.groovy.controller.GetMusicPosition
 import com.playmakers.groovy.controller.PauseMusic
 import com.playmakers.groovy.controller.PlayMusic
 import com.playmakers.groovy.controller.ResumeMusic
+import com.playmakers.groovy.controller.SeekMusicPosition
 import com.playmakers.groovy.controller.SetMediaControlCallback
+import com.playmakers.groovy.controller.SetRepeatOne
 import com.playmakers.groovy.controller.SetShuffleMode
 import com.playmakers.groovy.controller.SkipNextMusic
 import com.playmakers.groovy.controller.SkipPreviousMusic
@@ -34,7 +37,9 @@ class PlayerViewModel @Inject constructor (
     private val setMediaControlCallBack:SetMediaControlCallback,
     private val getCurrentMediaPosition: GetMusicPosition,
     private val setShuffleMode: SetShuffleMode,
-    // private val destroyController: DestroyMusicPlaybackControl,
+    private val setRepeatOne: SetRepeatOne,
+    private val seekMusicPosition: SeekMusicPosition,
+    private val destroyController: DestroyMusicPlaybackControl,
     private val roomMusicsRepository: MusicsRepository,
 ) : ViewModel() {
     var playerUiState by mutableStateOf(PlayerUiState())
@@ -88,6 +93,20 @@ class PlayerViewModel @Inject constructor (
 
             PlayerEvent.ShuffleAndPlay -> musicShuffleAndPlay()
 
+            PlayerEvent.SetShuffleOn -> setShuffleOn()
+
+            PlayerEvent.SetShuffleOff -> setShuffleOff()
+
+            PlayerEvent.SetRepeatOneOn -> setRepeatOneOn()
+
+            PlayerEvent.SetRepeatOneOff -> setRepeatOneOff()
+
+            PlayerEvent.DestroyMediaSession -> destroyMediaController()
+
+            is PlayerEvent.SeekMusicPosition -> {
+                seekMusicTo(event.position)
+            }
+
             is PlayerEvent.OnMusicSelected -> {
                 playerUiState = playerUiState.copy(selectedMusic = event.selectedMusic)
             }
@@ -131,11 +150,31 @@ class PlayerViewModel @Inject constructor (
         setShuffleMode(isEnabled)
     }
 
-    /*
-    fun destroyMediaController(){
+    private fun setShuffleOn(){
+        setShuffleMode(true)
+    }
+
+    private fun setShuffleOff(){
+        setShuffleMode(false)
+    }
+
+    private fun setRepeatOneOn(){
+        setRepeatOne(true)
+    }
+
+    private fun setRepeatOneOff(){
+        setRepeatOne(false)
+    }
+
+    private fun seekMusicTo(position: Long){
+        seekMusicPosition(position)
+    }
+
+
+    private fun destroyMediaController(){
         destroyController()
     }
-    */
+
 
     init {
         addMusicToMedia()
