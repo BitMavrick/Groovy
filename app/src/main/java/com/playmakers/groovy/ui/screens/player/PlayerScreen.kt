@@ -31,12 +31,12 @@ import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material.icons.filled.ShuffleOn
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
+import androidx.compose.material.icons.sharp.KeyboardArrowDown
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -447,16 +447,18 @@ fun PlayerScreenExpanded(
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(15.dp))
 
-                    OutlinedButton(
+                    IconButton(
                         onClick = {
                             onMinimizeCLick()
                         }
                     ) {
-                        Text(
-                            text = "MINIMIZE",
-                            style = MaterialTheme.typography.bodyMedium
+                        Icon(
+                            imageVector = Icons.Sharp.KeyboardArrowDown,
+                            contentDescription = "Music set repeat one button: Off",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(25.dp)
                         )
                     }
                 }
