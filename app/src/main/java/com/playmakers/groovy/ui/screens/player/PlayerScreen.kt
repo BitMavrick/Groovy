@@ -33,9 +33,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -279,18 +279,18 @@ fun PlayerScreenExpanded(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(30.dp))
+                    Spacer(modifier = Modifier.height(25.dp))
 
-                    val progressValue = ( playerUiState.currentPosition.toFloat() / playerUiState.totalDuration)
-
-                    LinearProgressIndicator(
-                        progress = { progressValue },
+                    Slider(
+                        value = playerUiState.currentPosition.toFloat(),
+                        valueRange = 0f .. playerUiState.totalDuration.toFloat(),
+                        onValueChange = { playerEvent(PlayerEvent.SeekMusicPosition(it.toLong())) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(5.dp)
-                    )
+                        )
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(15.dp))
 
                     Row {
                         Text(
