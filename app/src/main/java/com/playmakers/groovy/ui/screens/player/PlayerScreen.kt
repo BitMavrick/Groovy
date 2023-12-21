@@ -26,7 +26,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.RepeatOne
+import androidx.compose.material.icons.filled.RepeatOneOn
 import androidx.compose.material.icons.filled.Shuffle
+import androidx.compose.material.icons.filled.ShuffleOn
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material3.Card
@@ -313,14 +315,30 @@ fun PlayerScreenExpanded(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ){
-                        IconButton(
-                            onClick = { /*TODO*/ }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Shuffle,
-                                contentDescription = null,
-                                modifier = Modifier.size(28.dp)
-                            )
+                        if(playerUiState.isShuffleEnabled){
+                            IconButton(
+                                onClick = {
+                                    playerEvent(PlayerEvent.SetShuffleOff)
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.ShuffleOn,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(28.dp)
+                                )
+                            }
+                        }else{
+                            IconButton(
+                                onClick = {
+                                    playerEvent(PlayerEvent.SetShuffleOn)
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Shuffle,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(28.dp)
+                                )
+                            }
                         }
 
                         IconButton(
@@ -394,14 +412,31 @@ fun PlayerScreenExpanded(
                             )
                         }
 
-                        IconButton(
-                            onClick = { /*TODO*/ }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.RepeatOne,
-                                contentDescription = null,
-                                modifier = Modifier.size(30.dp)
-                            )
+                        if(playerUiState.isRepeatOneEnabled){
+                            IconButton(
+                                onClick = {
+                                    playerEvent(PlayerEvent.SetRepeatOneOff)
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.RepeatOneOn,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            }
+
+                        }else{
+                            IconButton(
+                                onClick = {
+                                    playerEvent(PlayerEvent.SetRepeatOneOn)
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.RepeatOne,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            }
                         }
                     }
 
