@@ -53,6 +53,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -268,7 +269,10 @@ fun PlayerScreenExpanded(
                     playerUiState.currentMusic?.title?.let {
                         Text(
                             text = it,
-                            style = MaterialTheme.typography.titleLarge
+                            style = MaterialTheme.typography.titleLarge,
+                            textAlign = TextAlign.Center,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
 
@@ -277,7 +281,10 @@ fun PlayerScreenExpanded(
                     playerUiState.currentMusic?.artist?.let {
                         Text(
                             text = it,
-                            style = MaterialTheme.typography.bodyMedium
+                            style = MaterialTheme.typography.bodyMedium,
+                            textAlign = TextAlign.Center,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
 
@@ -323,7 +330,7 @@ fun PlayerScreenExpanded(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.ShuffleOn,
-                                    contentDescription = null,
+                                    contentDescription = "Music shuffle button status: On",
                                     modifier = Modifier.size(28.dp)
                                 )
                             }
@@ -335,7 +342,7 @@ fun PlayerScreenExpanded(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Shuffle,
-                                    contentDescription = null,
+                                    contentDescription = "Music shuffle button status: Off",
                                     modifier = Modifier.size(28.dp)
                                 )
                             }
@@ -348,7 +355,7 @@ fun PlayerScreenExpanded(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.SkipPrevious,
-                                contentDescription = null,
+                                contentDescription = "Skip previous music button",
                                 modifier = Modifier.size(35.dp)
                             )
                         }
@@ -370,7 +377,7 @@ fun PlayerScreenExpanded(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Pause,
-                                        contentDescription = null,
+                                        contentDescription = "Music pause button",
                                         modifier = Modifier.size(40.dp)
                                     )
                                 }
@@ -393,7 +400,7 @@ fun PlayerScreenExpanded(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.PlayArrow,
-                                        contentDescription = null,
+                                        contentDescription = "Music play button",
                                         modifier = Modifier.size(40.dp)
                                     )
                                 }
@@ -407,7 +414,7 @@ fun PlayerScreenExpanded(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.SkipNext,
-                                contentDescription = null,
+                                contentDescription = "Music skip next button",
                                 modifier = Modifier.size(35.dp)
                             )
                         }
@@ -420,7 +427,7 @@ fun PlayerScreenExpanded(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.RepeatOneOn,
-                                    contentDescription = null,
+                                    contentDescription = "Music set repeat one button: On",
                                     modifier = Modifier.size(30.dp)
                                 )
                             }
@@ -433,7 +440,7 @@ fun PlayerScreenExpanded(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.RepeatOne,
-                                    contentDescription = null,
+                                    contentDescription = "Music set repeat one button: Off",
                                     modifier = Modifier.size(30.dp)
                                 )
                             }
@@ -448,7 +455,7 @@ fun PlayerScreenExpanded(
                         }
                     ) {
                         Text(
-                            text = "Minimize",
+                            text = "MINIMIZE",
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
