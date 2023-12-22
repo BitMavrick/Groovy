@@ -170,8 +170,7 @@ class PlayerViewModel @Inject constructor (
         seekMusicPosition(position)
     }
 
-
-    private fun destroyMediaController(){
+    fun destroyMediaController(){
         destroyController()
     }
 

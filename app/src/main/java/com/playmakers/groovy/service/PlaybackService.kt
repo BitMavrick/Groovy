@@ -1,5 +1,7 @@
 package com.playmakers.groovy.service
 
+import android.app.PendingIntent
+import android.content.Intent
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -8,6 +10,7 @@ import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
+import com.playmakers.groovy.MainActivity
 
 class PlaybackService : MediaSessionService() {
 
@@ -19,12 +22,19 @@ class PlaybackService : MediaSessionService() {
         .setUsage(C.USAGE_MEDIA)
         .build()
 
+    private fun createPendingIntent(): PendingIntent {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        return PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+    }
+
     override fun onCreate(){
         super.onCreate()
 
         initExoPlayer()
         mediaSession = MediaSession.Builder(this, exoPlayer)
             .setCallback(MediaSessionCallback())
+            .setSessionActivity(createPendingIntent())
             .build()
     }
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo) = mediaSession
