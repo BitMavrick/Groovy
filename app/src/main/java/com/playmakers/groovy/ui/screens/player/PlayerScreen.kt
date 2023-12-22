@@ -245,8 +245,9 @@ fun PlayerScreenExpanded(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Groovy Music",
-                        style = MaterialTheme.typography.headlineLarge
+                        text = "Groovy",
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
 
                     Spacer(modifier = Modifier.height(30.dp))

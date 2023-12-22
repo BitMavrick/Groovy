@@ -2,9 +2,16 @@ package com.playmakers.groovy.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.playmakers.groovy.R
+
+// Custom Google Font
+val monoton = FontFamily(
+    Font(R.font.monoton_regular)
+)
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -26,11 +33,19 @@ val Typography = Typography(
     ),
 
     displaySmall = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = monoton,
         fontWeight = FontWeight.Normal,
         fontSize = 36.sp,
         lineHeight = 44.sp,
         letterSpacing = 0.sp
+    ),
+
+    headlineLarge = TextStyle(
+        fontFamily = monoton,
+        fontWeight = FontWeight.Normal,
+        fontSize = 32.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.2.sp
     ),
 
     headlineMedium = TextStyle(

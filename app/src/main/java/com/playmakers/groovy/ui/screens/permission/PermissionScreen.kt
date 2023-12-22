@@ -106,7 +106,7 @@ fun PermissionScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Groovy Music",
+                    text = "Groovy",
                     style = MaterialTheme.typography.displaySmall
                 )
 
