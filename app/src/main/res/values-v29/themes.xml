@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="V29.Theme.Groovy" parent="V27.Theme.Groovy">
+        <item name="android:enforceNavigationBarContrast">false</item>
+        <item name="android:enforceStatusBarContrast">false</item>
+    </style>
+
+    <style name="Theme.Groovy" parent="V29.Theme.Groovy" />
+</resources>
